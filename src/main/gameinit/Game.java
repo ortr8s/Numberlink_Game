@@ -1,4 +1,4 @@
 package main.gameinit;
 
-public class RunGame {
+public class Game {
 }
