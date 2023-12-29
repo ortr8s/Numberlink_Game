@@ -11,6 +11,18 @@ public class Generator {
 	static char[][] board7 = new char[7][7];
 	static char[][] board9 = new char[9][9];
 
+	static char[] availableCharsCommon = { '-', '|', '0' };
+	static char[] availableCharsCurves = { 'F', 'T', 'L', 'J' };
+
+	static char[] availableCharsStartRow = { '|', '0', 'F', 'L' };
+
+	// -
+	static char[] availableCharsAfterMinus = { '-', '0', 'T', 'J' };
+	// |
+	static char[] availableCharsAfterPipe = { '|', '0', 'F', 'L' };
+	// Number
+	static char[] availableCharsAfterNumber = { '-', '|', '0', 'T', 'J' };
+
 	public Generator() {
 	}
 
@@ -27,8 +39,13 @@ public class Generator {
 		System.out.println(board9);
 		// TODO Tymczasowe new Generator
 		Generator generator = new Generator();
-		generator.generate(9);
-		System.out.println(board9[4][4]);
+		generator.generate(5);
+
+		for (int j = 0; j < board5.length; j++) {
+			for (int i = 0; i < board5.length; i++) {
+				System.out.println(board5[j][i]);
+			}
+		}
 
 	}
 
@@ -38,9 +55,26 @@ public class Generator {
 		case 5:
 			do {
 				for (char[] row : board5) {
-					for (int i = 0; i < row.length; i++) {
-						//TODO
-						row[i] = '?';
+					for (int i = 1; i < row.length; i++) {
+						row[0] = availableCharsStartRow[random.nextInt(availableCharsStartRow.length)];
+
+						switch (row[i - 1]) {
+						case 'F':
+						case 'L':
+						case '-':
+							row[i] = availableCharsAfterMinus[random.nextInt(availableCharsAfterMinus.length)];
+							break;
+						case 'T':
+						case 'J':
+						case '|':
+							row[i] = availableCharsAfterPipe[random.nextInt(availableCharsAfterPipe.length)];
+							break;
+						case '0':
+							row[i] = availableCharsAfterNumber[random.nextInt(availableCharsAfterNumber.length)];
+							break;
+
+						}
+
 					}
 				}
 			} while (!solver.isSolvable(board5));
@@ -51,7 +85,7 @@ public class Generator {
 			do {
 				for (char[] row : board7) {
 					for (int i = 0; i < row.length; i++) {
-						//TODO
+						// TODO
 						row[i] = '?';
 					}
 				}
@@ -63,7 +97,7 @@ public class Generator {
 			do {
 				for (char[] row : board9) {
 					for (int i = 0; i < row.length; i++) {
-						//TODO
+						// TODO
 						row[i] = '?';
 					}
 				}
