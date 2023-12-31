@@ -118,6 +118,8 @@ public class Generator {
 	static char[] availableCharsLastEndRowAfterL = { '0' };
 	static char[] availableCharsLastEndRowAfterJ = { '0' };
 
+	// TODO Sparwdzanie co jest powyżej
+	
 	public Generator() {
 	}
 
@@ -186,7 +188,31 @@ public class Generator {
 								break;
 							}
 						}
-						row[row.length - 1] = availableCharsEndRow[random.nextInt(availableCharsEndRow.length)];
+						{
+							switch (row[row.length - 2]) {
+							case '-':
+								row[row.length - 1] = availableChars1stEndRowAfterMinus[random.nextInt(availableChars1stEndRowAfterMinus.length)];
+								break;
+							case '|':
+								row[row.length - 1] = availableChars1stEndRowAfterPipe[random.nextInt(availableChars1stEndRowAfterPipe.length)];
+								break;
+							case '0':
+								row[row.length - 1] = availableChars1stEndRowAfterNumber[random.nextInt(availableChars1stEndRowAfterNumber.length)];
+								break;
+							case 'F':
+								row[row.length - 1] = availableChars1stEndRowAfterF[random.nextInt(availableChars1stEndRowAfterF.length)];
+								break;
+							case 'T':
+								row[row.length - 1] = availableChars1stEndRowAfterT[random.nextInt(availableChars1stEndRowAfterT.length)];
+								break;
+							case 'L':
+								row[row.length - 1] = availableChars1stEndRowAfterL[random.nextInt(availableChars1stEndRowAfterL.length)];
+								break;
+							case 'J':
+								row[row.length - 1] = availableChars1stEndRowAfterJ[random.nextInt(availableChars1stEndRowAfterJ.length)];
+								break;
+							}
+						}
 						is1stRowDone = true;
 						continue;
 
@@ -220,8 +246,32 @@ public class Generator {
 								break;
 							}
 						}
+						{
+							switch (row[row.length - 2]) {
+							case '-':
+								row[row.length - 1] = availableCharsEndRowAfterMinus[random.nextInt(availableCharsEndRowAfterMinus.length)];
+								break;
+							case '|':
+								row[row.length - 1] = availableCharsEndRowAfterPipe[random.nextInt(availableCharsEndRowAfterPipe.length)];
+								break;
+							case '0':
+								row[row.length - 1] = availableCharsEndRowAfterNumber[random.nextInt(availableCharsEndRowAfterNumber.length)];
+								break;
+							case 'F':
+								row[row.length - 1] = availableCharsEndRowAfterF[random.nextInt(availableCharsEndRowAfterF.length)];
+								break;
+							case 'T':
+								row[row.length - 1] = availableCharsEndRowAfterT[random.nextInt(availableCharsEndRowAfterT.length)];
+								break;
+							case 'L':
+								row[row.length - 1] = availableCharsEndRowAfterL[random.nextInt(availableCharsEndRowAfterL.length)];
+								break;
+							case 'J':
+								row[row.length - 1] = availableCharsEndRowAfterJ[random.nextInt(availableCharsEndRowAfterJ.length)];
+								break;
+							}
+						}
 
-						row[row.length - 1] = availableCharsEndRow[random.nextInt(availableCharsEndRow.length)];
 						countingTillTheEnd++;
 
 					} else {
@@ -231,13 +281,16 @@ public class Generator {
 
 							switch (row[i - 1]) {
 							case '-':
-								row[i] = availableCharsLastAfterMinus[random.nextInt(availableCharsLastAfterMinus.length)];
+								row[i] = availableCharsLastAfterMinus[random
+										.nextInt(availableCharsLastAfterMinus.length)];
 								break;
 							case '|':
-								row[i] = availableCharsLastAfterPipe[random.nextInt(availableCharsLastAfterPipe.length)];
+								row[i] = availableCharsLastAfterPipe[random
+										.nextInt(availableCharsLastAfterPipe.length)];
 								break;
 							case '0':
-								row[i] = availableCharsLastAfterNumber[random.nextInt(availableCharsLastAfterNumber.length)];
+								row[i] = availableCharsLastAfterNumber[random
+										.nextInt(availableCharsLastAfterNumber.length)];
 								break;
 							case 'F':
 								row[i] = availableCharsLastAfterF[random.nextInt(availableCharsLastAfterF.length)];
@@ -253,8 +306,32 @@ public class Generator {
 								break;
 							}
 						}
-
-						row[row.length - 1] = availableCharsLastEndRow[random.nextInt(availableCharsLastEndRow.length)];
+						{
+							switch (row[row.length - 2]) {
+							case '-':
+								row[row.length - 1] = availableCharsLastEndRowAfterMinus[random.nextInt(availableCharsLastEndRowAfterMinus.length)];
+								break;
+							case '|':
+								row[row.length - 1] = availableCharsLastEndRowAfterPipe[random.nextInt(availableCharsLastEndRowAfterPipe.length)];
+								break;
+							case '0':
+								row[row.length - 1] = availableCharsLastEndRowAfterNumber[random.nextInt(availableCharsLastEndRowAfterNumber.length)];
+								break;
+							case 'F':
+								row[row.length - 1] = availableCharsLastEndRowAfterF[random.nextInt(availableCharsLastEndRowAfterF.length)];
+								break;
+							case 'T':
+								row[row.length - 1] = availableCharsLastEndRowAfterT[random.nextInt(availableCharsLastEndRowAfterT.length)];
+								break;
+							case 'L':
+								row[row.length - 1] = availableCharsLastEndRowAfterL[random.nextInt(availableCharsLastEndRowAfterL.length)];
+								break;
+							case 'J':
+								row[row.length - 1] = availableCharsLastEndRowAfterJ[random.nextInt(availableCharsLastEndRowAfterJ.length)];
+								break;
+							}
+						}
+						// TODO Remove Robisie
 						System.out.println("ROBI SIE OSTATNIE");
 					}
 				}
