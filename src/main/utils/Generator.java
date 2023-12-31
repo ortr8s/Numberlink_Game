@@ -78,12 +78,45 @@ public class Generator {
 	static char[] availableChars1stEndRowAfterMinus = { '0', 'T' };
 	static char[] availableChars1stEndRowAfterPipe = { '0', 'T' };
 	static char[] availableChars1stEndRowAfterNumber = { '0', 'T' };
-	static char[] availableChars1stEndRowAfterF = { '0', 'J' };
+	static char[] availableChars1stEndRowAfterF = { '0' };
 	static char[] availableChars1stEndRowAfterT = { '0' };
 	static char[] availableChars1stEndRowAfterL = { '0', 'T' };
 	static char[] availableChars1stEndRowAfterJ = { '0' };
-	
-	// TODO OSTATNI WIERSZ
+
+	// OSTATNI WIERSZ
+	// Dla ostatniego wiersza nie może być |, F, T
+
+	// Co można wstawić na początek wiersza?
+	static char[] availableCharsLastStartRow = { '0', 'L' };
+
+	// Co może być dalej?
+	// -
+	static char[] availableCharsLastAfterMinus = { '-', '0', 'J' };
+	// |
+	static char[] availableCharsLastAfterPipe = { '0', 'L' };
+	// Number
+	static char[] availableCharsLastAfterNumber = { '-', '0', 'J' };
+
+	// Aby nie było kwadratów 2x2 to po F nie może być T bo skręcają w tym samym
+	// kierunku (analogocznie dla pozostałych)
+	// F
+	static char[] availableCharsLastAfterF = { '-', '0', 'J' };
+	// T
+	static char[] availableCharsLastAfterT = { '0', 'L' };
+	// L
+	static char[] availableCharsLastAfterL = { '-', '0' };
+	// J
+	static char[] availableCharsLastAfterJ = { '0' };
+
+	// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static char[] availableCharsLastEndRow = { '0', 'J' };
+	static char[] availableCharsLastEndRowAfterMinus = { '0', 'J' };
+	static char[] availableCharsLastEndRowAfterPipe = { '0', 'J' };
+	static char[] availableCharsLastEndRowAfterNumber = { '0', 'J' };
+	static char[] availableCharsLastEndRowAfterF = { '0', 'J' };
+	static char[] availableCharsLastEndRowAfterT = { '0' };
+	static char[] availableCharsLastEndRowAfterL = { '0' };
+	static char[] availableCharsLastEndRowAfterJ = { '0' };
 
 	public Generator() {
 	}
@@ -118,8 +151,10 @@ public class Generator {
 		case 5:
 			do {
 				boolean is1stRowDone = false;
+				int countingTillTheEnd = 0;
+
 				for (char[] row : board5) {
-					
+
 					if (!is1stRowDone) {
 						row[0] = availableChars1stStartRow[random.nextInt(availableChars1stStartRow.length)];
 
@@ -154,8 +189,8 @@ public class Generator {
 						row[row.length - 1] = availableCharsEndRow[random.nextInt(availableCharsEndRow.length)];
 						is1stRowDone = true;
 						continue;
-						
-					} else {
+
+					} else if (countingTillTheEnd < board5.length - 2) {
 
 						row[0] = availableCharsStartRow[random.nextInt(availableCharsStartRow.length)];
 
@@ -187,6 +222,40 @@ public class Generator {
 						}
 
 						row[row.length - 1] = availableCharsEndRow[random.nextInt(availableCharsEndRow.length)];
+						countingTillTheEnd++;
+
+					} else {
+						row[0] = availableCharsLastStartRow[random.nextInt(availableCharsLastStartRow.length)];
+
+						for (int i = 1; i < row.length - 1; i++) {
+
+							switch (row[i - 1]) {
+							case '-':
+								row[i] = availableCharsLastAfterMinus[random.nextInt(availableCharsLastAfterMinus.length)];
+								break;
+							case '|':
+								row[i] = availableCharsLastAfterPipe[random.nextInt(availableCharsLastAfterPipe.length)];
+								break;
+							case '0':
+								row[i] = availableCharsLastAfterNumber[random.nextInt(availableCharsLastAfterNumber.length)];
+								break;
+							case 'F':
+								row[i] = availableCharsLastAfterF[random.nextInt(availableCharsLastAfterF.length)];
+								break;
+							case 'T':
+								row[i] = availableCharsLastAfterT[random.nextInt(availableCharsLastAfterT.length)];
+								break;
+							case 'L':
+								row[i] = availableCharsLastAfterL[random.nextInt(availableCharsLastAfterL.length)];
+								break;
+							case 'J':
+								row[i] = availableCharsLastAfterJ[random.nextInt(availableCharsLastAfterJ.length)];
+								break;
+							}
+						}
+
+						row[row.length - 1] = availableCharsLastEndRow[random.nextInt(availableCharsLastEndRow.length)];
+						System.out.println("ROBI SIE OSTATNIE");
 					}
 				}
 			} while (!solver.isSolvable(board5));
