@@ -370,7 +370,7 @@ public class Generator {
 							row[0] = availableCharsConnectingUPStartRow[random.nextInt(availableCharsConnectingUPStartRow.length)];
 						}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][0])) {
 							row[0] = availableCharsNotConnectingUPStartRow[random.nextInt(availableCharsNotConnectingUPStartRow.length)];
-						}; if (board5[countingTillTheEnd - 1][0] == 0) {
+						}; if (board5[countingTillTheEnd - 1][0] == '0') {
 							row[0] = row[0] = availableCharsStartRow[random.nextInt(availableCharsStartRow.length)];
 						}
 
@@ -382,7 +382,7 @@ public class Generator {
 									row[i] = availableCharsConnectingUPAfterMinus[random.nextInt(availableCharsConnectingUPAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsNotConnectingUPAfterMinus[random.nextInt(availableCharsNotConnectingUPAfterMinus.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsAfterMinus[random.nextInt(availableCharsAfterMinus.length)];
 								}
 								break;
@@ -391,7 +391,7 @@ public class Generator {
 									row[i] = availableCharsConnectingUPAfterPipe[random.nextInt(availableCharsConnectingUPAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsNotConnectingUPAfterPipe[random.nextInt(availableCharsNotConnectingUPAfterPipe.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsAfterPipe[random.nextInt(availableCharsAfterPipe.length)];
 								}
 								break;
@@ -400,7 +400,7 @@ public class Generator {
 									row[i] = availableCharsConnectingUPAfterNumber[random.nextInt(availableCharsConnectingUPAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsNotConnectingUPAfterNumber[random.nextInt(availableCharsNotConnectingUPAfterNumber.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsAfterNumber[random.nextInt(availableCharsAfterNumber.length)];
 								}
 								break;
@@ -409,7 +409,7 @@ public class Generator {
 									row[i] = availableCharsConnectingUPAfterF[random.nextInt(availableCharsConnectingUPAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsNotConnectingUPAfterF[random.nextInt(availableCharsNotConnectingUPAfterF.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsAfterF[random.nextInt(availableCharsAfterF.length)];
 								}
 								break;
@@ -418,7 +418,7 @@ public class Generator {
 									row[i] = availableCharsConnectingUPAfterT[random.nextInt(availableCharsConnectingUPAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsNotConnectingUPAfterT[random.nextInt(availableCharsNotConnectingUPAfterT.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsAfterT[random.nextInt(availableCharsAfterT.length)];
 								}
 								break;
@@ -427,7 +427,7 @@ public class Generator {
 									row[i] = availableCharsConnectingUPAfterL[random.nextInt(availableCharsConnectingUPAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsNotConnectingUPAfterL[random.nextInt(availableCharsNotConnectingUPAfterL.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsAfterL[random.nextInt(availableCharsAfterL.length)];
 								}
 								break;
@@ -436,7 +436,7 @@ public class Generator {
 									row[i] = availableCharsConnectingUPAfterJ[random.nextInt(availableCharsConnectingUPAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsNotConnectingUPAfterJ[random.nextInt(availableCharsNotConnectingUPAfterJ.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsAfterJ[random.nextInt(availableCharsAfterJ.length)];
 								}
 								break;
@@ -449,7 +449,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsConnectingUPEndRowAfterMinus[random.nextInt(availableCharsConnectingUPEndRowAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterMinus[random.nextInt(availableCharsNotConnectingUPEndRowAfterMinus.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsEndRowAfterMinus[random.nextInt(availableCharsEndRowAfterMinus.length)];
 								}
 								break;
@@ -458,7 +458,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsConnectingUPEndRowAfterPipe[random.nextInt(availableCharsConnectingUPEndRowAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterPipe[random.nextInt(availableCharsNotConnectingUPEndRowAfterPipe.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsEndRowAfterPipe[random.nextInt(availableCharsEndRowAfterPipe.length)];
 								}
 								break;
@@ -467,7 +467,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsConnectingUPEndRowAfterNumber[random.nextInt(availableCharsConnectingUPEndRowAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterNumber[random.nextInt(availableCharsNotConnectingUPEndRowAfterNumber.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsEndRowAfterNumber[random.nextInt(availableCharsEndRowAfterNumber.length)];
 								}
 								break;
@@ -476,7 +476,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsConnectingUPEndRowAfterF[random.nextInt(availableCharsConnectingUPEndRowAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterF[random.nextInt(availableCharsNotConnectingUPEndRowAfterF.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsEndRowAfterF[random.nextInt(availableCharsEndRowAfterF.length)];
 								}
 								break;
@@ -485,7 +485,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsConnectingUPEndRowAfterT[random.nextInt(availableCharsConnectingUPEndRowAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterT[random.nextInt(availableCharsNotConnectingUPEndRowAfterT.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsEndRowAfterT[random.nextInt(availableCharsEndRowAfterT.length)];
 								}
 								break;
@@ -494,7 +494,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsConnectingUPEndRowAfterL[random.nextInt(availableCharsConnectingUPEndRowAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterL[random.nextInt(availableCharsNotConnectingUPEndRowAfterL.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsEndRowAfterL[random.nextInt(availableCharsEndRowAfterL.length)];
 								}
 								break;
@@ -503,7 +503,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsConnectingUPEndRowAfterJ[random.nextInt(availableCharsConnectingUPEndRowAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterJ[random.nextInt(availableCharsNotConnectingUPEndRowAfterJ.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsEndRowAfterJ[random.nextInt(availableCharsEndRowAfterJ.length)];
 								}
 								break;
@@ -511,13 +511,14 @@ public class Generator {
 						}
 
 						countingTillTheEnd++;
+						System.out.println("Robi sie srodkowe");
 
 					} else {
 						if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][0])) {
 							row[0] = availableCharsLastConnectingUPStartRow[random.nextInt(availableCharsLastConnectingUPStartRow.length)];
 						}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][0])) {
 							row[0] = availableCharsLastNotConnectingUPStartRow[random.nextInt(availableCharsLastNotConnectingUPStartRow.length)];
-						}; if (board5[countingTillTheEnd - 1][0] == 0) {
+						}; if (board5[countingTillTheEnd - 1][0] == '0') {
 							row[0] = availableCharsLastStartRow[random.nextInt(availableCharsLastStartRow.length)];
 						}
 
@@ -529,7 +530,7 @@ public class Generator {
 									row[i] = availableCharsLastConnectingUPAfterMinus[random.nextInt(availableCharsLastConnectingUPAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsLastNotConnectingUPAfterMinus[random.nextInt(availableCharsLastNotConnectingUPAfterMinus.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsLastAfterMinus[random.nextInt(availableCharsLastAfterMinus.length)];
 								}
 								break;
@@ -538,7 +539,7 @@ public class Generator {
 									row[i] = availableCharsLastConnectingUPAfterPipe[random.nextInt(availableCharsLastConnectingUPAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsLastNotConnectingUPAfterPipe[random.nextInt(availableCharsLastNotConnectingUPAfterPipe.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsLastAfterPipe[random.nextInt(availableCharsLastAfterPipe.length)];
 								}
 								break;
@@ -547,7 +548,7 @@ public class Generator {
 									row[i] = availableCharsLastConnectingUPAfterNumber[random.nextInt(availableCharsLastConnectingUPAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsLastNotConnectingUPAfterNumber[random.nextInt(availableCharsLastNotConnectingUPAfterNumber.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsLastAfterNumber[random.nextInt(availableCharsLastAfterNumber.length)];
 								}
 								break;
@@ -556,7 +557,7 @@ public class Generator {
 									row[i] = availableCharsLastConnectingUPAfterF[random.nextInt(availableCharsLastConnectingUPAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsLastNotConnectingUPAfterF[random.nextInt(availableCharsLastNotConnectingUPAfterF.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsLastAfterF[random.nextInt(availableCharsLastAfterF.length)];
 								}
 								break;
@@ -565,7 +566,7 @@ public class Generator {
 									row[i] = availableCharsLastConnectingUPAfterT[random.nextInt(availableCharsLastConnectingUPAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsLastNotConnectingUPAfterT[random.nextInt(availableCharsLastNotConnectingUPAfterT.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsLastAfterT[random.nextInt(availableCharsLastAfterT.length)];
 								}
 								break;
@@ -574,7 +575,7 @@ public class Generator {
 									row[i] = availableCharsLastConnectingUPAfterL[random.nextInt(availableCharsLastConnectingUPAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsLastNotConnectingUPAfterL[random.nextInt(availableCharsLastNotConnectingUPAfterL.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsLastAfterL[random.nextInt(availableCharsLastAfterL.length)];
 								}
 								break;
@@ -583,7 +584,7 @@ public class Generator {
 									row[i] = availableCharsLastConnectingUPAfterJ[random.nextInt(availableCharsLastConnectingUPAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = availableCharsLastNotConnectingUPAfterJ[random.nextInt(availableCharsLastNotConnectingUPAfterJ.length)];
-								}; if (board5[countingTillTheEnd - 1][i] == 0) {
+								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = availableCharsLastAfterJ[random.nextInt(availableCharsLastAfterJ.length)];
 								}
 								break;
@@ -596,7 +597,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterMinus[random.nextInt(availableCharsLastConnectingUPEndRowAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterMinus[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterMinus.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsLastEndRowAfterMinus[random.nextInt(availableCharsLastEndRowAfterMinus.length)];
 								}
 								break;
@@ -605,7 +606,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterPipe[random.nextInt(availableCharsLastConnectingUPEndRowAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterPipe[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterPipe.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsLastEndRowAfterPipe[random.nextInt(availableCharsLastEndRowAfterPipe.length)];
 								}
 								break;
@@ -614,7 +615,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterNumber[random.nextInt(availableCharsLastConnectingUPEndRowAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterNumber[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterNumber.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsLastEndRowAfterNumber[random.nextInt(availableCharsLastEndRowAfterNumber.length)];
 								}
 								break;
@@ -623,7 +624,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterF[random.nextInt(availableCharsLastConnectingUPEndRowAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterF[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterF.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsLastEndRowAfterF[random.nextInt(availableCharsLastEndRowAfterF.length)];
 								}
 								break;
@@ -632,7 +633,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterT[random.nextInt(availableCharsLastConnectingUPEndRowAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterT[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterT.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsLastEndRowAfterT[random.nextInt(availableCharsLastEndRowAfterT.length)];
 								}
 								break;
@@ -641,7 +642,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterL[random.nextInt(availableCharsLastConnectingUPEndRowAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterL[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterL.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsLastEndRowAfterL[random.nextInt(availableCharsLastEndRowAfterL.length)];
 								}
 								break;
@@ -650,7 +651,7 @@ public class Generator {
 									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterJ[random.nextInt(availableCharsLastConnectingUPEndRowAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
 									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterJ[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterJ.length)];
-								}; if (board5[countingTillTheEnd - 1][row.length - 1] == 0) {
+								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
 									row[row.length - 1] = availableCharsLastEndRowAfterJ[random.nextInt(availableCharsLastEndRowAfterJ.length)];
 								}
 								break;
