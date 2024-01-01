@@ -13,6 +13,7 @@ public class Board {
         this.size = size;
         this.board = new Unit[size][size];;
         pairs = new ArrayList<>();
+
         for( int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
                 Unit current = new Unit(i,j,numbers[i][j]);
