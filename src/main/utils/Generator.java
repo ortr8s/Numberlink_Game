@@ -1,11 +1,13 @@
 package main.utils;
 
+import main.gamelogic.Board;
+
 import java.util.Random;
 
 public class Generator {
 
 	static Random random = new Random();
-	Solver solver = new Solver();
+	Solver solver = new Solver(new Board(0,null));
 
 	static char[][] board5 = new char[5][5];
 	static char[][] board7 = new char[7][7];
