@@ -1,6 +1,7 @@
 package main.gamelogic;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class Unit {
     private final int x,y;
@@ -8,7 +9,8 @@ public class Unit {
     private int value;
     private Unit parent;
     private boolean isPartOfPath;
-    public Unit(int x, int y){
+
+    public Unit(int x, int y, int value){
         this.x = x;
         this.y = y;
         this.g = Double.MAX_VALUE;
@@ -16,13 +18,17 @@ public class Unit {
         this.f = Double.MAX_VALUE;
         this.parent = null;
         this.isPartOfPath = false;
-        this.value = 0;
+        this.value = value;
     }
     public int getValue(){
         return value;
     }
     public void setValue(int value){
         this.value = value;
+    }
+
+    public Unit getParent() {
+        return parent;
     }
 
     public double getG() {
@@ -38,7 +44,9 @@ public class Unit {
     public int getX() {
         return x;
     }
-
+    public void setParent(Unit unit){
+        this.parent = unit;
+    }
     public int getY() {
         return y;
     }
@@ -71,4 +79,12 @@ public class Unit {
         return Objects.hash(x, y);
     }
 
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Unit.class.getSimpleName() + "[", "]")
+                .add("x=" + x)
+                .add("y=" + y)
+                .add("val=" + value)
+                .toString();
+    }
 }
