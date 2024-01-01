@@ -267,6 +267,250 @@ public class Generator {
 	static final char[] availableCharsLastNotConnectingUPEndRowAfterL = { '0' };
 	static final char[] availableCharsLastNotConnectingUPEndRowAfterJ = { '0' };
 	
+	
+	
+	
+	
+	
+	
+	// Dostosowanie częstości występowania
+	
+
+	// Co można wstawić na początek wiersza?
+	static final char[] adjustedAvailableCharsStartRow = { '|', '0', 'F', 'F', 'L', 'L' };
+
+	// Co może być dalej?
+	// -
+	static final char[] adjustedAvailableCharsAfterMinus = { '-', '-', '-', '-', '0', 'T', 'T', 'J', 'J' };
+	// |
+	static final char[] adjustedAvailableCharsAfterPipe = { '|', '|', '0', 'F', 'F', 'L', 'L' };
+	// Number
+	static final char[] adjustedAvailableCharsAfterNumber = { '-', '-', '-', '-', '|', '|', '0', 'T', 'T', 'J', 'J', 'F', 'F', 'L', 'L' };
+
+	// Aby nie było kwadratów 2x2 to po F nie może być T bo skręcają w tym samym
+	// kierunku (analogocznie dla pozostałych)
+	// F
+	static final char[] adjustedAvailableCharsAfterF = { '-', '-', '-', '-', '0', 'J', 'J' };
+	// T
+	static final char[] adjustedAvailableCharsAfterT = { '|', '|', '0', 'L', 'L' };
+	// L
+	static final char[] adjustedAvailableCharsAfterL = { '-', '-', '-', '-', '0', 'T', 'T' };
+	// J
+	static final char[] adjustedAvailableCharsAfterJ = { '|', '|', '0', 'F', 'F'};
+
+	// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static final char[] adjustedAvailableCharsEndRow = { '|', '|', '0', 'T', 'T', 'J', 'J' };
+	static final char[] adjustedAvailableCharsEndRowAfterMinus = { '0', 'T', 'T', 'J', 'J' };
+	static final char[] adjustedAvailableCharsEndRowAfterPipe = { '|', '|', '0', 'T', 'T' };
+	static final char[] adjustedAvailableCharsEndRowAfterNumber = { '|', '|', '0', 'T', 'T', 'J', 'J' };
+	static final char[] adjustedAvailableCharsEndRowAfterF = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsEndRowAfterT = { '|', '|', '0' };
+	static final char[] adjustedAvailableCharsEndRowAfterL = { '0', 'T', 'T' };
+	static final char[] adjustedAvailableCharsEndRowAfterJ = { '|', '|', '0' };
+
+	// PIERWSZY WIERSZ
+	// Dla pierwszego wiersza nie może być |, J, L
+
+	// Co można wstawić na początek wiersza?
+	static final char[] adjustedAvailableChars1stStartRow = { '0', 'F', 'F'};
+
+	// Co może być dalej?
+	// -
+	static final char[] adjustedAvailableChars1stAfterMinus = { '-', '-', '-', '-', '0', 'T', 'T' };
+	// |
+	static final char[] adjustedAvailableChars1stAfterPipe = { '0', 'F', 'F'};
+	// Number
+	static final char[] adjustedAvailableChars1stAfterNumber = { '-', '-', '-', '-', '0', 'T', 'T' , 'F', 'F' };
+
+	// Aby nie było kwadratów 2x2 to po F nie może być T bo skręcają w tym samym
+	// kierunku (analogocznie dla pozostałych)
+	// F
+	static final char[] adjustedAvailableChars1stAfterF = { '-', '-', '-', '-', '0' };
+	// T
+	static final char[] adjustedAvailableChars1stAfterT = { '0' };
+	// L
+	static final char[] adjustedAvailableChars1stAfterL = { '-', '-', '-', '-', '0', 'T', 'T' };
+	// J
+	static final char[] adjustedAvailableChars1stAfterJ = { '0', 'F', 'F'};
+
+	// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static final char[] adjustedAvailableChars1stEndRow = { '0', 'T', 'T' };
+	static final char[] adjustedAvailableChars1stEndRowAfterMinus = { '0', 'T', 'T' };
+	static final char[] adjustedAvailableChars1stEndRowAfterPipe = { '0', 'T', 'T' };
+	static final char[] adjustedAvailableChars1stEndRowAfterNumber = { '0', 'T', 'T' };
+	static final char[] adjustedAvailableChars1stEndRowAfterF = { '0' };
+	static final char[] adjustedAvailableChars1stEndRowAfterT = { '0' };
+	static final char[] adjustedAvailableChars1stEndRowAfterL = { '0', 'T', 'T' };
+	static final char[] adjustedAvailableChars1stEndRowAfterJ = { '0' };
+
+	// OSTATNI WIERSZ
+	// Dla ostatniego wiersza nie może być |, F, T
+
+	// Co można wstawić na początek wiersza?
+	static final char[] adjustedAvailableCharsLastStartRow = { '0', 'L', 'L' };
+
+	// Co może być dalej?
+	// -
+	static final char[] adjustedAvailableCharsLastAfterMinus = { '-', '-', '-', '-', '0', 'J', 'J' };
+	// |
+	static final char[] adjustedAvailableCharsLastAfterPipe = { '0', 'L', 'L' };
+	// Number
+	static final char[] adjustedAvailableCharsLastAfterNumber = { '-', '-', '-', '-', '0', 'J', 'J', 'L', 'L' };
+
+	// Aby nie było kwadratów 2x2 to po F nie może być T bo skręcają w tym samym
+	// kierunku (analogocznie dla pozostałych)
+	// F
+	static final char[] adjustedAvailableCharsLastAfterF = { '-', '-', '-', '-', '0', 'J', 'J' };
+	// T
+	static final char[] adjustedAvailableCharsLastAfterT = { '0', 'L', 'L' };
+	// L
+	static final char[] adjustedAvailableCharsLastAfterL = { '-', '-', '-', '-', '0' };
+	// J
+	static final char[] adjustedAvailableCharsLastAfterJ = { '0' };
+
+	// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static final char[] adjustedAvailableCharsLastEndRow = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastEndRowAfterMinus = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastEndRowAfterPipe = { '0' };
+	static final char[] adjustedAvailableCharsLastEndRowAfterNumber = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastEndRowAfterF = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastEndRowAfterT = { '0' };
+	static final char[] adjustedAvailableCharsLastEndRowAfterL = { '0' };
+	static final char[] adjustedAvailableCharsLastEndRowAfterJ = { '0' };
+
+	
+	
+	// SPRAWDZANIE CO JEST POWYŻEJ
+	
+	// OBOWIĄZKOWE POŁĄCZENIE Z TYM CO POWYŻEJ
+	// Co można wstawić na początek wiersza?
+	static final char[] adjustedAvailableCharsConnectingUPStartRow = { '|', '|', '0', 'L', 'L' };
+
+	// Co może być dalej?
+	// -
+	static final char[] adjustedAvailableCharsConnectingUPAfterMinus = { '0', 'J', 'J' };
+	// |
+	static final char[] adjustedAvailableCharsConnectingUPAfterPipe = { '|', '|', '0', 'L', 'L' };
+	// Number
+	static final char[] adjustedAvailableCharsConnectingUPAfterNumber = { '|', '|', '0', 'L', 'L', 'J', 'J' };
+
+	// F
+	static final char[] adjustedAvailableCharsConnectingUPAfterF = { '0', 'J', 'J' };
+	// T
+	static final char[] adjustedAvailableCharsConnectingUPAfterT = { '|', '|', '0', 'L', 'L' };
+	// L
+	static final char[] adjustedAvailableCharsConnectingUPAfterL = { '0' };
+	// J
+	static final char[] adjustedAvailableCharsConnectingUPAfterJ = { '|', '|', '0' };
+
+	// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static final char[] adjustedAvailableCharsConnectingUPEndRow = { '|', '|', '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsConnectingUPEndRowAfterMinus = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsConnectingUPEndRowAfterPipe = { '|', '|', '0' };
+	static final char[] adjustedAvailableCharsConnectingUPEndRowAfterNumber = { '|', '|', '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsConnectingUPEndRowAfterF = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsConnectingUPEndRowAfterT = { '|', '|', '0' };
+	static final char[] adjustedAvailableCharsConnectingUPEndRowAfterL = { '0' };
+	static final char[] adjustedAvailableCharsConnectingUPEndRowAfterJ = { '|', '|', '0' };
+	
+	// OSTATNI WIERSZ
+	// Dla ostatniego wiersza nie może być |, F, T
+	static final char[] adjustedAvailableCharsLastConnectingUPStartRow = { '0', 'L', 'L' };
+
+	// Co może być dalej?
+	// -
+	static final char[] adjustedAvailableCharsLastConnectingUPAfterMinus = { '0', 'J', 'J' };
+	// |
+	static final char[] adjustedAvailableCharsLastConnectingUPAfterPipe = { '0', 'L', 'L' };
+	// Number
+	static final char[] adjustedAvailableCharsLastConnectingUPAfterNumber = { '|', '|', '0', 'L', 'L', 'J', 'J' };
+
+	// F
+	static final char[] adjustedAvailableCharsLastConnectingUPAfterF = { '0', 'J', 'J' };
+	// T
+	static final char[] adjustedAvailableCharsLastConnectingUPAfterT = { '0', 'L', 'L' };
+	// L
+	static final char[] adjustedAvailableCharsLastConnectingUPAfterL = { '0' };
+	// J
+	static final char[] adjustedAvailableCharsLastConnectingUPAfterJ = { '|', '|', '0' };
+
+	// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRow = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterMinus = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterPipe = { '0' };
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterNumber = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterF = { '0', 'J', 'J' };
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterT = { '0' };
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterL = { '0' };
+	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterJ = { '0' };
+
+	// OBOWIĄZKOWY BRAK POŁĄCZENIA Z TYM CO POWYŻEJ
+	
+	// Co można wstawić na początek wiersza?
+	static final char[] adjustedAvailableCharsNotConnectingUPStartRow = adjustedAvailableChars1stStartRow;
+
+	// Co może być dalej?
+	// -
+	static final char[] adjustedAvailableCharsNotConnectingUPAfterMinus = adjustedAvailableChars1stAfterMinus;
+	// |
+	static final char[] adjustedAvailableCharsNotConnectingUPAfterPipe = adjustedAvailableChars1stAfterPipe;
+	// Number
+	static final char[] adjustedAvailableCharsNotConnectingUPAfterNumber = adjustedAvailableChars1stAfterNumber;
+		// F
+	static final char[] adjustedAvailableCharsNotConnectingUPAfterF = adjustedAvailableChars1stAfterF;
+	// T
+	static final char[] adjustedAvailableCharsNotConnectingUPAfterT = adjustedAvailableChars1stAfterT;
+	// L
+	static final char[] adjustedAvailableCharsNotConnectingUPAfterL = adjustedAvailableChars1stAfterL;
+	// J
+	static final char[] adjustedAvailableCharsNotConnectingUPAfterJ = adjustedAvailableChars1stAfterJ;
+		// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRow = adjustedAvailableChars1stEndRow;
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRowAfterMinus = adjustedAvailableChars1stEndRowAfterMinus;
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRowAfterPipe = adjustedAvailableChars1stEndRowAfterPipe;
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRowAfterNumber = adjustedAvailableChars1stEndRowAfterNumber;
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRowAfterF = adjustedAvailableChars1stEndRowAfterF;
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRowAfterT = adjustedAvailableChars1stEndRowAfterT;
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRowAfterL = adjustedAvailableChars1stEndRowAfterL;
+	static final char[] adjustedAvailableCharsNotConnectingUPEndRowAfterJ = adjustedAvailableChars1stEndRowAfterJ;
+	
+	
+	// OSTATNI WIERSZ
+	// Dla ostatniego wiersza nie może być |, F, T
+	
+	// Co można wstawić na początek wiersza?
+	static final char[] adjustedAvailableCharsLastNotConnectingUPStartRow = { '0' };
+
+	// Co może być dalej?
+	// -
+	static final char[] adjustedAvailableCharsLastNotConnectingUPAfterMinus = { '-', '-', '-', '-', '0' };
+	// |
+	static final char[] adjustedAvailableCharsLastNotConnectingUPAfterPipe = { '0' };
+	// Number
+	static final char[] adjustedAvailableCharsLastNotConnectingUPAfterNumber = { '-', '-', '-', '-', '0' };
+
+	// Aby nie było kwadratów 2x2 to po F nie może być T bo skręcają w tym samym
+	// kierunku (analogocznie dla pozostałych)
+	// F
+	static final char[] adjustedAvailableCharsLastNotConnectingUPAfterF = { '-', '-', '-', '-', '0' };
+	// T
+	static final char[] adjustedAvailableCharsLastNotConnectingUPAfterT = { '0' };
+	// L
+	static final char[] adjustedAvailableCharsLastNotConnectingUPAfterL = { '-', '-', '-', '-', '0' };
+	// J
+	static final char[] adjustedAvailableCharsLastNotConnectingUPAfterJ = { '0' };
+
+	// Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRow = { '0' };
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRowAfterMinus = { '0' };
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRowAfterPipe = { '0' };
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRowAfterNumber = { '0' };
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRowAfterF = { '0' };
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRowAfterT = { '0' };
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRowAfterL = { '0' };
+	static final char[] adjustedAvailableCharsLastNotConnectingUPEndRowAfterJ = { '0' };
+	
+	
 	public Generator() {
 	}
 
@@ -305,58 +549,58 @@ public class Generator {
 				for (char[] row : board5) {
 
 					if (!is1stRowDone) {
-						row[0] = availableChars1stStartRow[random.nextInt(availableChars1stStartRow.length)];
+						row[0] = adjustedAvailableChars1stStartRow[random.nextInt(adjustedAvailableChars1stStartRow.length)];
 
 						for (int i = 1; i < row.length - 1; i++) {
 
 							switch (row[i - 1]) {
 							case '-':
-								row[i] = availableChars1stAfterMinus[random
-										.nextInt(availableChars1stAfterMinus.length)];
+								row[i] = adjustedAvailableChars1stAfterMinus[random
+										.nextInt(adjustedAvailableChars1stAfterMinus.length)];
 								break;
 							case '|':
-								row[i] = availableChars1stAfterPipe[random.nextInt(availableChars1stAfterPipe.length)];
+								row[i] = adjustedAvailableChars1stAfterPipe[random.nextInt(adjustedAvailableChars1stAfterPipe.length)];
 								break;
 							case '0':
-								row[i] = availableChars1stAfterNumber[random
-										.nextInt(availableChars1stAfterNumber.length)];
+								row[i] = adjustedAvailableChars1stAfterNumber[random
+										.nextInt(adjustedAvailableChars1stAfterNumber.length)];
 								break;
 							case 'F':
-								row[i] = availableChars1stAfterF[random.nextInt(availableChars1stAfterF.length)];
+								row[i] = adjustedAvailableChars1stAfterF[random.nextInt(adjustedAvailableChars1stAfterF.length)];
 								break;
 							case 'T':
-								row[i] = availableChars1stAfterT[random.nextInt(availableChars1stAfterT.length)];
+								row[i] = adjustedAvailableChars1stAfterT[random.nextInt(adjustedAvailableChars1stAfterT.length)];
 								break;
 							case 'L':
-								row[i] = availableChars1stAfterL[random.nextInt(availableChars1stAfterL.length)];
+								row[i] = adjustedAvailableChars1stAfterL[random.nextInt(adjustedAvailableChars1stAfterL.length)];
 								break;
 							case 'J':
-								row[i] = availableChars1stAfterJ[random.nextInt(availableChars1stAfterJ.length)];
+								row[i] = adjustedAvailableChars1stAfterJ[random.nextInt(adjustedAvailableChars1stAfterJ.length)];
 								break;
 							}
 						}
 						{
 							switch (row[row.length - 2]) {
 							case '-':
-								row[row.length - 1] = availableChars1stEndRowAfterMinus[random.nextInt(availableChars1stEndRowAfterMinus.length)];
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterMinus[random.nextInt(adjustedAvailableChars1stEndRowAfterMinus.length)];
 								break;
 							case '|':
-								row[row.length - 1] = availableChars1stEndRowAfterPipe[random.nextInt(availableChars1stEndRowAfterPipe.length)];
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterPipe[random.nextInt(adjustedAvailableChars1stEndRowAfterPipe.length)];
 								break;
 							case '0':
-								row[row.length - 1] = availableChars1stEndRowAfterNumber[random.nextInt(availableChars1stEndRowAfterNumber.length)];
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterNumber[random.nextInt(adjustedAvailableChars1stEndRowAfterNumber.length)];
 								break;
 							case 'F':
-								row[row.length - 1] = availableChars1stEndRowAfterF[random.nextInt(availableChars1stEndRowAfterF.length)];
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterF[random.nextInt(adjustedAvailableChars1stEndRowAfterF.length)];
 								break;
 							case 'T':
-								row[row.length - 1] = availableChars1stEndRowAfterT[random.nextInt(availableChars1stEndRowAfterT.length)];
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterT[random.nextInt(adjustedAvailableChars1stEndRowAfterT.length)];
 								break;
 							case 'L':
-								row[row.length - 1] = availableChars1stEndRowAfterL[random.nextInt(availableChars1stEndRowAfterL.length)];
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterL[random.nextInt(adjustedAvailableChars1stEndRowAfterL.length)];
 								break;
 							case 'J':
-								row[row.length - 1] = availableChars1stEndRowAfterJ[random.nextInt(availableChars1stEndRowAfterJ.length)];
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterJ[random.nextInt(adjustedAvailableChars1stEndRowAfterJ.length)];
 								break;
 							}
 						}
@@ -367,11 +611,11 @@ public class Generator {
 					} else if (countingTillTheEnd < board5.length - 1) {
 
 						if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][0])) {
-							row[0] = availableCharsConnectingUPStartRow[random.nextInt(availableCharsConnectingUPStartRow.length)];
+							row[0] = adjustedAvailableCharsConnectingUPStartRow[random.nextInt(adjustedAvailableCharsConnectingUPStartRow.length)];
 						}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][0])) {
-							row[0] = availableCharsNotConnectingUPStartRow[random.nextInt(availableCharsNotConnectingUPStartRow.length)];
+							row[0] = adjustedAvailableCharsNotConnectingUPStartRow[random.nextInt(adjustedAvailableCharsNotConnectingUPStartRow.length)];
 						}; if (board5[countingTillTheEnd - 1][0] == '0') {
-							row[0] = row[0] = availableCharsStartRow[random.nextInt(availableCharsStartRow.length)];
+							row[0] = row[0] = adjustedAvailableCharsStartRow[random.nextInt(adjustedAvailableCharsStartRow.length)];
 						}
 
 						for (int i = 1; i < row.length - 1; i++) {
@@ -379,65 +623,65 @@ public class Generator {
 							switch (row[i - 1]) {
 							case '-':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsConnectingUPAfterMinus[random.nextInt(availableCharsConnectingUPAfterMinus.length)];
+									row[i] = adjustedAvailableCharsConnectingUPAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsNotConnectingUPAfterMinus[random.nextInt(availableCharsNotConnectingUPAfterMinus.length)];
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterMinus[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterMinus.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsAfterMinus[random.nextInt(availableCharsAfterMinus.length)];
+									row[i] = adjustedAvailableCharsAfterMinus[random.nextInt(adjustedAvailableCharsAfterMinus.length)];
 								}
 								break;
 							case '|':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsConnectingUPAfterPipe[random.nextInt(availableCharsConnectingUPAfterPipe.length)];
+									row[i] = adjustedAvailableCharsConnectingUPAfterPipe[random.nextInt(adjustedAvailableCharsConnectingUPAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsNotConnectingUPAfterPipe[random.nextInt(availableCharsNotConnectingUPAfterPipe.length)];
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterPipe[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterPipe.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsAfterPipe[random.nextInt(availableCharsAfterPipe.length)];
+									row[i] = adjustedAvailableCharsAfterPipe[random.nextInt(adjustedAvailableCharsAfterPipe.length)];
 								}
 								break;
 							case '0':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsConnectingUPAfterNumber[random.nextInt(availableCharsConnectingUPAfterNumber.length)];
+									row[i] = adjustedAvailableCharsConnectingUPAfterNumber[random.nextInt(adjustedAvailableCharsConnectingUPAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsNotConnectingUPAfterNumber[random.nextInt(availableCharsNotConnectingUPAfterNumber.length)];
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterNumber[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterNumber.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsAfterNumber[random.nextInt(availableCharsAfterNumber.length)];
+									row[i] = adjustedAvailableCharsAfterNumber[random.nextInt(adjustedAvailableCharsAfterNumber.length)];
 								}
 								break;
 							case 'F':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsConnectingUPAfterF[random.nextInt(availableCharsConnectingUPAfterF.length)];
+									row[i] = adjustedAvailableCharsConnectingUPAfterF[random.nextInt(adjustedAvailableCharsConnectingUPAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsNotConnectingUPAfterF[random.nextInt(availableCharsNotConnectingUPAfterF.length)];
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterF[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterF.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsAfterF[random.nextInt(availableCharsAfterF.length)];
+									row[i] = adjustedAvailableCharsAfterF[random.nextInt(adjustedAvailableCharsAfterF.length)];
 								}
 								break;
 							case 'T':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsConnectingUPAfterT[random.nextInt(availableCharsConnectingUPAfterT.length)];
+									row[i] = adjustedAvailableCharsConnectingUPAfterT[random.nextInt(adjustedAvailableCharsConnectingUPAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsNotConnectingUPAfterT[random.nextInt(availableCharsNotConnectingUPAfterT.length)];
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterT[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterT.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsAfterT[random.nextInt(availableCharsAfterT.length)];
+									row[i] = adjustedAvailableCharsAfterT[random.nextInt(adjustedAvailableCharsAfterT.length)];
 								}
 								break;
 							case 'L':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsConnectingUPAfterL[random.nextInt(availableCharsConnectingUPAfterL.length)];
+									row[i] = adjustedAvailableCharsConnectingUPAfterL[random.nextInt(adjustedAvailableCharsConnectingUPAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsNotConnectingUPAfterL[random.nextInt(availableCharsNotConnectingUPAfterL.length)];
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterL[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterL.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsAfterL[random.nextInt(availableCharsAfterL.length)];
+									row[i] = adjustedAvailableCharsAfterL[random.nextInt(adjustedAvailableCharsAfterL.length)];
 								}
 								break;
 							case 'J':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsConnectingUPAfterJ[random.nextInt(availableCharsConnectingUPAfterJ.length)];
+									row[i] = adjustedAvailableCharsConnectingUPAfterJ[random.nextInt(adjustedAvailableCharsConnectingUPAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsNotConnectingUPAfterJ[random.nextInt(availableCharsNotConnectingUPAfterJ.length)];
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterJ[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterJ.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsAfterJ[random.nextInt(availableCharsAfterJ.length)];
+									row[i] = adjustedAvailableCharsAfterJ[random.nextInt(adjustedAvailableCharsAfterJ.length)];
 								}
 								break;
 							}
@@ -446,65 +690,65 @@ public class Generator {
 							switch (row[row.length - 2]) {
 							case '-':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsConnectingUPEndRowAfterMinus[random.nextInt(availableCharsConnectingUPEndRowAfterMinus.length)];
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPEndRowAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPEndRowAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterMinus[random.nextInt(availableCharsNotConnectingUPEndRowAfterMinus.length)];
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterMinus[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterMinus.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsEndRowAfterMinus[random.nextInt(availableCharsEndRowAfterMinus.length)];
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterMinus[random.nextInt(adjustedAvailableCharsEndRowAfterMinus.length)];
 								}
 								break;
 							case '|':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsConnectingUPEndRowAfterPipe[random.nextInt(availableCharsConnectingUPEndRowAfterPipe.length)];
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPEndRowAfterPipe[random.nextInt(adjustedAvailableCharsConnectingUPEndRowAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterPipe[random.nextInt(availableCharsNotConnectingUPEndRowAfterPipe.length)];
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterPipe[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterPipe.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsEndRowAfterPipe[random.nextInt(availableCharsEndRowAfterPipe.length)];
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterPipe[random.nextInt(adjustedAvailableCharsEndRowAfterPipe.length)];
 								}
 								break;
 							case '0':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsConnectingUPEndRowAfterNumber[random.nextInt(availableCharsConnectingUPEndRowAfterNumber.length)];
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPEndRowAfterNumber[random.nextInt(adjustedAvailableCharsConnectingUPEndRowAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterNumber[random.nextInt(availableCharsNotConnectingUPEndRowAfterNumber.length)];
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterNumber[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterNumber.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsEndRowAfterNumber[random.nextInt(availableCharsEndRowAfterNumber.length)];
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterNumber[random.nextInt(adjustedAvailableCharsEndRowAfterNumber.length)];
 								}
 								break;
 							case 'F':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsConnectingUPEndRowAfterF[random.nextInt(availableCharsConnectingUPEndRowAfterF.length)];
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPEndRowAfterF[random.nextInt(adjustedAvailableCharsConnectingUPEndRowAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterF[random.nextInt(availableCharsNotConnectingUPEndRowAfterF.length)];
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterF[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterF.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsEndRowAfterF[random.nextInt(availableCharsEndRowAfterF.length)];
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterF[random.nextInt(adjustedAvailableCharsEndRowAfterF.length)];
 								}
 								break;
 							case 'T':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsConnectingUPEndRowAfterT[random.nextInt(availableCharsConnectingUPEndRowAfterT.length)];
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPEndRowAfterT[random.nextInt(adjustedAvailableCharsConnectingUPEndRowAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterT[random.nextInt(availableCharsNotConnectingUPEndRowAfterT.length)];
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterT[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterT.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsEndRowAfterT[random.nextInt(availableCharsEndRowAfterT.length)];
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterT[random.nextInt(adjustedAvailableCharsEndRowAfterT.length)];
 								}
 								break;
 							case 'L':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsConnectingUPEndRowAfterL[random.nextInt(availableCharsConnectingUPEndRowAfterL.length)];
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPEndRowAfterL[random.nextInt(adjustedAvailableCharsConnectingUPEndRowAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterL[random.nextInt(availableCharsNotConnectingUPEndRowAfterL.length)];
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterL[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterL.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsEndRowAfterL[random.nextInt(availableCharsEndRowAfterL.length)];
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterL[random.nextInt(adjustedAvailableCharsEndRowAfterL.length)];
 								}
 								break;
 							case 'J':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsConnectingUPEndRowAfterJ[random.nextInt(availableCharsConnectingUPEndRowAfterJ.length)];
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPEndRowAfterJ[random.nextInt(adjustedAvailableCharsConnectingUPEndRowAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsNotConnectingUPEndRowAfterJ[random.nextInt(availableCharsNotConnectingUPEndRowAfterJ.length)];
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterJ[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterJ.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsEndRowAfterJ[random.nextInt(availableCharsEndRowAfterJ.length)];
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterJ[random.nextInt(adjustedAvailableCharsEndRowAfterJ.length)];
 								}
 								break;
 							}
@@ -515,11 +759,11 @@ public class Generator {
 
 					} else {
 						if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][0])) {
-							row[0] = availableCharsLastConnectingUPStartRow[random.nextInt(availableCharsLastConnectingUPStartRow.length)];
+							row[0] = adjustedAvailableCharsLastConnectingUPStartRow[random.nextInt(adjustedAvailableCharsLastConnectingUPStartRow.length)];
 						}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][0])) {
-							row[0] = availableCharsLastNotConnectingUPStartRow[random.nextInt(availableCharsLastNotConnectingUPStartRow.length)];
+							row[0] = adjustedAvailableCharsLastNotConnectingUPStartRow[random.nextInt(adjustedAvailableCharsLastNotConnectingUPStartRow.length)];
 						}; if (board5[countingTillTheEnd - 1][0] == '0') {
-							row[0] = availableCharsLastStartRow[random.nextInt(availableCharsLastStartRow.length)];
+							row[0] = adjustedAvailableCharsLastStartRow[random.nextInt(adjustedAvailableCharsLastStartRow.length)];
 						}
 
 						for (int i = 1; i < row.length - 1; i++) {
@@ -527,65 +771,65 @@ public class Generator {
 							switch (row[i - 1]) {
 							case '-':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastConnectingUPAfterMinus[random.nextInt(availableCharsLastConnectingUPAfterMinus.length)];
+									row[i] = adjustedAvailableCharsLastConnectingUPAfterMinus[random.nextInt(adjustedAvailableCharsLastConnectingUPAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastNotConnectingUPAfterMinus[random.nextInt(availableCharsLastNotConnectingUPAfterMinus.length)];
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterMinus[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterMinus.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsLastAfterMinus[random.nextInt(availableCharsLastAfterMinus.length)];
+									row[i] = adjustedAvailableCharsLastAfterMinus[random.nextInt(adjustedAvailableCharsLastAfterMinus.length)];
 								}
 								break;
 							case '|':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastConnectingUPAfterPipe[random.nextInt(availableCharsLastConnectingUPAfterPipe.length)];
+									row[i] = adjustedAvailableCharsLastConnectingUPAfterPipe[random.nextInt(adjustedAvailableCharsLastConnectingUPAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastNotConnectingUPAfterPipe[random.nextInt(availableCharsLastNotConnectingUPAfterPipe.length)];
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterPipe[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterPipe.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsLastAfterPipe[random.nextInt(availableCharsLastAfterPipe.length)];
+									row[i] = adjustedAvailableCharsLastAfterPipe[random.nextInt(adjustedAvailableCharsLastAfterPipe.length)];
 								}
 								break;
 							case '0':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastConnectingUPAfterNumber[random.nextInt(availableCharsLastConnectingUPAfterNumber.length)];
+									row[i] = adjustedAvailableCharsLastConnectingUPAfterNumber[random.nextInt(adjustedAvailableCharsLastConnectingUPAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastNotConnectingUPAfterNumber[random.nextInt(availableCharsLastNotConnectingUPAfterNumber.length)];
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterNumber[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterNumber.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsLastAfterNumber[random.nextInt(availableCharsLastAfterNumber.length)];
+									row[i] = adjustedAvailableCharsLastAfterNumber[random.nextInt(adjustedAvailableCharsLastAfterNumber.length)];
 								}
 								break;
 							case 'F':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastConnectingUPAfterF[random.nextInt(availableCharsLastConnectingUPAfterF.length)];
+									row[i] = adjustedAvailableCharsLastConnectingUPAfterF[random.nextInt(adjustedAvailableCharsLastConnectingUPAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastNotConnectingUPAfterF[random.nextInt(availableCharsLastNotConnectingUPAfterF.length)];
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterF[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterF.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsLastAfterF[random.nextInt(availableCharsLastAfterF.length)];
+									row[i] = adjustedAvailableCharsLastAfterF[random.nextInt(adjustedAvailableCharsLastAfterF.length)];
 								}
 								break;
 							case 'T':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastConnectingUPAfterT[random.nextInt(availableCharsLastConnectingUPAfterT.length)];
+									row[i] = adjustedAvailableCharsLastConnectingUPAfterT[random.nextInt(adjustedAvailableCharsLastConnectingUPAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastNotConnectingUPAfterT[random.nextInt(availableCharsLastNotConnectingUPAfterT.length)];
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterT[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterT.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsLastAfterT[random.nextInt(availableCharsLastAfterT.length)];
+									row[i] = adjustedAvailableCharsLastAfterT[random.nextInt(adjustedAvailableCharsLastAfterT.length)];
 								}
 								break;
 							case 'L':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastConnectingUPAfterL[random.nextInt(availableCharsLastConnectingUPAfterL.length)];
+									row[i] = adjustedAvailableCharsLastConnectingUPAfterL[random.nextInt(adjustedAvailableCharsLastConnectingUPAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastNotConnectingUPAfterL[random.nextInt(availableCharsLastNotConnectingUPAfterL.length)];
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterL[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterL.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsLastAfterL[random.nextInt(availableCharsLastAfterL.length)];
+									row[i] = adjustedAvailableCharsLastAfterL[random.nextInt(adjustedAvailableCharsLastAfterL.length)];
 								}
 								break;
 							case 'J':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastConnectingUPAfterJ[random.nextInt(availableCharsLastConnectingUPAfterJ.length)];
+									row[i] = adjustedAvailableCharsLastConnectingUPAfterJ[random.nextInt(adjustedAvailableCharsLastConnectingUPAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
-									row[i] = availableCharsLastNotConnectingUPAfterJ[random.nextInt(availableCharsLastNotConnectingUPAfterJ.length)];
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterJ[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterJ.length)];
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
-									row[i] = availableCharsLastAfterJ[random.nextInt(availableCharsLastAfterJ.length)];
+									row[i] = adjustedAvailableCharsLastAfterJ[random.nextInt(adjustedAvailableCharsLastAfterJ.length)];
 								}
 								break;
 							}
@@ -594,65 +838,65 @@ public class Generator {
 							switch (row[row.length - 2]) {
 							case '-':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterMinus[random.nextInt(availableCharsLastConnectingUPEndRowAfterMinus.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPEndRowAfterMinus[random.nextInt(adjustedAvailableCharsLastConnectingUPEndRowAfterMinus.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterMinus[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterMinus.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterMinus[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterMinus.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsLastEndRowAfterMinus[random.nextInt(availableCharsLastEndRowAfterMinus.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterMinus[random.nextInt(adjustedAvailableCharsLastEndRowAfterMinus.length)];
 								}
 								break;
 							case '|':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterPipe[random.nextInt(availableCharsLastConnectingUPEndRowAfterPipe.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPEndRowAfterPipe[random.nextInt(adjustedAvailableCharsLastConnectingUPEndRowAfterPipe.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterPipe[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterPipe.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterPipe[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterPipe.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsLastEndRowAfterPipe[random.nextInt(availableCharsLastEndRowAfterPipe.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterPipe[random.nextInt(adjustedAvailableCharsLastEndRowAfterPipe.length)];
 								}
 								break;
 							case '0':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterNumber[random.nextInt(availableCharsLastConnectingUPEndRowAfterNumber.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPEndRowAfterNumber[random.nextInt(adjustedAvailableCharsLastConnectingUPEndRowAfterNumber.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterNumber[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterNumber.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterNumber[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterNumber.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsLastEndRowAfterNumber[random.nextInt(availableCharsLastEndRowAfterNumber.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterNumber[random.nextInt(adjustedAvailableCharsLastEndRowAfterNumber.length)];
 								}
 								break;
 							case 'F':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterF[random.nextInt(availableCharsLastConnectingUPEndRowAfterF.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPEndRowAfterF[random.nextInt(adjustedAvailableCharsLastConnectingUPEndRowAfterF.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterF[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterF.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterF[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterF.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsLastEndRowAfterF[random.nextInt(availableCharsLastEndRowAfterF.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterF[random.nextInt(adjustedAvailableCharsLastEndRowAfterF.length)];
 								}
 								break;
 							case 'T':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterT[random.nextInt(availableCharsLastConnectingUPEndRowAfterT.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPEndRowAfterT[random.nextInt(adjustedAvailableCharsLastConnectingUPEndRowAfterT.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterT[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterT.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterT[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterT.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsLastEndRowAfterT[random.nextInt(availableCharsLastEndRowAfterT.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterT[random.nextInt(adjustedAvailableCharsLastEndRowAfterT.length)];
 								}
 								break;
 							case 'L':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterL[random.nextInt(availableCharsLastConnectingUPEndRowAfterL.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPEndRowAfterL[random.nextInt(adjustedAvailableCharsLastConnectingUPEndRowAfterL.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterL[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterL.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterL[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterL.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsLastEndRowAfterL[random.nextInt(availableCharsLastEndRowAfterL.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterL[random.nextInt(adjustedAvailableCharsLastEndRowAfterL.length)];
 								}
 								break;
 							case 'J':
 								if (hasMandatoryBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastConnectingUPEndRowAfterJ[random.nextInt(availableCharsLastConnectingUPEndRowAfterJ.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPEndRowAfterJ[random.nextInt(adjustedAvailableCharsLastConnectingUPEndRowAfterJ.length)];
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][row.length - 1])) {
-									row[row.length - 1] = availableCharsLastNotConnectingUPEndRowAfterJ[random.nextInt(availableCharsLastNotConnectingUPEndRowAfterJ.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterJ[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterJ.length)];
 								}; if (board5[countingTillTheEnd - 1][row.length - 1] == '0') {
-									row[row.length - 1] = availableCharsLastEndRowAfterJ[random.nextInt(availableCharsLastEndRowAfterJ.length)];
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterJ[random.nextInt(adjustedAvailableCharsLastEndRowAfterJ.length)];
 								}
 								break;
 							}
