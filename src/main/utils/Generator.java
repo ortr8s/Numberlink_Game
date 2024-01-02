@@ -1257,7 +1257,7 @@ public class Generator {
 						System.out.println("ROBI SIE OSTATNIE");
 					}
 				}
-			} while (!solver.isSolvable(board5));
+			} while (!isClassic(board5));
 			System.out.println("Wygenerowano planszę o wielkości 5");
 			break;
 
@@ -1269,7 +1269,7 @@ public class Generator {
 						row[i] = '?';
 					}
 				}
-			} while (!solver.isSolvable(board7));
+			} while (!isClassic(board7));
 			System.out.println("Wygenerowano planszę o wielkości 7");
 			break;
 
@@ -1281,12 +1281,88 @@ public class Generator {
 						row[i] = '?';
 					}
 				}
-			} while (!solver.isSolvable(board7));
+			} while (!isClassic(board7));
 			System.out.println("Wygenerowano planszę o wielkości 9");
 			break;
 
 		default:
 			System.out.println("Wprowadzono niepoprawną wielkość planszy");
+		}
+	}
+	@SuppressWarnings("finally")
+	static boolean isClassic(char[][] tableToTest) {
+		boolean isnotWrong = true;
+		int countingTillTheEnd = 0;
+		for (char[] row : tableToTest) {
+			for (int i = 0; i < row.length; i++) { 
+				boolean occupied = false;
+				if (row[i] == '0') {
+					for (int condition = 0; condition < 5; condition++) {
+						System.out.println("Robia sie warunki");
+						switch (condition) {
+						case 0:
+							System.out.println("Robi sie 0");
+							try {
+								if (Generator.hasMandatoryBottomConnection(tableToTest[countingTillTheEnd - 1][i])) {
+									if (occupied == true) {
+										isnotWrong = false;
+									}
+									occupied = true;
+								} 
+							} finally {
+								continue;
+							}
+						case 1:
+							System.out.println("Robi sie 1");
+							try {
+								if (Generator.hasMandatoryConnectionUP(tableToTest[countingTillTheEnd + 1][i])) {
+									if (occupied == true) {
+										isnotWrong = false;
+									}
+									occupied = true;
+								} 
+							} finally {
+								continue;
+							} 
+						case 2:
+							System.out.println("Robi sie 2");
+							try {
+								if (Generator.hasMandatoryConnectionLeft(tableToTest[countingTillTheEnd][i + 1])) {
+									if (occupied == true) {
+										isnotWrong = false;
+									}
+									occupied = true;
+								} 
+							} finally {
+								continue;
+							} 
+						case 3:
+							System.out.println("Robi sie 3");
+							try {
+								if (Generator.hasMandatoryConnectionRight(tableToTest[countingTillTheEnd][i - 1])) {
+									if (occupied == true) {
+										isnotWrong = false;
+									}
+									occupied = true;
+								} 
+							} finally {
+								continue;
+							} 
+						case 4:
+							System.out.println("Robi sie 4");
+							if (occupied == false) {
+								isnotWrong = false;
+							}
+						}
+					}
+				}
+			}
+			countingTillTheEnd++;
+		}
+		if (!isnotWrong) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 }
