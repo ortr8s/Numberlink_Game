@@ -15,8 +15,15 @@ public class Generator {
 
 	// Zestawy możliwych charów w tablicy oraz co może być po czym
 
+	// 'O' Reprezentuje dowolną cyfrę, będą one wstawiane pozniej
 	static final char[] availableCharsNumber = { '0' };
+	// '-' i '|' pojawiają się kiedy ścieżka rozwiązująca przechodzi przez jakieś pole "na wprost"
 	static final char[] availableCharsCommon = { '-', '|' };
+	// 'F', 'T', 'L', 'J' pojawiają się kiedy ścieżka rozwiązująca przechodząc przez jakieś pole skręca tak jak wygląda litera
+	// Dla F ścieżka idzie z południa i skręca na wschód (albo oczywiście ze wschodu na południe)
+	// Dla T ścieżka idzie z zachodu na południe (w niektórych czcionkach T nie ma tak wyrrazistego "daszka" w prawo)
+	// Dla L ścieżka idzie z północy na wschód
+	// Dla J ścieżka idzie z zachodu na północ
 	static final char[] availableCharsCurves = { 'F', 'T', 'L', 'J' };
 
 	// Co można wstawić na początek wiersza?
@@ -835,12 +842,15 @@ public class Generator {
 
 		case 5:
 			do {
+				// Pierwszy wiersz wymaga osobnego rozpatrywania
 				boolean is1stRowDone = false;
+				// countingTillTheEnd odlicza w praktyce wykonania pętli foreach
 				int countingTillTheEnd = 0;
 
 				for (char[] row : board5) {
 
 					if (!is1stRowDone) {
+						// Na każde pole w pierwszym wierszu bieżemy znak z właściwej tablicy
 						row[0] = adjustedAvailableChars1stStartRow[random.nextInt(adjustedAvailableChars1stStartRow.length)];
 
 						for (int i = 1; i < row.length - 1; i++) {
@@ -896,12 +906,15 @@ public class Generator {
 								break;
 							}
 						}
+						// Jak już pierwszy wiersz się napisał to więcej go nie piszemy
 						is1stRowDone = true;
 						countingTillTheEnd++;
 						continue;
 
 					} else if (countingTillTheEnd < board5.length - 1) {
+						// Pozostałe wiersze z wyjątkiem ostatniego
 
+						// Pierwszy znak w każdym wierszu wymaga osobnych instrukcji, ponieważ nie ma sąsiada z lewej strony
 						if (hasMandatoryBottomConnectionTypeF(board5[countingTillTheEnd - 1][0])) {
 							row[0] = adjustedAvailableCharsConnectingUPTypeFStartRow[random.nextInt(adjustedAvailableCharsConnectingUPTypeFStartRow.length)];
 						}; if (hasMandatoryBottomConnectionTypeT(board5[countingTillTheEnd - 1][0])) {
@@ -912,20 +925,29 @@ public class Generator {
 							row[0] = row[0] = adjustedAvailableCharsStartRow[random.nextInt(adjustedAvailableCharsStartRow.length)];
 						}
 
+						// Dla wszytkich pól w wierszu z wyjątkiem pierwszego i ostatniego
 						for (int i = 1; i < row.length - 1; i++) {
 
+							// Dla każedo przypadku pola sąsiada z lewej strony
 							switch (row[i - 1]) {
 							case '-':
+								// Sprawdzamy sąsiada z góry, czytamy co jest w tablicy powyżej miejsca w które chcemy coś wstawić
+								// Jeśli sąsiad z góry ma połączenie w dół to musimy wstawić znak który ma połączenie w górę
+								// Ale jak ma połączenie w dół to musimy rozpatrzyć dwa przypadki, aby nie tworzyły się krztałty w stylu C i lustrzanego C, bo są niezgodne z zasadami numberlink
+								// Powstają one gdy poniżej F jest L, a poniżj T jest J, więc tablica Type F zawiera F i |, a Type T zawiera T i |
 								if (hasMandatoryBottomConnectionTypeF(board5[countingTillTheEnd - 1][i])) {
 									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterMinus.length)];
 								}; if (hasMandatoryBottomConnectionTypeT(board5[countingTillTheEnd - 1][i])) {
 									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterMinus.length)];
+								// Jeśli sąsiad z góry nie może się łączyś z tym co na dole to wstawiamy odpowiedni znak
 								}; if (hasNoBottomConnection(board5[countingTillTheEnd - 1][i])) {
 									row[i] = adjustedAvailableCharsNotConnectingUPAfterMinus[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterMinus.length)];
+								// Cyfra może się łączyć w dół ale nie musi, obojętnie
 								}; if (board5[countingTillTheEnd - 1][i] == '0') {
 									row[i] = adjustedAvailableCharsAfterMinus[random.nextInt(adjustedAvailableCharsAfterMinus.length)];
 								}
 								break;
+								// Dla pozostałych przypadków analogicznie
 							case '|':
 								if (hasMandatoryBottomConnectionTypeF(board5[countingTillTheEnd - 1][i])) {
 									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterPipe[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterPipe.length)];
@@ -995,6 +1017,7 @@ public class Generator {
 							}
 						}
 						{
+							// Ostatnie pole w wierszu wymaga własnych instrukcji i tablic
 							switch (row[row.length - 2]) {
 							case '-':
 								if (hasMandatoryBottomConnectionTypeF(board5[countingTillTheEnd - 1][row.length - 1])) {
@@ -1080,6 +1103,7 @@ public class Generator {
 						System.out.println("Robi sie srodkowe");
 
 					} else {
+						// Ostatni wiersz wymaga własnych instrukcji i tablic
 						if (hasMandatoryBottomConnectionTypeF(board5[countingTillTheEnd - 1][0])) {
 							row[0] = adjustedAvailableCharsLastConnectingUPTypeFStartRow[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFStartRow.length)];
 						}; if (hasMandatoryBottomConnectionTypeT(board5[countingTillTheEnd - 1][0])) {
@@ -1291,12 +1315,30 @@ public class Generator {
 	}
 	@SuppressWarnings("finally")
 	static boolean isClassic(char[][] tableToTest) {
+		// Jeśli plansza nie ma pażystej liczby cyfr to nie jest klasyczna
+		int numbercounter = 0;
+		for (char[] row : tableToTest) {
+			for (char a : row) {
+				if (a == 'O') {
+					numbercounter++;
+				}
+			}
+		}
+		if (numbercounter % 2 != 0) {
+			return false;
+		}
 		boolean isnotWrong = true;
 		int countingTillTheEnd = 0;
 		for (char[] row : tableToTest) {
 			for (int i = 0; i < row.length; i++) { 
+				// Jeśli z cyfry wychodzą więcej niż 1 ścieżka albo 0 ścieżek to nie jest klasyczna
 				boolean occupied = false;
 				if (row[i] == '0') {
+					// Konstrukcja z for, switch i try - finally continue pozwala uniknąć błędów czytania poza tablicą (fajne obejście)
+					// Pętla wykonuje się 4 razy szukając połączenia do cyfry z każdej strony
+					// Jeśli je znajdzie to ustawia occupied na true, return false nie działa poprawnie w try
+					// Jeśli przy sprawdzaniu kolejnego warunku okaże się, że zmienna occupied to już true to plansza jest do kasacji według zasad klasycznych
+					// Jeśli na koniec czyli w condition4 okaże się, że nie znaleziono wcześniej żadnej ścieżki (occupied = false) to mamy odizolowaną cyfrę i plansza jest do kasacji według zasad klasycznych
 					for (int condition = 0; condition < 5; condition++) {
 						System.out.println("Robia sie warunki");
 						switch (condition) {
