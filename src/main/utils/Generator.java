@@ -820,7 +820,7 @@ public class Generator {
 	public static void main(String[] args) {
 		Generator generator = new Generator();
 		
-		char[][] generatedBoard = generator.generate(7);
+		char[][] generatedBoard = generator.generate(5);
 
 		for (int j = 0; j < generatedBoard.length; j++) {
 			for (int i = 0; i < generatedBoard.length; i++) {
@@ -1111,7 +1111,7 @@ public class Generator {
 						}
 
 						countingTillTheEnd++;
-						System.out.println("Robi sie srodkowe");
+//						System.out.println("Robi sie srodkowe");
 
 					} else {
 						// Ostatni wiersz wymaga własnych instrukcji i tablic
@@ -1289,11 +1289,11 @@ public class Generator {
 							}
 						}
 						// TODO Remove Robisie
-						System.out.println("ROBI SIE OSTATNIE");
+//						System.out.println("ROBI SIE OSTATNIE");
 					}
 				}
 			} while (!isClassic(board));
-			System.out.println("Wygenerowano planszę o wielkości " + size);
+//			System.out.println("Wygenerowano planszę o wielkości " + size);
 			break;
 
 		case 6: 
@@ -1568,7 +1568,7 @@ public class Generator {
 						}
 
 						countingTillTheEnd++;
-						System.out.println("Robi sie srodkowe");
+//						System.out.println("Robi sie srodkowe");
 
 					} else {
 						// Ostatni wiersz wymaga własnych instrukcji i tablic
@@ -1745,8 +1745,7 @@ public class Generator {
 								break;
 							}
 						}
-						// TODO Remove Robisie
-						System.out.println("ROBI SIE OSTATNIE");
+//						System.out.println("ROBI SIE OSTATNIE");
 					}
 				}
 				fix(board);
@@ -1784,10 +1783,10 @@ public class Generator {
 					// Pętla wykonuje się 4 razy szukając połączenia do cyfry z każdej strony
 					// Jeśli je znajdzie to znak posiadający to połączenie zostaje zastąpiony przez cyfrę
 					for (int condition = 0; condition < 4; condition++) {
-						System.out.println("Robia sie warunki");
+//						System.out.println("Fixing...");
 						switch (condition) {
 						case 0:
-							System.out.println("Robi sie 0");
+//							System.out.println("Robi sie 0");
 							try {
 								if (Generator.hasMandatoryBottomConnection(tableToFix[countingTillTheEnd - 1][i])) {
 									if (occupied == true) {
@@ -1799,7 +1798,7 @@ public class Generator {
 								continue;
 							}
 						case 1:
-							System.out.println("Robi sie 1");
+//							System.out.println("Robi sie 1");
 							try {
 								if (Generator.hasMandatoryConnectionUP(tableToFix[countingTillTheEnd + 1][i])) {
 									if (occupied == true) {
@@ -1811,7 +1810,7 @@ public class Generator {
 								continue;
 							} 
 						case 2:
-							System.out.println("Robi sie 2");
+//							System.out.println("Robi sie 2");
 							try {
 								if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1])) {
 									if (occupied == true) {
@@ -1823,7 +1822,7 @@ public class Generator {
 								continue;
 							} 
 						case 3:
-							System.out.println("Robi sie 3");
+//							System.out.println("Robi sie 3");
 							try {
 								if (Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1])) {
 									if (occupied == true) {
@@ -1869,10 +1868,10 @@ public class Generator {
 					// Jeśli przy sprawdzaniu kolejnego warunku okaże się, że zmienna occupied to już true to plansza jest do kasacji według zasad klasycznych
 					// Jeśli na koniec czyli w condition4 okaże się, że nie znaleziono wcześniej żadnej ścieżki (occupied = false) to mamy odizolowaną cyfrę i plansza jest do kasacji według zasad klasycznych
 					for (int condition = 0; condition < 5; condition++) {
-						System.out.println("Robia sie warunki");
+						System.out.println("It's going REALLY FAST and it KEEPS GOING...");
 						switch (condition) {
 						case 0:
-							System.out.println("Robi sie 0");
+//							System.out.println("Robi sie 0");
 							try {
 								if (Generator.hasMandatoryBottomConnection(tableToTest[countingTillTheEnd - 1][i])) {
 									if (occupied == true) {
@@ -1884,7 +1883,7 @@ public class Generator {
 								continue;
 							}
 						case 1:
-							System.out.println("Robi sie 1");
+//							System.out.println("Robi sie 1");
 							try {
 								if (Generator.hasMandatoryConnectionUP(tableToTest[countingTillTheEnd + 1][i])) {
 									if (occupied == true) {
@@ -1896,7 +1895,7 @@ public class Generator {
 								continue;
 							} 
 						case 2:
-							System.out.println("Robi sie 2");
+//							System.out.println("Robi sie 2");
 							try {
 								if (Generator.hasMandatoryConnectionLeft(tableToTest[countingTillTheEnd][i + 1])) {
 									if (occupied == true) {
@@ -1908,7 +1907,7 @@ public class Generator {
 								continue;
 							} 
 						case 3:
-							System.out.println("Robi sie 3");
+//							System.out.println("Robi sie 3");
 							try {
 								if (Generator.hasMandatoryConnectionRight(tableToTest[countingTillTheEnd][i - 1])) {
 									if (occupied == true) {
@@ -1920,7 +1919,7 @@ public class Generator {
 								continue;
 							} 
 						case 4:
-							System.out.println("Robi sie 4");
+//							System.out.println("Robi sie 4");
 							if (occupied == false) {
 								isnotWrong = false;
 							}
