@@ -819,7 +819,7 @@ public class Generator {
 	public static void main(String[] args) {
 		Generator generator = new Generator();
 		
-		char[][] generatedBoard = generator.generate(7);
+		char[][] generatedBoard = generator.generate(5);
 
 		for (int j = 0; j < generatedBoard.length; j++) {
 			for (int i = 0; i < generatedBoard.length; i++) {
@@ -829,7 +829,14 @@ public class Generator {
 			System.out.println(" ");
 		// TODO Test
 		}
-
+		fillWithNumbers(generatedBoard);
+		for (int j = 0; j < generatedBoard.length; j++) {
+			for (int i = 0; i < generatedBoard.length; i++) {
+				System.out.print(generatedBoard[j][i]);
+				System.out.print("  ");
+			}
+			System.out.println(" ");
+		}
 	}
 
 	char[][] generate(int size) {
@@ -1772,6 +1779,9 @@ public class Generator {
 			for (int i = 0; i < row.length; i++) { 
 				boolean occupied = false;
 				if (row[i] == '0') {
+					// Konstrukcja z for, switch i try - finally continue pozwala uniknąć błędów czytania poza tablicą (fajne obejście)
+					// Pętla wykonuje się 4 razy szukając połączenia do cyfry z każdej strony
+					// Jeśli je znajdzie to znak posiadający to połączenie zostaje zastąpiony przez cyfrę
 					for (int condition = 0; condition < 4; condition++) {
 						System.out.println("Robia sie warunki");
 						switch (condition) {
@@ -1924,5 +1934,99 @@ public class Generator {
 		} else {
 			return true;
 		}
+	}
+	
+	@SuppressWarnings("finally")
+	static char[][] fillWithNumbers(char[][] tableToFill) {
+		int countingTillTheEnd = 0;
+		char numberCounter = 49;
+		for (char[] row : tableToFill) {
+			
+			gotoHere:
+			for (int i = 0; i < row.length; i++) { 
+				
+				if (row[i] == '0') {
+					int horizontalMoveCounter = 0;
+					int verticalMoveCounter = 0;
+					for (int pathLength = 0; pathLength<20; pathLength++) {
+					for (int condition = 0; condition < 5; condition++) {
+						switch (condition) {
+						case 0:
+							try {
+								if (Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter])) {
+									System.out.println("Idzie w górę");
+									verticalMoveCounter--;
+									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
+										row[i] = numberCounter;
+										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
+										numberCounter++;
+										continue gotoHere;
+									}
+									continue;
+								} 
+							} finally {
+								continue;
+							}
+						case 1:
+							try {
+								if (Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter])) {
+									System.out.println("Idzie w dół");
+									verticalMoveCounter++;
+									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
+										row[i] = numberCounter;
+										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
+										numberCounter++;
+										continue gotoHere;
+									}
+									continue;
+								} 
+							} finally {
+								continue;
+							} 
+						case 2:
+							try {
+								if (Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter])) {
+									System.out.println("Idzie w prawo");
+									horizontalMoveCounter++;
+									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
+										row[i] = numberCounter;
+										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
+										numberCounter++;
+										continue gotoHere;
+									}
+									continue;
+								} 
+							} finally {
+								continue;
+							} 
+						case 3:
+							try {
+								if (Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter])) {
+									System.out.println("Idzie w lewo");
+									horizontalMoveCounter--;
+									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
+										row[i] = numberCounter;
+										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
+										numberCounter++;
+										continue gotoHere;
+									}
+									continue;
+								} 
+							} finally {
+								continue;
+							} 
+						case 4:
+							try {
+							} finally {
+								continue;
+							}
+						}
+					}
+					}
+				}
+			}
+			countingTillTheEnd++;
+		}
+		return tableToFill;
 	}
 }
