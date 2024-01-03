@@ -16,8 +16,10 @@ public class Generator {
 
 	// 'O' Reprezentuje dowolną cyfrę, będą one wstawiane pozniej
 	static final char[] availableCharsNumber = { '0' };
+	
 	// '-' i '|' pojawiają się kiedy ścieżka rozwiązująca przechodzi przez jakieś pole "na wprost"
 	static final char[] availableCharsCommon = { '-', '|' };
+	
 	// 'F', 'T', 'L', 'J' pojawiają się kiedy ścieżka rozwiązująca przechodząc przez jakieś pole skręca tak jak wygląda litera
 	// Dla F ścieżka idzie z południa i skręca na wschód (albo oczywiście ze wschodu na południe)
 	// Dla T ścieżka idzie z zachodu na południe (w niektórych czcionkach T nie ma tak wyrrazistego "daszka" w prawo)
@@ -1937,23 +1939,31 @@ public class Generator {
 	
 	@SuppressWarnings("finally")
 	static char[][] fillWithNumbers(char[][] tableToFill) {
+		// licznik do foreach
 		int countingTillTheEnd = 0;
+		// char 49 to 1
 		char numberCounter = 49;
 		for (char[] row : tableToFill) {
 			
+			// Kiedy wstawimy nową cyfrę to continue tej pętli
 			gotoHere:
 			for (int i = 0; i < row.length; i++) { 
 				
 				if (row[i] == '0') {
+					// liczniki ruchów
 					int horizontalMoveCounter = 0;
 					int verticalMoveCounter = 0;
+					// nie wracamy się
 					boolean goUpBlocked = false;
 					boolean goDownBlocked = false;
 					boolean goRightBlocked = false;
 					boolean goLeftBlocked = false;
+					// co było ostatnio?
 					String lastMove = null;
+					// omijamy problem czytania poza tablicą opisane wyżej
 					for (int condition = 0; condition < 5; condition++) {
 						switch (condition) {
+						// spardzamy gdzie możemy uczynić pierwszy ruch, jak już się odbijemy od zera to łatwiej będzie sprawdzać co powinno być dalej
 						case 0:
 							try {
 								if (!goUpBlocked && (Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
@@ -2007,15 +2017,18 @@ public class Generator {
 							}
 						}
 					}
+					// to mogło by być while true ale tak sie na pewno zakończy w razie jakiegoś problemu
+					// ścieżki na ponad 2000 ruchów raczej nigdy nie będzie
 					more:
-					for (int cos = 0; cos < 2000; cos++) {
+					for (int pathLength = 0; pathLength < 2000; pathLength++) {
+					// (nie) czytamy poza tablicą :)
 					switcher:
 					for (int condition = 0; condition < 5; condition++) {
 						switch (condition) {
 						case 0:
 							try {
-//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
-									if (!goUpBlocked && (/*Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter]) ||*/ lastMove == "up")) {
+								// jeśli ostatni ruch był do góry to sprawdzamy jaki jest znak w miejscu w którym aktualnie jesteśmy i idziemy dalej tam gdzie on wskazuje
+									if (!goUpBlocked && (lastMove == "up")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '|') {
 											verticalMoveCounter--;
 											System.out.println("Idzie w górę");
@@ -2046,7 +2059,6 @@ public class Generator {
 											goLeftBlocked = false;
 											continue switcher;
 										}
-//									}
 									continue switcher;
 								} 
 							} finally {
@@ -2054,7 +2066,7 @@ public class Generator {
 							}
 						case 1:
 							try {
-//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+//								jeśli ostatni ruch w dół to analogicznie
 									if (!goDownBlocked && (/*Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter]) ||*/ lastMove == "down")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '|') {
 											verticalMoveCounter++;
@@ -2086,7 +2098,6 @@ public class Generator {
 											goLeftBlocked = false;
 											continue switcher;
 										}
-//									}
 									continue switcher;
 								}
 							} finally {
@@ -2094,8 +2105,8 @@ public class Generator {
 							} 
 						case 2:
 							try {
-//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
-									if (!goRightBlocked && (/*Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter]) ||*/ lastMove == "right")) {
+//								analogicznie
+									if (!goRightBlocked && (lastMove == "right")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '-') {
 											horizontalMoveCounter++;
 											System.out.println("Idzie w prawo");
@@ -2134,8 +2145,8 @@ public class Generator {
 							} 
 						case 3:
 							try {
-//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
-									if (!goLeftBlocked && (/*Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter]) ||*/ lastMove == "left")) {
+//								analogicznie
+									if (!goLeftBlocked && (lastMove == "left")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '-') {
 											horizontalMoveCounter--;
 											System.out.println("Idzie w lewo");
@@ -2166,7 +2177,6 @@ public class Generator {
 											goLeftBlocked = false;
 											continue switcher;
 										}
-//									}
 									continue switcher;
 								}
 							} finally {
@@ -2174,14 +2184,17 @@ public class Generator {
 							} 
 						case 4:
 							try {
+								// jeśli znajdziemy inne 0 to zamieniamy je i to z którego przyszliśmy na te same cyfry
 								if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
 									row[i] = numberCounter;
 									tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
 									System.out.println("Zapisano" + numberCounter);
+									// zwiększmy licznik cyfr o 1
 									numberCounter++;
 									continue gotoHere;
 								}
 							} finally {
+								// jak trzeba zrobić więcej ruchów to wracamy do pętli more
 								continue more;
 							}
 						}
