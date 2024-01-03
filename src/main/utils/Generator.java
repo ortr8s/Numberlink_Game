@@ -7,7 +7,6 @@ import java.util.Random;
 public class Generator {
 
 	static Random random = new Random();
-	Solver solver = new Solver(new Board(0,null));
 
 	static char[][] board5 = new char[5][5];
 	static char[][] board7 = new char[7][7];
@@ -819,7 +818,7 @@ public class Generator {
 	public static void main(String[] args) {
 		Generator generator = new Generator();
 		
-		char[][] generatedBoard = generator.generate(5);
+		char[][] generatedBoard = generator.generate(7);
 
 		for (int j = 0; j < generatedBoard.length; j++) {
 			for (int i = 0; i < generatedBoard.length; i++) {
@@ -1952,11 +1951,15 @@ public class Generator {
 					boolean goDownBlocked = false;
 					boolean goRightBlocked = false;
 					boolean goLeftBlocked = false;
+					String lastMove = null;
 					for (int condition = 0; condition < 5; condition++) {
 						switch (condition) {
 						case 0:
 							try {
 								if (!goUpBlocked && (Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
+									System.out.println("Rozpoczęto w górę");
+									lastMove = "up";
+									goDownBlocked = true;
 									verticalMoveCounter--;
 								}
 							} finally {
@@ -1965,6 +1968,9 @@ public class Generator {
 						case 1:
 							try {
 								if (!goDownBlocked && (Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
+									System.out.println("Rozpoczęto w dół");
+									lastMove = "down";
+									goUpBlocked = true;
 									verticalMoveCounter++;
 								}
 									
@@ -1974,6 +1980,9 @@ public class Generator {
 						case 2:
 							try {
 								if (!goRightBlocked && (Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter]))) {
+									System.out.println("Rozpoczęto w prawo");
+									lastMove = "right";
+									goLeftBlocked = true;
 									horizontalMoveCounter++;
 								}
 							} finally {
@@ -1982,6 +1991,9 @@ public class Generator {
 						case 3:
 							try {
 								if (!goLeftBlocked && (Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter]))) {
+									System.out.println("Rozpoczęto w lewo");
+									lastMove = "left";
+									goRightBlocked = true;
 									horizontalMoveCounter--;
 								}
 							} finally {
@@ -1995,142 +2007,167 @@ public class Generator {
 							}
 						}
 					}
-					
-					for (int cos = 0; cos < 200; cos++) {
+					more:
+					for (int cos = 0; cos < 2000; cos++) {
+					switcher:
 					for (int condition = 0; condition < 5; condition++) {
 						switch (condition) {
 						case 0:
 							try {
-								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
-									if (!goUpBlocked && (Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
+//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goUpBlocked && (/*Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter]) ||*/ lastMove == "up")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '|') {
 											verticalMoveCounter--;
 											System.out.println("Idzie w górę");
+											lastMove = "up";
 											goUpBlocked = false;
 											goDownBlocked = true;
 											goRightBlocked = false;
 											goLeftBlocked = false;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'F') {
 											horizontalMoveCounter++;
 											System.out.println("Idzie w górę i prawo");
+											lastMove = "right";
 											goUpBlocked = false;
-											goDownBlocked = true;
+											goDownBlocked = false;
 											goRightBlocked = false;
-											goLeftBlocked = false;
+											goLeftBlocked = true;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'T') {
 											horizontalMoveCounter--;
 											System.out.println("Idzie w górę i lewo");
+											lastMove = "left";
 											goUpBlocked = false;
-											goDownBlocked = true;
-											goRightBlocked = false;
+											goDownBlocked = false;
+											goRightBlocked = true;
 											goLeftBlocked = false;
+											continue switcher;
 										}
-									}
-									continue;
+//									}
+									continue switcher;
 								} 
 							} finally {
 								continue;
 							}
 						case 1:
 							try {
-								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
-									if (!goDownBlocked && (Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
+//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goDownBlocked && (/*Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter]) ||*/ lastMove == "down")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '|') {
 											verticalMoveCounter++;
 											System.out.println("Idzie w dół");
+											lastMove = "down";
 											goUpBlocked = true;
 											goDownBlocked = false;
 											goRightBlocked = false;
 											goLeftBlocked = false;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'L') {
 											horizontalMoveCounter++;
-											System.out.println("Idzie w dół i lewo");
-											goUpBlocked = true;
+											System.out.println("Idzie w dół i prawo");
+											lastMove = "right";
+											goUpBlocked = false;
 											goDownBlocked = false;
 											goRightBlocked = false;
-											goLeftBlocked = false;
+											goLeftBlocked = true;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'J') {
 											horizontalMoveCounter--;
-											System.out.println("Idzie w dół i prawo");
-											goUpBlocked = true;
+											System.out.println("Idzie w dół i lewo");
+											lastMove = "left";
+											goUpBlocked = false;
 											goDownBlocked = false;
-											goRightBlocked = false;
+											goRightBlocked = true;
 											goLeftBlocked = false;
+											continue switcher;
 										}
-									}
-									continue;
+//									}
+									continue switcher;
 								}
 							} finally {
 								continue;
 							} 
 						case 2:
 							try {
-								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
-									if (!goRightBlocked && (Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter]))) {
+//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goRightBlocked && (/*Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter]) ||*/ lastMove == "right")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '-') {
 											horizontalMoveCounter++;
 											System.out.println("Idzie w prawo");
+											lastMove = "right";
 											goUpBlocked = false;
 											goDownBlocked = false;
 											goRightBlocked = false;
 											goLeftBlocked = true;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'T') {
 											verticalMoveCounter++;
 											System.out.println("Idzie w prawo i w dół");
-											goUpBlocked = false;
+											lastMove = "down";
+											goUpBlocked = true;
 											goDownBlocked = false;
 											goRightBlocked = false;
-											goLeftBlocked = true;
+											goLeftBlocked = false;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'J') {
 											verticalMoveCounter--;
 											System.out.println("Idzie w prawo i w górę");
+											lastMove = "up";
 											goUpBlocked = false;
-											goDownBlocked = false;
+											goDownBlocked = true;
 											goRightBlocked = false;
-											goLeftBlocked = true;
+											goLeftBlocked = false;
+											continue switcher;
 										}
 									}
-									continue;
-								}
+									continue switcher;
+//								}
 							} finally {
 								continue;
 							} 
 						case 3:
 							try {
-								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
-									if (!goLeftBlocked && (Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter]))) {
+//								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goLeftBlocked && (/*Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter]) ||*/ lastMove == "left")) {
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '-') {
 											horizontalMoveCounter--;
 											System.out.println("Idzie w lewo");
+											lastMove = "left";
 											goUpBlocked = false;
 											goDownBlocked = false;
 											goRightBlocked = true;
 											goLeftBlocked = false;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'F') {
 											verticalMoveCounter++;
 											System.out.println("Idzie w lewo i w dół");
-											goUpBlocked = false;
+											lastMove = "down";
+											goUpBlocked = true;
 											goDownBlocked = false;
-											goRightBlocked = true;
+											goRightBlocked = false;
 											goLeftBlocked = false;
+											continue switcher;
 										}
 										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'L') {
 											verticalMoveCounter--;
 											System.out.println("Idzie w lewo i w górę");
+											lastMove = "up";
 											goUpBlocked = false;
-											goDownBlocked = false;
-											goRightBlocked = true;
+											goDownBlocked = true;
+											goRightBlocked = false;
 											goLeftBlocked = false;
+											continue switcher;
 										}
-									}
-									continue;
+//									}
+									continue switcher;
 								}
 							} finally {
 								continue;
@@ -2140,17 +2177,12 @@ public class Generator {
 								if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
 									row[i] = numberCounter;
 									tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
+									System.out.println("Zapisano" + numberCounter);
 									numberCounter++;
 									continue gotoHere;
 								}
 							} finally {
-								if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
-									row[i] = numberCounter;
-									tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
-									numberCounter++;
-									continue gotoHere;
-								}
-								continue;
+								continue more;
 							}
 						}
 					}
