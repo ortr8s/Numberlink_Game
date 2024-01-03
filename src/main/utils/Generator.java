@@ -1948,19 +1948,85 @@ public class Generator {
 				if (row[i] == '0') {
 					int horizontalMoveCounter = 0;
 					int verticalMoveCounter = 0;
-					for (int pathLength = 0; pathLength<20; pathLength++) {
+					boolean goUpBlocked = false;
+					boolean goDownBlocked = false;
+					boolean goRightBlocked = false;
+					boolean goLeftBlocked = false;
 					for (int condition = 0; condition < 5; condition++) {
 						switch (condition) {
 						case 0:
 							try {
-								if (Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter])) {
-									System.out.println("Idzie w górę");
+								if (!goUpBlocked && (Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
 									verticalMoveCounter--;
-									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
-										row[i] = numberCounter;
-										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
-										numberCounter++;
-										continue gotoHere;
+								}
+							} finally {
+								continue;
+							}
+						case 1:
+							try {
+								if (!goDownBlocked && (Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
+									verticalMoveCounter++;
+								}
+									
+							} finally {
+								continue;
+							} 
+						case 2:
+							try {
+								if (!goRightBlocked && (Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter]))) {
+									horizontalMoveCounter++;
+								}
+							} finally {
+								continue;
+							} 
+						case 3:
+							try {
+								if (!goLeftBlocked && (Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter]))) {
+									horizontalMoveCounter--;
+								}
+							} finally {
+								continue;
+							} 
+						case 4:
+							try {
+								
+							} finally {
+								continue;
+							}
+						}
+					}
+					
+					for (int cos = 0; cos < 200; cos++) {
+					for (int condition = 0; condition < 5; condition++) {
+						switch (condition) {
+						case 0:
+							try {
+								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goUpBlocked && (Generator.hasMandatoryBottomConnection(tableToFill[countingTillTheEnd - 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '|') {
+											verticalMoveCounter--;
+											System.out.println("Idzie w górę");
+											goUpBlocked = false;
+											goDownBlocked = true;
+											goRightBlocked = false;
+											goLeftBlocked = false;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'F') {
+											horizontalMoveCounter++;
+											System.out.println("Idzie w górę i prawo");
+											goUpBlocked = false;
+											goDownBlocked = true;
+											goRightBlocked = false;
+											goLeftBlocked = false;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'T') {
+											horizontalMoveCounter--;
+											System.out.println("Idzie w górę i lewo");
+											goUpBlocked = false;
+											goDownBlocked = true;
+											goRightBlocked = false;
+											goLeftBlocked = false;
+										}
 									}
 									continue;
 								} 
@@ -1969,55 +2035,121 @@ public class Generator {
 							}
 						case 1:
 							try {
-								if (Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter])) {
-									System.out.println("Idzie w dół");
-									verticalMoveCounter++;
-									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
-										row[i] = numberCounter;
-										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
-										numberCounter++;
-										continue gotoHere;
+								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goDownBlocked && (Generator.hasMandatoryConnectionUP(tableToFill[countingTillTheEnd + 1 + verticalMoveCounter][i + horizontalMoveCounter]))) {
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '|') {
+											verticalMoveCounter++;
+											System.out.println("Idzie w dół");
+											goUpBlocked = true;
+											goDownBlocked = false;
+											goRightBlocked = false;
+											goLeftBlocked = false;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'L') {
+											horizontalMoveCounter++;
+											System.out.println("Idzie w dół i lewo");
+											goUpBlocked = true;
+											goDownBlocked = false;
+											goRightBlocked = false;
+											goLeftBlocked = false;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'J') {
+											horizontalMoveCounter--;
+											System.out.println("Idzie w dół i prawo");
+											goUpBlocked = true;
+											goDownBlocked = false;
+											goRightBlocked = false;
+											goLeftBlocked = false;
+										}
 									}
 									continue;
-								} 
+								}
 							} finally {
 								continue;
 							} 
 						case 2:
 							try {
-								if (Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter])) {
-									System.out.println("Idzie w prawo");
-									horizontalMoveCounter++;
-									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
-										row[i] = numberCounter;
-										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
-										numberCounter++;
-										continue gotoHere;
+								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goRightBlocked && (Generator.hasMandatoryConnectionLeft(tableToFill[countingTillTheEnd + verticalMoveCounter][i + 1 + horizontalMoveCounter]))) {
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '-') {
+											horizontalMoveCounter++;
+											System.out.println("Idzie w prawo");
+											goUpBlocked = false;
+											goDownBlocked = false;
+											goRightBlocked = false;
+											goLeftBlocked = true;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'T') {
+											verticalMoveCounter++;
+											System.out.println("Idzie w prawo i w dół");
+											goUpBlocked = false;
+											goDownBlocked = false;
+											goRightBlocked = false;
+											goLeftBlocked = true;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'J') {
+											verticalMoveCounter--;
+											System.out.println("Idzie w prawo i w górę");
+											goUpBlocked = false;
+											goDownBlocked = false;
+											goRightBlocked = false;
+											goLeftBlocked = true;
+										}
 									}
 									continue;
-								} 
+								}
 							} finally {
 								continue;
 							} 
 						case 3:
 							try {
-								if (Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter])) {
-									System.out.println("Idzie w lewo");
-									horizontalMoveCounter--;
-									if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
-										row[i] = numberCounter;
-										tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
-										numberCounter++;
-										continue gotoHere;
+								for (int maxPathLength = 0; maxPathLength < 20; maxPathLength++) {
+									if (!goLeftBlocked && (Generator.hasMandatoryConnectionRight(tableToFill[countingTillTheEnd + verticalMoveCounter][i - 1 + horizontalMoveCounter]))) {
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '-') {
+											horizontalMoveCounter--;
+											System.out.println("Idzie w lewo");
+											goUpBlocked = false;
+											goDownBlocked = false;
+											goRightBlocked = true;
+											goLeftBlocked = false;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'F') {
+											verticalMoveCounter++;
+											System.out.println("Idzie w lewo i w dół");
+											goUpBlocked = false;
+											goDownBlocked = false;
+											goRightBlocked = true;
+											goLeftBlocked = false;
+										}
+										if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == 'L') {
+											verticalMoveCounter--;
+											System.out.println("Idzie w lewo i w górę");
+											goUpBlocked = false;
+											goDownBlocked = false;
+											goRightBlocked = true;
+											goLeftBlocked = false;
+										}
 									}
 									continue;
-								} 
+								}
 							} finally {
 								continue;
 							} 
 						case 4:
 							try {
+								if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
+									row[i] = numberCounter;
+									tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
+									numberCounter++;
+									continue gotoHere;
+								}
 							} finally {
+								if (tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] == '0') {
+									row[i] = numberCounter;
+									tableToFill[countingTillTheEnd + verticalMoveCounter][i + horizontalMoveCounter] = numberCounter;
+									numberCounter++;
+									continue gotoHere;
+								}
 								continue;
 							}
 						}
