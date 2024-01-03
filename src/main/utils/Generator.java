@@ -8,9 +8,9 @@ public class Generator {
 
 	static Random random = new Random();
 
-	static char[][] board5 = new char[5][5];
-	static char[][] board7 = new char[7][7];
-	static char[][] board9 = new char[9][9];
+//	Usage:
+//	char[][] generatedBoard = Generator.fillWithNumbers(Generator.generate(x));
+//	where x is board dimension
 
 	// Zestawy możliwych charów w tablicy oraz co może być po czym
 
@@ -26,6 +26,19 @@ public class Generator {
 	// Dla L ścieżka idzie z północy na wschód
 	// Dla J ścieżka idzie z zachodu na północ
 	static final char[] availableCharsCurves = { 'F', 'T', 'L', 'J' };
+	
+	// Słowa kluczowe w nazwach tablic
+	// availableChars - bazowe
+	// adjusted - z dostosowaną częstością występowania
+	// ConnectingUP - wstawiany znak ma połączenie z górą
+	// TypeT - typ T połączenia w górę (podział służy uniknięciu ścieżek w krztałcie litery C
+	// TypeF - typ F połączenia w górę
+	// NotConnectingUP - nie ma połączenia w górę
+	// 1st - w pierwszym wierszu
+	// Last - w ostatnim wierszu
+	// StartRow - na początku wiersza
+	// EndRow - na koniec wiersza
+	// AfterX - po znaku x który jest sąsiadem z lewej strony
 
 	// Co można wstawić na początek wiersza?
 	static final char[] availableCharsStartRow = { '|', '|', '0', 'F', 'L' };
@@ -1753,17 +1766,17 @@ public class Generator {
 			System.out.println("Wygenerowano planszę o wielkości " + size);
 			break;
 
-		case 9:
-			do {
-				for (char[] row : board9) {
-					for (int i = 0; i < row.length; i++) {
-						// TODO
-						row[i] = '?';
-					}
-				}
-			} while (!isClassic(board7));
-			System.out.println("Wygenerowano planszę o wielkości 9");
-			break;
+//		case 9:
+//			do {
+//				for (char[] row : board9) {
+//					for (int i = 0; i < row.length; i++) {
+//						// TODO
+//						row[i] = '?';
+//					}
+//				}
+//			} while (!isClassic(board7));
+//			System.out.println("Wygenerowano planszę o wielkości 9");
+//			break;
 
 		default:
 			System.out.println("Wprowadzono niepoprawną wielkość planszy");
@@ -1868,7 +1881,7 @@ public class Generator {
 					// Jeśli przy sprawdzaniu kolejnego warunku okaże się, że zmienna occupied to już true to plansza jest do kasacji według zasad klasycznych
 					// Jeśli na koniec czyli w condition4 okaże się, że nie znaleziono wcześniej żadnej ścieżki (occupied = false) to mamy odizolowaną cyfrę i plansza jest do kasacji według zasad klasycznych
 					for (int condition = 0; condition < 5; condition++) {
-						System.out.println("It's going REALLY FAST and it KEEPS GOING...");
+						System.out.println("It's going REALLY FAST...");
 						switch (condition) {
 						case 0:
 //							System.out.println("Robi sie 0");
@@ -1937,7 +1950,7 @@ public class Generator {
 	}
 	
 	@SuppressWarnings("finally")
-	static char[][] fillWithNumbers(char[][] tableToFill) {
+	public static char[][] fillWithNumbers(char[][] tableToFill) {
 		// licznik do foreach
 		int countingTillTheEnd = 0;
 		// char 49 to 1
