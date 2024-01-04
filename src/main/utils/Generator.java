@@ -9,7 +9,8 @@ public class Generator {
 	static Random random = new Random();
 
 //	Usage:
-//	char[][] generatedBoard = Generator.fillWithNumbers(Generator.generate(x));
+//	Generator generator = new Generator();
+//	char[][] generatedBoard = generator.fillWithNumbers(generator.generate(x));
 //	where x is board dimension
 
 	// Zestawy możliwych charów w tablicy oraz co może być po czym
@@ -853,7 +854,7 @@ public class Generator {
 		}
 	}
 
-	char[][] generate(int size) {
+	public char[][] generate(int size) {
 		char[][] board = null;
 		switch (size) {
 
