@@ -1,6 +1,7 @@
 package main.gamelogic;
 
 import main.utils.CSVReader;
+import main.utils.InvalidBoardSizeException;
 
 import java.io.IOException;
 import java.util.*;
@@ -11,7 +12,7 @@ public class Board {
     ArrayList<Unit> pairs;
     public Board(int size, int[][] numbers){
         this.size = size;
-        this.board = new Unit[size][size];;
+        this.board = new Unit[size][size];
         pairs = new ArrayList<>();
 
         for( int i = 0; i < size; i++){
@@ -50,12 +51,15 @@ public class Board {
     //TODO add uneven numbers exception
     public static void main(String[] args) {
         try {
-            CSVReader test = new CSVReader("resources/test_5x5.csv",",");
-            Board myboard = new Board(5,test.read());
+            CSVReader test = new CSVReader(",");
+            Board myboard = new Board(5,test.read(5));
             System.out.println(myboard);
             System.out.println(myboard.extractPairs().get(0)[0]);
         } catch (IOException e){
             System.out.println("Nie znaleziono pliku");
+        } catch (InvalidBoardSizeException e) {
+            System.out.println("Wprowadzono niepoprawny rozmiar mapy");
+            e.printStackTrace();
         }
     }
 }
