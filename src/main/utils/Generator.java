@@ -833,7 +833,7 @@ public class Generator {
 	public static void main(String[] args) {
 		Generator generator = new Generator();
 		
-		char[][] generatedBoard = generator.generate(5);
+		char[][] generatedBoard = generator.generate(9);
 
 		for (int j = 0; j < generatedBoard.length; j++) {
 			for (int i = 0; i < generatedBoard.length; i++) {
@@ -1309,8 +1309,7 @@ public class Generator {
 //			System.out.println("Wygenerowano planszę o wielkości " + size);
 			break;
 
-		case 6: 
-			board = new char[6][6];
+		
 			
 		case 7:
 			if (board == null) {
@@ -1320,6 +1319,11 @@ public class Generator {
 		case 8:
 			if (board == null) {
 				board = new char[8][8];
+			}
+			
+		case 9:
+			if (board == null) {
+				board = new char[9][9];
 			}
 			
 			do {
@@ -1766,18 +1770,6 @@ public class Generator {
 			System.out.println("Wygenerowano planszę o wielkości " + size);
 			break;
 
-//		case 9:
-//			do {
-//				for (char[] row : board9) {
-//					for (int i = 0; i < row.length; i++) {
-//						// TODO
-//						row[i] = '?';
-//					}
-//				}
-//			} while (!isClassic(board7));
-//			System.out.println("Wygenerowano planszę o wielkości 9");
-//			break;
-
 		default:
 			System.out.println("Wprowadzono niepoprawną wielkość planszy");
 		}
@@ -1881,7 +1873,7 @@ public class Generator {
 					// Jeśli przy sprawdzaniu kolejnego warunku okaże się, że zmienna occupied to już true to plansza jest do kasacji według zasad klasycznych
 					// Jeśli na koniec czyli w condition4 okaże się, że nie znaleziono wcześniej żadnej ścieżki (occupied = false) to mamy odizolowaną cyfrę i plansza jest do kasacji według zasad klasycznych
 					for (int condition = 0; condition < 5; condition++) {
-						System.out.println("It's going REALLY FAST...");
+//						System.out.println("It's going REALLY FAST...");
 						switch (condition) {
 						case 0:
 //							System.out.println("Robi sie 0");
