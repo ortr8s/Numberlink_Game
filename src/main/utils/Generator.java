@@ -1309,7 +1309,10 @@ public class Generator {
 //			System.out.println("Wygenerowano planszę o wielkości " + size);
 			break;
 
-		
+		case 6:
+			if (board == null) {
+				board = new char[6][6];
+			}
 			
 		case 7:
 			if (board == null) {
