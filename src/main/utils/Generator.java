@@ -854,7 +854,7 @@ public class Generator {
 		}
 	}
 
-	char[][] generate(int size) {
+	public char[][] generate(int size) {
 		char[][] board = null;
 		switch (size) {
 
