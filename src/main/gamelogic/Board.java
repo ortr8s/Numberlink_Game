@@ -1,9 +1,7 @@
 package main.gamelogic;
 
-import main.utils.CSVReader;
-import main.utils.InvalidBoardSizeException;
+import main.utils.Generator;
 
-import java.io.IOException;
 import java.util.*;
 
 public class Board {
@@ -14,7 +12,11 @@ public class Board {
         this.size = size;
         this.board = new Unit[size][size];
         pairs = new ArrayList<>();
+        convertToUnitBoard(numbers);
 
+    }
+
+    private void convertToUnitBoard(int[][] numbers){
         for( int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
                 Unit current = new Unit(i,j,numbers[i][j]);
@@ -24,17 +26,27 @@ public class Board {
                 }
             }
         }
-
     }
-    private ArrayList<Unit[]> extractPairs() {
-        ArrayList<Unit[]> finalPairs = new ArrayList<>();
+    static int[][] convertGeneratedBoard(char[][] a, int size){
+        int[][] numbers= new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++){
+                int c = a[i][j] - 48;
+                numbers[i][j] = (c<0 || c > 21) ? 0: c;
+            }
+        }
+        return numbers;
+    }
+    public ArrayList<Pair> extractPairs() {
+        ArrayList<Pair> finalPairs = new ArrayList<>();
         //sorts Units with numbers other than 0
         Collections.sort(pairs, Comparator.comparingInt(Unit::getValue));
         for (int i = 0; i < pairs.size()-1; i+=2) {
-            finalPairs.add(new Unit[]{pairs.get(i), pairs.get(i + 1)});
+            finalPairs.add(new Pair(pairs.get(i), pairs.get(i+1)));
         }
         return finalPairs;
     }
+
     public Unit[][] getBoard() {
         return board;
     }
@@ -50,16 +62,17 @@ public class Board {
     }
     //TODO add uneven numbers exception
     public static void main(String[] args) {
-        try {
-            CSVReader test = new CSVReader(",");
-            Board myboard = new Board(5,test.read(5));
-            System.out.println(myboard);
-            System.out.println(myboard.extractPairs().get(0)[0]);
-        } catch (IOException e){
-            System.out.println("Nie znaleziono pliku");
-        } catch (InvalidBoardSizeException e) {
-            System.out.println("Wprowadzono niepoprawny rozmiar mapy");
-            e.printStackTrace();
+        Generator generator = new Generator();
+        char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(7));
+        int [][] a = convertGeneratedBoard(generatedBoard,7);
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length;j++){
+                System.out.print(a[i][j] + " ");
+            }
+            System.out.println();
         }
+        Board board1 = new Board(9,a);
+        System.out.println(board1);
+
     }
 }

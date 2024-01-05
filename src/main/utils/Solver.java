@@ -1,130 +1,116 @@
 package main.utils;
 
 import main.gamelogic.Board;
+import main.gamelogic.Pair;
 import main.gamelogic.Path;
 import main.gamelogic.Unit;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Solver {
+	final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // up, down, right, left
 	private Unit[][] board;
 	private Path path;
+	private ArrayList<Pair> pairs;
 	private int size;
+	private int[][] checked;
+	int pairIndex;
+	private boolean stop;
 	public Solver(Board board){
 		this.board = board.getBoard();
 		this.size = board.getSize();
+		this.pairs = board.extractPairs();
+		this.checked = new int[size][size];
+		this.stop = false;
+		this.pairIndex = 0;
 	}
-	//test manhattan distance
-	private double calculateHeuristics(Unit current, Unit finish){
-		double fScore = Math.abs(current.getX() - finish.getX()) + Math.abs(current.getY() - finish.getY());
-		current.setF(fScore);
-		return fScore;
-	}
-	private List<Unit> getNeighbors(Unit current){
-		List<Unit> neighbors = new ArrayList<>();
-		int x = current.getX();
-		int y = current.getY();
-		Unit parent = current.getParent();
-		//up
-		if(isValidMove(x+1,y)){
-			neighbors.add(board[x+1][y]);
-		}
-		//down
-		if(isValidMove(x-1,y)){
-			neighbors.add(board[x-1][y]);
-		}
-		//right
-		if (isValidMove(x,y+1)){
-			neighbors.add(board[x][y+1]);
-		}
-		//left
-		if (isValidMove(x,y-1)){
-			neighbors.add(board[x][y-1]);
+	private List<Unit> getNeighbors(int x, int y, ArrayList neighbours){
+		neighbours.clear();
+		for (int[] dir : directions) {
+			int newX = x + dir[0];
+			int newY = y + dir[1];
+			if (isValidMove(newX, newY)) {
+				neighbours.add(board[newX][newY]);
+			}
 		}
 
-		return neighbors;
+		return neighbours;
 
 	}
 
 	private boolean isValidMove(int x, int y){
-		if (x < 0 || y < 0 || x >= size || y >= size) {
-			return false;
-		}
+		return x >= 0 && y >= 0 && x < size && y < size ;
 
-		// Check if the cell is already part of the path
-		if (board[x][y].getValue() != 0) {
-			return false;
-		}
-
-		// Check for 2x2 square constraint
-		// Only check the 2x2 square where the current move is the top-left corner
-		if ((x + 1 < size && y + 1 < size &&
-				board[x][y].getValue() != 0 &&
-				board[x][y+1].getValue() != 0 &&
-				board[x+1][y].getValue() != 0 &&
-				board[x+1][y+1].getValue() != 0) ||
-				// Check the 2x2 square where the current move is the bottom-right corner
-				(x - 1 >= 0 && y - 1 >= 0 &&
-						board[x][y].getValue() != 0 &&
-						board[x][y-1].getValue() != 0 &&
-						board[x-1][y].getValue() != 0 &&
-						board[x-1][y-1].getValue() != 0)) {
-			return false;
-		}
-
-		return true;
 	}
 
 	public boolean solve(){
-		//priority queue based on the heuristic value f
-		PriorityQueue<Unit> priorityQueue = new PriorityQueue<>(Comparator.comparingDouble(Unit::getF));
-		HashSet<Unit> closedSet = new HashSet<>();
+		Unit first = pairs.get(pairIndex).getFirst();
+		int x = first.getX();
+		int y = first.getY();
+		int val = first.getValue();
+		DFS(x,y,val);
+		return true;
+	}
 
-		Unit startUnit = new Unit(0,0,1);
-		Unit goalUnit = new Unit(2,4,1);
-		startUnit.setG(0);
-		startUnit.setH(calculateHeuristics(startUnit, goalUnit));
-		startUnit.setF(startUnit.getG() + startUnit.getH());
-		priorityQueue.add(startUnit);
+	private void DFS(int x, int y, int val){
+		if (stop) return;
 
-		while (!priorityQueue.isEmpty()) {
-			Unit current = priorityQueue.poll();
+		checked[x][y] = val;
+		ArrayList<Unit> neighbours = new ArrayList<>();
+		getNeighbors(x,y, neighbours);
+		for (Unit currentNeighbour: neighbours) {
 
-			if (current.getValue() == goalUnit.getValue()) {
-				//return reconstructPath(current);
-			}
+			int nextX = currentNeighbour.getX();
+			int nextY = currentNeighbour.getY();
+			int nextVal = currentNeighbour.getValue();
+			if (checked[nextX][nextY] == 0) {
+				if (nextVal == val) {
+					pairIndex++;
+					checked[nextX][nextY] = val;
+					if (pairIndex == pairs.size()) {
+						print();
+						stop = true;
+						return;
+					}
+					Unit currentBegin = pairs.get(pairIndex).getFirst();
+					int curx = currentBegin.getX();
+					int cury = currentBegin.getY();
+					int newval = currentBegin.getValue();
+					if (checked[curx][cury] == 0) {
+						checked[curx][cury] = newval;
+						DFS(curx, cury, newval);
+					}
+					pairIndex--;
+					checked[nextX][nextY] = 0;
 
-			closedSet.add(current);
-
-			for (Unit neighbor : getNeighbors(current)) {
-				if (closedSet.contains(neighbor)) {
-					continue;
-				}
-
-				double tentativeG = current.getG() + calculateHeuristics(current, neighbor);
-
-				if (!priorityQueue.contains(neighbor) || tentativeG < neighbor.getG()) {
-					neighbor.setG(tentativeG);
-					neighbor.setH(calculateHeuristics(neighbor, goalUnit));
-					neighbor.setF(neighbor.getG() + neighbor.getH());
-					neighbor.setParent(current);
-
-					if (!priorityQueue.contains(neighbor)) {
-						priorityQueue.add(neighbor);
+				} else {
+					if (nextVal == 0) {
+						DFS(nextX, nextY, val);
 					}
 				}
 			}
 		}
-		return false;
+		checked[x][y] = 0;
 	}
-	
+
+	private void print(){
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++){
+				System.out.print(checked[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
 	//TODO delete
 	public Unit[][] getBoard() {
 		return board;
 	}
-	public static void main(String[] args) {
-		Solver solver = new Solver(new Board(5,
-				new int[][]{{1,0,0,0,0},{3,3,0,3,0},{0,3,0,0,0},{0,1,0,2,0},{0,2,0,0,0}}));
-		System.out.println(solver.getNeighbors(solver.getBoard()[2][1]));
+	public static void main(String[] args) throws IOException, InvalidBoardSizeException {
+		CSVReader reader = new CSVReader(",");
+		int [][] data = reader.read(5);
+		Board board1 = new Board(5,data);
+		Solver solver = new Solver(board1);
+		solver.solve();
 	}
 }
