@@ -29,4 +29,7 @@ public class Label {
     public String toString() {
         return getNodeNumber();
     }
+    public Path createNewPath(){
+        return new Path(this);
+    }
 }
