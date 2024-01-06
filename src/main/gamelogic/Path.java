@@ -29,7 +29,6 @@ public class Path {
             units.add(unit);
         }
     }
-
     public Unit getLastAdded() {
         return units.get(units.size() - 1);
     }

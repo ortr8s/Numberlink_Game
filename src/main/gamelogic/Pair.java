@@ -12,7 +12,6 @@ public class Pair{
         this.last = end;
         this.distance = calculateDistance();
     }
-
     public Unit getFirst() {
         return first;
     }

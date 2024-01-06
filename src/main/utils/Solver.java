@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Solver {
-	final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // up, down, right, left
+	private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // up, down, right, left
 	private Unit[][] board;
 	private Path path;
 	private ArrayList<Pair> pairs;
@@ -26,7 +26,9 @@ public class Solver {
 		this.stop = false;
 		this.pairIndex = 0;
 	}
-
+	public int[][] getChecked() {
+		return checked;
+	}
 	private void sortPairsByDistance() {
 		Collections.sort(pairs, Comparator.comparingInt(Pair::getDistance));
 	}
@@ -39,9 +41,7 @@ public class Solver {
 				neighbours.add(board[newX][newY]);
 			}
 		}
-
 		return neighbours;
-
 	}
 
 	private boolean isValidMove(int x, int y){
@@ -127,8 +127,8 @@ public class Solver {
 	}
 	public static void main(String[] args) throws IOException, InvalidBoardSizeException {
 		CSVReader reader = new CSVReader(",");
-		int [][] a = reader.read(8);
-		Board board1 = new Board(8,a);
+		int [][] a = reader.read(5);
+		Board board1 = new Board(5,a);
 		Solver solver = new Solver(board1);
 		solver.solve();
 	}

@@ -46,7 +46,6 @@ public class Board {
         }
         return finalPairs;
     }
-
     public Unit[][] getBoard() {
         return board;
     }
@@ -63,15 +62,15 @@ public class Board {
     //TODO add uneven numbers exception
     public static void main(String[] args) {
         Generator generator = new Generator();
-        char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(7));
-        int [][] a = convertGeneratedBoard(generatedBoard,7);
+        char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(8));
+        int [][] a = convertGeneratedBoard(generatedBoard,8);
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a.length;j++){
                 System.out.print(a[i][j] + " ");
             }
             System.out.println();
         }
-        Board board1 = new Board(9,a);
+        Board board1 = new Board(8,a);
         System.out.println(board1);
 
     }
