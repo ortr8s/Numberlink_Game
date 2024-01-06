@@ -16,6 +16,7 @@ public class Solver {
 	private int size;
 	private int[][] checked;
 	int pairIndex;
+	long startTime;
 	private boolean stop;
 	public Solver(Board board){
 		this.board = board.getBoard();
@@ -24,6 +25,10 @@ public class Solver {
 		this.checked = new int[size][size];
 		this.stop = false;
 		this.pairIndex = 0;
+	}
+
+	private void sortPairsByDistance() {
+		Collections.sort(pairs, Comparator.comparingInt(Pair::getDistance));
 	}
 	private List<Unit> getNeighbors(int x, int y, ArrayList neighbours){
 		neighbours.clear();
@@ -45,6 +50,10 @@ public class Solver {
 	}
 
 	public boolean solve(){
+		this.startTime = System.nanoTime();
+		System.out.println("Solving!");
+		sortPairsByDistance();
+		System.out.println(pairs);
 		Unit first = pairs.get(pairIndex).getFirst();
 		int x = first.getX();
 		int y = first.getY();
@@ -70,6 +79,7 @@ public class Solver {
 					checked[nextX][nextY] = val;
 					if (pairIndex == pairs.size()) {
 						print();
+						System.out.println("Total time = " + (double)(System.nanoTime() - startTime)/777600000);
 						stop = true;
 						return;
 					}
@@ -93,7 +103,16 @@ public class Solver {
 		}
 		checked[x][y] = 0;
 	}
-
+	static int[][] convertGeneratedBoard(char[][] a, int size){
+		int[][] numbers= new int[size][size];
+		for (int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++){
+				int c = a[i][j] - 48;
+				numbers[i][j] = (c<0 || c > 21) ? 0: c;
+			}
+		}
+		return numbers;
+	}
 	private void print(){
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++){
@@ -108,8 +127,8 @@ public class Solver {
 	}
 	public static void main(String[] args) throws IOException, InvalidBoardSizeException {
 		CSVReader reader = new CSVReader(",");
-		int [][] data = reader.read(5);
-		Board board1 = new Board(5,data);
+		int [][] a = reader.read(8);
+		Board board1 = new Board(8,a);
 		Solver solver = new Solver(board1);
 		solver.solve();
 	}
