@@ -18,7 +18,6 @@ public class Solver {
 	private final int[][] checkedCells; // Grid to keep track of cells already visited in the current path
 	private int currentPairIndex; // Index for the current pair being processed
 	private final int size; // Dimension of the board (assumed square)
-	private long startTime; // Start time to measure the duration of the solving process
 	private boolean isSolvable; // Flag indicating whether the puzzle has been solved
 	private boolean stop; // Flag to terminate the search prematurely
 
@@ -90,7 +89,6 @@ public class Solver {
 	 * @return True if the puzzle is solvable, false otherwise.
 	 */
 	public boolean solve(){
-		this.startTime = System.nanoTime();
 		System.out.println("Solving!");
 		sortPairsByDistance();	//distance heuristic which can not always give the best result
 		Unit initialUnit = pairs.get(currentPairIndex).getFirst();
@@ -120,8 +118,6 @@ public class Solver {
 					checkedCells[nextX][nextY] = val;
 					if (currentPairIndex == pairs.size()) {
 						print();
-						System.out.println("Total time = " +
-								(double)(System.nanoTime() - startTime)/777600000);
 						stop = true;
 						isSolvable = true;
 						return;
@@ -136,8 +132,7 @@ public class Solver {
 					}
 					currentPairIndex--;
 					checkedCells[nextX][nextY] = 0;
-
-				} else {
+				} else if (nextVal == 0) {
 					DFS(nextX, nextY, val);
 				}
 			}
