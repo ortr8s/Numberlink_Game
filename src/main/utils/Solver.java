@@ -16,6 +16,7 @@ public class Solver {
 	private final Unit[][] board; // Grid representing the board
 	private final List<Pair> pairs; // List of pairs (numbered cells) to be connected
 	private final int[][] checkedCells; // Grid to keep track of cells already visited in the current path
+	private int[][] solution;
 	private int currentPairIndex; // Index for the current pair being processed
 	private final int size; // Dimension of the board (assumed square)
 	private boolean isSolvable; // Flag indicating whether the puzzle has been solved
@@ -31,6 +32,7 @@ public class Solver {
 		this.size = board.getSize();
 		this.pairs = board.extractPairs();
 		this.checkedCells = new int[size][size];
+		this.solution = new int[size][size];
 		this.stop = false;
 		this.isSolvable = false;
 		this.currentPairIndex = 0;
@@ -41,8 +43,8 @@ public class Solver {
 	 *
 	 * @return 2D array of solved board.
 	 */
-	public int[][] getChecked() {
-		return checkedCells;
+	public int[][] getSolution() {
+		return solution;
 	}
 
 	/**
@@ -137,13 +139,14 @@ public class Solver {
 				}
 			}
 		}
-		checkedCells[x][y] = 0;
+		this.checkedCells[x][y] = 0;
 	}
 
 	/**
 	 * Prints the solved board.
 	 */
 	private void print(){
+		copyToSolution();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++){
 				System.out.print(checkedCells[i][j] + " ");
@@ -151,4 +154,10 @@ public class Solver {
 			System.out.println();
 		}
 	}
+	private void copyToSolution() {
+		for (int i = 0; i < size; i++) {
+			System.arraycopy(checkedCells[i], 0, this.solution[i], 0, size);
+		}
+	}
+
 }

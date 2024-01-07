@@ -1,4 +1,4 @@
-package main.utils;
+package tests.main.utils;
 
 import main.gamelogic.Board;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
-
+import main.utils.Solver;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -42,7 +42,8 @@ public class SolverTest {
         Solver solver = new Solver(board1);
         int[][] expected = new int[][]{{1,2,2,5,5},{1,2,3,5,4},{1,2,3,5,4},{1,2,3,5,4},{1,1,3,4,4}};
         solver.solve();
-        assertArrayEquals(expected, solver.getChecked());
+        System.out.println(Arrays.deepToString(solver.getSolution()));
+        assertArrayEquals(expected, solver.getSolution());
 
 
     }
