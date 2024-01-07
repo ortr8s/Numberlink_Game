@@ -834,7 +834,7 @@ public class Generator {
 	public static void main(String[] args) {
 		Generator generator = new Generator();
 		
-		char[][] generatedBoard = generator.generate(5);
+		char[][] generatedBoard = generator.generatePaths(5);
 
 		for (int j = 0; j < generatedBoard.length; j++) {
 			for (int i = 0; i < generatedBoard.length; i++) {
@@ -854,7 +854,7 @@ public class Generator {
 		}
 	}
 
-	public char[][] generate(int size) {
+	public char[][] generatePaths(int size) {
 		char[][] board = null;
 		switch (size) {
 
