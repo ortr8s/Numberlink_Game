@@ -2,39 +2,68 @@ package main.utils;
 
 import main.gamelogic.Board;
 import main.gamelogic.Pair;
-import main.gamelogic.Path;
 import main.gamelogic.Unit;
 
-import java.io.IOException;
 import java.util.*;
 
+/**
+ * Solver class to solve a Numberlink puzzle with a given board.
+ * This class utilizes depth-first search (DFS) algorithm with backtracking to find solutions.
+ */
 public class Solver {
-	private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // up, down, right, left
-	private Unit[][] board;
-	private Path path;
-	private ArrayList<Pair> pairs;
-	private int size;
-	private int[][] checked;
-	int pairIndex;
-	long startTime;
-	private boolean stop;
+	private static final int[][] MOVE_DIRECTIONS =
+			{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // Movement directions: up, down, right, left
+	private final Unit[][] board; // Grid representing the board
+	private final List<Pair> pairs; // List of pairs (numbered cells) to be connected
+	private final int[][] checkedCells; // Grid to keep track of cells already visited in the current path
+	private int currentPairIndex; // Index for the current pair being processed
+	private final int size; // Dimension of the board (assumed square)
+	private long startTime; // Start time to measure the duration of the solving process
+	private boolean isSolvable; // Flag indicating whether the puzzle has been solved
+	private boolean stop; // Flag to terminate the search prematurely
+
+	/**
+	 * Constructor to initialize the Solver with a specific board.
+	 *
+	 * @param board The Board object representing the Numberlink puzzle.
+	 */
 	public Solver(Board board){
 		this.board = board.getBoard();
 		this.size = board.getSize();
 		this.pairs = board.extractPairs();
-		this.checked = new int[size][size];
+		this.checkedCells = new int[size][size];
 		this.stop = false;
-		this.pairIndex = 0;
+		this.isSolvable = false;
+		this.currentPairIndex = 0;
 	}
+
+	/**
+	 * Gets the array representing solved board.
+	 *
+	 * @return 2D array of solved board.
+	 */
 	public int[][] getChecked() {
-		return checked;
+		return checkedCells;
 	}
+
+	/**
+	 * Sorts pairs ascending by their manhattan distance.
+	 * Heuristic used to start connecting pairs that are closet to each other.
+	 */
 	private void sortPairsByDistance() {
-		Collections.sort(pairs, Comparator.comparingInt(Pair::getDistance));
+		pairs.sort(Comparator.comparingInt(Pair::getDistance));
 	}
-	private List<Unit> getNeighbors(int x, int y, ArrayList neighbours){
-		neighbours.clear();
-		for (int[] dir : directions) {
+
+	/**
+	 * Retrieves neighboring units for the given coordinates.
+	 *
+	 * @param x X-coordinate on the board.
+	 * @param y Y-coordinate on the board.
+	 * @return List of neighboring units.
+	 */
+	private ArrayList<Unit> getNeighbors(int x, int y){
+		ArrayList<Unit> neighbours = new ArrayList<>();
+		for (int[] dir : MOVE_DIRECTIONS) {
 			int newX = x + dir[0];
 			int newY = y + dir[1];
 			if (isValidMove(newX, newY)) {
@@ -44,92 +73,87 @@ public class Solver {
 		return neighbours;
 	}
 
+	/**
+	 * Checks if the given move is valid within the board.
+	 *
+	 * @param x X-coordinate of the move.
+	 * @param y Y-coordinate of the move.
+	 * @return True if the move is valid, false otherwise.
+	 */
 	private boolean isValidMove(int x, int y){
-		return x >= 0 && y >= 0 && x < size && y < size ;
-
+		return x >= 0 && y >= 0 && x < size && y < size;
 	}
 
+	/**
+	 * Initializes the solving algorithm.
+	 *
+	 * @return True if the puzzle is solvable, false otherwise.
+	 */
 	public boolean solve(){
 		this.startTime = System.nanoTime();
 		System.out.println("Solving!");
-		sortPairsByDistance();
-		System.out.println(pairs);
-		Unit first = pairs.get(pairIndex).getFirst();
-		int x = first.getX();
-		int y = first.getY();
-		int val = first.getValue();
-		DFS(x,y,val);
-		return true;
+		sortPairsByDistance();	//distance heuristic which can not always give the best result
+		Unit initialUnit = pairs.get(currentPairIndex).getFirst();
+		DFS(initialUnit.getX(), initialUnit.getY(), initialUnit.getValue());
+		return isSolvable;
 	}
 
+	/**
+	 * Performs a depth-first search (DFS) to find a solution.
+	 *
+	 * @param x   X-coordinate to start the search from.
+	 * @param y   Y-coordinate to start the search from.
+	 * @param val Value of a current Unit.
+	 */
 	private void DFS(int x, int y, int val){
 		if (stop) return;
 
-		checked[x][y] = val;
-		ArrayList<Unit> neighbours = new ArrayList<>();
-		getNeighbors(x,y, neighbours);
+		checkedCells[x][y] = val;
+		ArrayList<Unit> neighbours = getNeighbors(x,y);
 		for (Unit currentNeighbour: neighbours) {
-
 			int nextX = currentNeighbour.getX();
 			int nextY = currentNeighbour.getY();
 			int nextVal = currentNeighbour.getValue();
-			if (checked[nextX][nextY] == 0) {
+			if (checkedCells[nextX][nextY] == 0) {
 				if (nextVal == val) {
-					pairIndex++;
-					checked[nextX][nextY] = val;
-					if (pairIndex == pairs.size()) {
+					currentPairIndex++;
+					checkedCells[nextX][nextY] = val;
+					if (currentPairIndex == pairs.size()) {
 						print();
-						System.out.println("Total time = " + (double)(System.nanoTime() - startTime)/777600000);
+						System.out.println("Total time = " +
+								(double)(System.nanoTime() - startTime)/777600000);
 						stop = true;
+						isSolvable = true;
 						return;
 					}
-					Unit currentBegin = pairs.get(pairIndex).getFirst();
-					int curx = currentBegin.getX();
-					int cury = currentBegin.getY();
-					int newval = currentBegin.getValue();
-					if (checked[curx][cury] == 0) {
-						checked[curx][cury] = newval;
-						DFS(curx, cury, newval);
+					Unit newFirstUnit = pairs.get(currentPairIndex).getFirst();
+					int newX = newFirstUnit.getX();
+					int newY = newFirstUnit.getY();
+					int newVal = newFirstUnit.getValue();
+					if (checkedCells[newX][newY] == 0) {
+						checkedCells[newX][newY] = newVal;
+						DFS(newX, newY, newVal);
 					}
-					pairIndex--;
-					checked[nextX][nextY] = 0;
+					currentPairIndex--;
+					checkedCells[nextX][nextY] = 0;
 
 				} else {
-					if (nextVal == 0) {
-						DFS(nextX, nextY, val);
-					}
+					DFS(nextX, nextY, val);
 				}
 			}
 		}
-		checked[x][y] = 0;
+		checkedCells[x][y] = 0;
 	}
-	static int[][] convertGeneratedBoard(char[][] a, int size){
-		int[][] numbers= new int[size][size];
-		for (int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++){
-				int c = a[i][j] - 48;
-				numbers[i][j] = (c<0 || c > 21) ? 0: c;
-			}
-		}
-		return numbers;
-	}
+
+	/**
+	 * Prints the solved board.
+	 */
 	private void print(){
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++){
-				System.out.print(checked[i][j] + " ");
+				System.out.print(checkedCells[i][j] + " ");
 			}
 			System.out.println();
 		}
-	}
-	//TODO delete
-	public Unit[][] getBoard() {
-		return board;
-	}
-	public static void main(String[] args) throws IOException, InvalidBoardSizeException {
-		CSVReader reader = new CSVReader(",");
-		int [][] a = reader.read(5);
-		Board board1 = new Board(5,a);
-		Solver solver = new Solver(board1);
-		solver.solve();
 	}
 }
