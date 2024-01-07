@@ -1319,6 +1319,450 @@ public class Generator {
 			if (board == null) {
 				board = new char[7][7];
 			}
+			do {
+				// Pierwszy wiersz wymaga osobnego rozpatrywania
+				boolean is1stRowDone = false;
+				// countingTillTheEnd odlicza w praktyce wykonania pętli foreach
+				int countingTillTheEnd = 0;
+
+				for (char[] row : board) {
+
+					if (!is1stRowDone) {
+						// Na każde pole w pierwszym wierszu bieżemy znak z właściwej tablicy
+						row[0] = adjustedAvailableChars1stStartRow[random.nextInt(adjustedAvailableChars1stStartRow.length)];
+
+						for (int i = 1; i < row.length - 1; i++) {
+
+							switch (row[i - 1]) {
+							case '-':
+								row[i] = adjustedAvailableChars1stAfterMinus[random
+										.nextInt(adjustedAvailableChars1stAfterMinus.length)];
+								break;
+							case '|':
+								row[i] = adjustedAvailableChars1stAfterPipe[random.nextInt(adjustedAvailableChars1stAfterPipe.length)];
+								break;
+							case '0':
+								row[i] = adjustedAvailableChars1stAfterNumber[random
+										.nextInt(adjustedAvailableChars1stAfterNumber.length)];
+								break;
+							case 'F':
+								row[i] = adjustedAvailableChars1stAfterF[random.nextInt(adjustedAvailableChars1stAfterF.length)];
+								break;
+							case 'T':
+								row[i] = adjustedAvailableChars1stAfterT[random.nextInt(adjustedAvailableChars1stAfterT.length)];
+								break;
+							case 'L':
+								row[i] = adjustedAvailableChars1stAfterL[random.nextInt(adjustedAvailableChars1stAfterL.length)];
+								break;
+							case 'J':
+								row[i] = adjustedAvailableChars1stAfterJ[random.nextInt(adjustedAvailableChars1stAfterJ.length)];
+								break;
+							}
+						}
+						{
+							switch (row[row.length - 2]) {
+							case '-':
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterMinus[random.nextInt(adjustedAvailableChars1stEndRowAfterMinus.length)];
+								break;
+							case '|':
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterPipe[random.nextInt(adjustedAvailableChars1stEndRowAfterPipe.length)];
+								break;
+							case '0':
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterNumber[random.nextInt(adjustedAvailableChars1stEndRowAfterNumber.length)];
+								break;
+							case 'F':
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterF[random.nextInt(adjustedAvailableChars1stEndRowAfterF.length)];
+								break;
+							case 'T':
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterT[random.nextInt(adjustedAvailableChars1stEndRowAfterT.length)];
+								break;
+							case 'L':
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterL[random.nextInt(adjustedAvailableChars1stEndRowAfterL.length)];
+								break;
+							case 'J':
+								row[row.length - 1] = adjustedAvailableChars1stEndRowAfterJ[random.nextInt(adjustedAvailableChars1stEndRowAfterJ.length)];
+								break;
+							}
+						}
+						// Jak już pierwszy wiersz się napisał to więcej go nie piszemy
+						is1stRowDone = true;
+						countingTillTheEnd++;
+						continue;
+
+					} else if (countingTillTheEnd < board.length - 1) {
+						// Pozostałe wiersze z wyjątkiem ostatniego
+
+						// Pierwszy znak w każdym wierszu wymaga osobnych instrukcji, ponieważ nie ma sąsiada z lewej strony
+						if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][0])) {
+							row[0] = adjustedAvailableCharsConnectingUPTypeFStartRow[random.nextInt(adjustedAvailableCharsConnectingUPTypeFStartRow.length)];
+						}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][0])) {
+							row[0] = adjustedAvailableCharsConnectingUPTypeTStartRow[random.nextInt(adjustedAvailableCharsConnectingUPTypeTStartRow.length)];
+						}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][0])) {
+							row[0] = adjustedAvailableCharsNotConnectingUPStartRow[random.nextInt(adjustedAvailableCharsNotConnectingUPStartRow.length)];
+						}; if (board[countingTillTheEnd - 1][0] == '0') {
+							row[0] = row[0] = adjustedAvailableCharsStartRow[random.nextInt(adjustedAvailableCharsStartRow.length)];
+						}
+
+						// Dla wszytkich pól w wierszu z wyjątkiem pierwszego i ostatniego
+						for (int i = 1; i < row.length - 1; i++) {
+
+							// Dla każedo przypadku pola sąsiada z lewej strony
+							switch (row[i - 1]) {
+							case '-':
+								// Sprawdzamy sąsiada z góry, czytamy co jest w tablicy powyżej miejsca w które chcemy coś wstawić
+								// Jeśli sąsiad z góry ma połączenie w dół to musimy wstawić znak który ma połączenie w górę
+								// Ale jak ma połączenie w dół to musimy rozpatrzyć dwa przypadki, aby nie tworzyły się krztałty w stylu C i lustrzanego C, bo są niezgodne z zasadami numberlink
+								// Powstają one gdy poniżej F jest L, a poniżj T jest J, więc tablica Type F zawiera F i |, a Type T zawiera T i |
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterMinus.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterMinus.length)];
+								// Jeśli sąsiad z góry nie może się łączyś z tym co na dole to wstawiamy odpowiedni znak
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterMinus[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterMinus.length)];
+								// Cyfra może się łączyć w dół ale nie musi, obojętnie
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsAfterMinus[random.nextInt(adjustedAvailableCharsAfterMinus.length)];
+								}
+								break;
+								// Dla pozostałych przypadków analogicznie
+							case '|':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterPipe[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterPipe.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterPipe[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterPipe.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterPipe[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterPipe.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsAfterPipe[random.nextInt(adjustedAvailableCharsAfterPipe.length)];
+								}
+								break;
+							case '0':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterNumber[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterNumber.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterNumber[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterNumber.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterNumber[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterNumber.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsAfterNumber[random.nextInt(adjustedAvailableCharsAfterNumber.length)];
+								}
+								break;
+							case 'F':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterF[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterF.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterF[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterF.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterF[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterF.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsAfterF[random.nextInt(adjustedAvailableCharsAfterF.length)];
+								}
+								break;
+							case 'T':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterT[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterT.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterT[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterT.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterT[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterT.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsAfterT[random.nextInt(adjustedAvailableCharsAfterT.length)];
+								}
+								break;
+							case 'L':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterL[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterL.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterL[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterL.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterL[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterL.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsAfterL[random.nextInt(adjustedAvailableCharsAfterL.length)];
+								}
+								break;
+							case 'J':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeFAfterJ[random.nextInt(adjustedAvailableCharsConnectingUPTypeFAfterJ.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsConnectingUPTypeTAfterJ[random.nextInt(adjustedAvailableCharsConnectingUPTypeTAfterJ.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsNotConnectingUPAfterJ[random.nextInt(adjustedAvailableCharsNotConnectingUPAfterJ.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsAfterJ[random.nextInt(adjustedAvailableCharsAfterJ.length)];
+								}
+								break;
+							}
+						}
+						{
+							// Ostatnie pole w wierszu wymaga własnych instrukcji i tablic
+							switch (row[row.length - 2]) {
+							case '-':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeFEndRowAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPTypeFEndRowAfterMinus.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeTEndRowAfterMinus[random.nextInt(adjustedAvailableCharsConnectingUPTypeTEndRowAfterMinus.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterMinus[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterMinus.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterMinus[random.nextInt(adjustedAvailableCharsEndRowAfterMinus.length)];
+								}
+								break;
+							case '|':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeFEndRowAfterPipe[random.nextInt(adjustedAvailableCharsConnectingUPTypeFEndRowAfterPipe.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeTEndRowAfterPipe[random.nextInt(adjustedAvailableCharsConnectingUPTypeTEndRowAfterPipe.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterPipe[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterPipe.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterPipe[random.nextInt(adjustedAvailableCharsEndRowAfterPipe.length)];
+								}
+								break;
+							case '0':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeFEndRowAfterNumber[random.nextInt(adjustedAvailableCharsConnectingUPTypeFEndRowAfterNumber.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeTEndRowAfterNumber[random.nextInt(adjustedAvailableCharsConnectingUPTypeTEndRowAfterNumber.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterNumber[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterNumber.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterNumber[random.nextInt(adjustedAvailableCharsEndRowAfterNumber.length)];
+								}
+								break;
+							case 'F':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeFEndRowAfterF[random.nextInt(adjustedAvailableCharsConnectingUPTypeFEndRowAfterF.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeTEndRowAfterF[random.nextInt(adjustedAvailableCharsConnectingUPTypeTEndRowAfterF.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterF[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterF.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterF[random.nextInt(adjustedAvailableCharsEndRowAfterF.length)];
+								}
+								break;
+							case 'T':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeFEndRowAfterT[random.nextInt(adjustedAvailableCharsConnectingUPTypeFEndRowAfterT.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeTEndRowAfterT[random.nextInt(adjustedAvailableCharsConnectingUPTypeTEndRowAfterT.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterT[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterT.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterT[random.nextInt(adjustedAvailableCharsEndRowAfterT.length)];
+								}
+								break;
+							case 'L':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeFEndRowAfterL[random.nextInt(adjustedAvailableCharsConnectingUPTypeFEndRowAfterL.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeTEndRowAfterL[random.nextInt(adjustedAvailableCharsConnectingUPTypeTEndRowAfterL.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterL[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterL.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterL[random.nextInt(adjustedAvailableCharsEndRowAfterL.length)];
+								}
+								break;
+							case 'J':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeFEndRowAfterJ[random.nextInt(adjustedAvailableCharsConnectingUPTypeFEndRowAfterJ.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsConnectingUPTypeTEndRowAfterJ[random.nextInt(adjustedAvailableCharsConnectingUPTypeTEndRowAfterJ.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsNotConnectingUPEndRowAfterJ[random.nextInt(adjustedAvailableCharsNotConnectingUPEndRowAfterJ.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsEndRowAfterJ[random.nextInt(adjustedAvailableCharsEndRowAfterJ.length)];
+								}
+								break;
+							}
+						}
+
+						countingTillTheEnd++;
+//						System.out.println("Robi sie srodkowe");
+
+					} else {
+						// Ostatni wiersz wymaga własnych instrukcji i tablic
+						if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][0])) {
+							row[0] = adjustedAvailableCharsLastConnectingUPTypeFStartRow[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFStartRow.length)];
+						}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][0])) {
+							row[0] = adjustedAvailableCharsLastConnectingUPTypeTStartRow[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTStartRow.length)];
+						}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][0])) {
+							row[0] = adjustedAvailableCharsLastNotConnectingUPStartRow[random.nextInt(adjustedAvailableCharsLastNotConnectingUPStartRow.length)];
+						}; if (board[countingTillTheEnd - 1][0] == '0') {
+							row[0] = adjustedAvailableCharsLastStartRow[random.nextInt(adjustedAvailableCharsLastStartRow.length)];
+						}
+
+						for (int i = 1; i < row.length - 1; i++) {
+
+							switch (row[i - 1]) {
+							case '-':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeFAfterMinus[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFAfterMinus.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeTAfterMinus[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTAfterMinus.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterMinus[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterMinus.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsLastAfterMinus[random.nextInt(adjustedAvailableCharsLastAfterMinus.length)];
+								}
+								break;
+							case '|':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeFAfterPipe[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFAfterPipe.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeTAfterPipe[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTAfterPipe.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterPipe[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterPipe.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsLastAfterPipe[random.nextInt(adjustedAvailableCharsLastAfterPipe.length)];
+								}
+								break;
+							case '0':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeFAfterNumber[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFAfterNumber.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeTAfterNumber[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTAfterNumber.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterNumber[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterNumber.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsLastAfterNumber[random.nextInt(adjustedAvailableCharsLastAfterNumber.length)];
+								}
+								break;
+							case 'F':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeFAfterF[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFAfterF.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeTAfterF[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTAfterF.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterF[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterF.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsLastAfterF[random.nextInt(adjustedAvailableCharsLastAfterF.length)];
+								}
+								break;
+							case 'T':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeFAfterT[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFAfterT.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeTAfterT[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTAfterT.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterT[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterT.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsLastAfterT[random.nextInt(adjustedAvailableCharsLastAfterT.length)];
+								}
+								break;
+							case 'L':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeFAfterL[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFAfterL.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeTAfterL[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTAfterL.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterL[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterL.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsLastAfterL[random.nextInt(adjustedAvailableCharsLastAfterL.length)];
+								}
+								break;
+							case 'J':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeFAfterJ[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFAfterJ.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastConnectingUPTypeTAfterJ[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTAfterJ.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
+									row[i] = adjustedAvailableCharsLastNotConnectingUPAfterJ[random.nextInt(adjustedAvailableCharsLastNotConnectingUPAfterJ.length)];
+								}; if (board[countingTillTheEnd - 1][i] == '0') {
+									row[i] = adjustedAvailableCharsLastAfterJ[random.nextInt(adjustedAvailableCharsLastAfterJ.length)];
+								}
+								break;
+							}
+						}
+						{
+							switch (row[row.length - 2]) {
+							case '-':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterMinus[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterMinus.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterMinus[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterMinus.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterMinus[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterMinus.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterMinus[random.nextInt(adjustedAvailableCharsLastEndRowAfterMinus.length)];
+								}
+								break;
+							case '|':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterPipe[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterPipe.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterPipe[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterPipe.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterPipe[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterPipe.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterPipe[random.nextInt(adjustedAvailableCharsLastEndRowAfterPipe.length)];
+								}
+								break;
+							case '0':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterNumber[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterNumber.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterNumber[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterNumber.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterNumber[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterNumber.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterNumber[random.nextInt(adjustedAvailableCharsLastEndRowAfterNumber.length)];
+								}
+								break;
+							case 'F':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterF[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterF.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterF[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterF.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterF[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterF.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterF[random.nextInt(adjustedAvailableCharsLastEndRowAfterF.length)];
+								}
+								break;
+							case 'T':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterT[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterT.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterT[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterT.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterT[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterT.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterT[random.nextInt(adjustedAvailableCharsLastEndRowAfterT.length)];
+								}
+								break;
+							case 'L':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterL[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterL.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterL[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterL.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterL[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterL.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterL[random.nextInt(adjustedAvailableCharsLastEndRowAfterL.length)];
+								}
+								break;
+							case 'J':
+								if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterJ[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterJ.length)];
+								}; if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterJ[random.nextInt(adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterJ.length)];
+								}; if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
+									row[row.length - 1] = adjustedAvailableCharsLastNotConnectingUPEndRowAfterJ[random.nextInt(adjustedAvailableCharsLastNotConnectingUPEndRowAfterJ.length)];
+								}; if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
+									row[row.length - 1] = adjustedAvailableCharsLastEndRowAfterJ[random.nextInt(adjustedAvailableCharsLastEndRowAfterJ.length)];
+								}
+								break;
+							}
+						}
+//						System.out.println("ROBI SIE OSTATNIE");
+					}
+				}
+				fix2Connections(board);
+				fix(board);
+			} while ((!isClassic(board)) || (countNumbers(board) > 18));
+			System.out.println("Wygenerowano planszę o wielkości " + size);
+			break;
 			
 		case 8:
 			if (board == null) {
@@ -1769,8 +2213,9 @@ public class Generator {
 //						System.out.println("ROBI SIE OSTATNIE");
 					}
 				}
+				fix2Connections(board);
 				fix(board);
-			} while (!isClassic(board));
+			} while ((!isClassic(board)) || (countNumbers(board) > 26));
 			System.out.println("Wygenerowano planszę o wielkości " + size);
 			break;
 
@@ -1779,6 +2224,19 @@ public class Generator {
 		}
 		
 		return board;
+	}
+	
+	int countNumbers(char[][] tableToCountNumbers) {
+		int numbercounter = 0;
+		for (char[] row : tableToCountNumbers) {
+			for (char a : row) {
+				if (a == '0') {
+					numbercounter++;
+				}
+			}
+		}
+		return numbercounter;
+		
 	}
 	
 	@SuppressWarnings("finally")
@@ -1838,6 +2296,83 @@ public class Generator {
 										tableToFix[countingTillTheEnd][i - 1] = '0';
 									}
 									occupied = true;
+								} 
+							} finally {
+								continue;
+							} 
+						}
+					}
+				}
+			}
+			countingTillTheEnd++;
+		}
+	}
+	
+	@SuppressWarnings("finally")
+	void fix2Connections(char[][] tableToFix) {
+		int countingTillTheEnd = 0;
+		for (char[] row : tableToFix) {
+			for (int i = 0; i < row.length; i++) { 
+				int connectionCounter = 0;
+				if (row[i] == '0') {
+					// Konstrukcja z for, switch i try - finally continue pozwala uniknąć błędów czytania poza tablicą (fajne obejście)
+					// Pętla wykonuje się 4 razy szukając połączenia do cyfry z każdej strony
+					// Jeśli je znajdzie to znak posiadający to połączenie zostaje zastąpiony przez cyfrę
+					for (int condition = 0; condition < 6; condition++) {
+//						System.out.println("Fixing...");
+						switch (condition) {
+						case 0:
+//							System.out.println("Robi sie 0");
+							try {
+								if (Generator.hasMandatoryBottomConnection(tableToFix[countingTillTheEnd - 1][i])) {
+									connectionCounter++;
+								} 
+							} finally {
+								continue;
+							}
+						case 1:
+//							System.out.println("Robi sie 1");
+							try {
+								if (Generator.hasMandatoryConnectionUP(tableToFix[countingTillTheEnd + 1][i])) {
+									connectionCounter++;
+								} 
+							} finally {
+								continue;
+							} 
+						case 2:
+//							System.out.println("Robi sie 2");
+							try {
+								if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1])) {
+									connectionCounter++;
+								} 
+							} finally {
+								continue;
+							} 
+						case 3:
+//							System.out.println("Robi sie 3");
+							try {
+								if (Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1])) {
+									connectionCounter++;
+								} 
+							} finally {
+								continue;
+							} 
+						case 4:
+							try {
+								if (Generator.hasMandatoryBottomConnection(tableToFix[countingTillTheEnd - 1][i]) && Generator.hasMandatoryConnectionUP(tableToFix[countingTillTheEnd + 1][i])) {
+									if (connectionCounter == 2) {
+										tableToFix[countingTillTheEnd][i] = '|';
+									}
+								} 
+							} finally {
+								continue;
+							} 
+						case 5:
+							try {
+								if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1]) && Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1])) {
+									if (connectionCounter == 2) {
+										tableToFix[countingTillTheEnd][i] = '-';
+									}
 								} 
 							} finally {
 								continue;
