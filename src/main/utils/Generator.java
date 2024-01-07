@@ -10,7 +10,7 @@ public class Generator {
 
 //	Usage:
 //	Generator generator = new Generator();
-//	char[][] generatedBoard = generator.fillWithNumbers(generator.generate(x));
+//	char[][] generatedBoard = generator.generate(x);
 //	where x is board dimension
 
 	// Zestawy możliwych charów w tablicy oraz co może być po czym
@@ -834,7 +834,7 @@ public class Generator {
 	public static void main(String[] args) {
 		Generator generator = new Generator();
 		
-		char[][] generatedBoard = generator.generatePaths(5);
+		char[][] generatedBoard = generator.generate(5);
 
 		for (int j = 0; j < generatedBoard.length; j++) {
 			for (int i = 0; i < generatedBoard.length; i++) {
@@ -844,14 +844,10 @@ public class Generator {
 			System.out.println(" ");
 		// TODO Test
 		}
-		fillWithNumbers(generatedBoard);
-		for (int j = 0; j < generatedBoard.length; j++) {
-			for (int i = 0; i < generatedBoard.length; i++) {
-				System.out.print(generatedBoard[j][i]);
-				System.out.print("  ");
-			}
-			System.out.println(" ");
-		}
+	}
+	
+	public char[][] generate(int size) {
+		return fillWithNumbers(generatePaths(size));
 	}
 
 	public char[][] generatePaths(int size) {
