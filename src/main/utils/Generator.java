@@ -848,10 +848,20 @@ public class Generator {
 		}
 	}
 	
+	
+	/**
+	 * An all-in-one generate method
+	 * @param size for example board with size 5 is 5x5 char[][]
+	 * @return generated board
+	 */
 	public char[][] generate(int size) {
 		return fillWithNumbers(generatePaths(size));
 	}
 
+	/**
+	 * @param size for example board with size 5 is 5x5 char[][]
+	 * @return generated board with all numbers being 0
+	 */
 	public char[][] generatePaths(int size) {
 		char[][] board = null;
 		
@@ -1309,6 +1319,11 @@ public class Generator {
 		return board;
 	}
 	
+	/**
+	 * For internal use only
+	 * @param tableToCountNumbers
+	 * @return count of numbers in a table
+	 */
 	private int countNumbers(char[][] tableToCountNumbers) {
 		int numbercounter = 0;
 		for (char[] row : tableToCountNumbers) {
@@ -1322,6 +1337,10 @@ public class Generator {
 		
 	}
 	
+	/**
+	 * @param size board size
+	 * @return max number count
+	 */
 	public int maxNumberCount(int size) {
 		switch (size) {
 		case 5:
@@ -1339,6 +1358,10 @@ public class Generator {
 		}
 	}
 	
+	/**
+	 * Fix board by adding more numbers
+	 * @param tableToFix
+	 */
 	@SuppressWarnings("finally")
 	void fix(char[][] tableToFix) {
 		int countingTillTheEnd = 0;
@@ -1408,6 +1431,10 @@ public class Generator {
 		}
 	}
 	
+	/**
+	 * Fix boards containing numbers which have 2 connections by replacing numbers with straight lines
+	 * @param tableToFix
+	 */
 	@SuppressWarnings("finally")
 	void fix2Connections(char[][] tableToFix) {
 		int countingTillTheEnd = 0;
@@ -1485,6 +1512,11 @@ public class Generator {
 		}
 	}
 	
+	/**
+	 * Classic boards adhere to classic Numberlink rules
+	 * @param tableToTest
+	 * @return
+	 */
 	@SuppressWarnings("finally")
 	boolean isClassic(char[][] tableToTest) {
 		// Jeśli plansza nie ma pażystej liczby cyfr to nie jest klasyczna
@@ -1580,6 +1612,11 @@ public class Generator {
 		}
 	}
 	
+	/**
+	 * Replaces 0s with actual numbers
+	 * @param tableToFill
+	 * @return returns filled table
+	 */
 	@SuppressWarnings("finally")
 	public char[][] fillWithNumbers(char[][] tableToFill) {
 		// licznik do foreach
