@@ -10,15 +10,25 @@ public class Path {
     private final Label label;
 
 
-    public Path(Label label) {
-        this.units = new ArrayList<>(); // For auto resize, and O(1) time complexity when accessing the elements
-        this.label = label;
+    public Path(){
+        this.units = new ArrayList<>();
+        this.label = null;
     }
 
     public Label getLabel() {
         return label;
     }
-
+    public void removeLast(){
+        if (!units.isEmpty()){
+            units.removeLast();
+        }
+    }
+    public Unit getThirdLast(){
+        if(units.size() > 2){
+            return units.get(units.size()-3);
+        }
+        return null;
+    }
     /**
      * Adds a Unit to the Path if it is not already present.
      *

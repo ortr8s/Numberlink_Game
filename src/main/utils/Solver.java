@@ -2,8 +2,10 @@ package main.utils;
 
 import main.gamelogic.Board;
 import main.gamelogic.Pair;
+import main.gamelogic.Path;
 import main.gamelogic.Unit;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -21,6 +23,9 @@ public class Solver {
 	private final int size; // Dimension of the board (assumed square)
 	private boolean isSolvable; // Flag indicating whether the puzzle has been solved
 	private boolean stop; // Flag to terminate the search prematurely
+	private double startTime;
+	private Path currentPath;
+	private final HashMap<Integer,Path> paths;
 
 	/**
 	 * Constructor to initialize the Solver with a specific board.
@@ -36,6 +41,7 @@ public class Solver {
 		this.stop = false;
 		this.isSolvable = false;
 		this.currentPairIndex = 0;
+		this.paths = new HashMap<>(20);
 	}
 
 	/**
@@ -62,14 +68,16 @@ public class Solver {
 	 * @param y Y-coordinate on the board.
 	 * @return List of neighboring units.
 	 */
-	private ArrayList<Unit> getNeighbors(int x, int y){
-		ArrayList<Unit> neighbours = new ArrayList<>();
+	private Unit[] getNeighbors(int x, int y){
+		Unit[] neighbours = new Unit[4];
+		int i = 0;
 		for (int[] dir : MOVE_DIRECTIONS) {
 			int newX = x + dir[0];
 			int newY = y + dir[1];
 			if (isValidMove(newX, newY)) {
-				neighbours.add(board[newX][newY]);
+				neighbours[i] = (board[newX][newY]);
 			}
+			i++;
 		}
 		return neighbours;
 	}
@@ -85,15 +93,27 @@ public class Solver {
 		return x >= 0 && y >= 0 && x < size && y < size;
 	}
 
+	private boolean checkForCurves(Path path, Unit neighbour) {
+		Unit thirdLastUnit = path.getThirdLast();
+		if (thirdLastUnit == null){
+			return false;
+		}
+		return new Pair(path.getThirdLast(),neighbour).calculateDistance() == 1;
+	}
+
 	/**
 	 * Initializes the solving algorithm.
 	 *
 	 * @return True if the puzzle is solvable, false otherwise.
 	 */
 	public boolean solve(){
+		this.startTime = System.nanoTime();
 		System.out.println("Solving!");
 		sortPairsByDistance();	//distance heuristic which can not always give the best result
 		Unit initialUnit = pairs.get(currentPairIndex).getFirst();
+		currentPath = new Path();
+		currentPath.addUnit(initialUnit);
+		paths.put(initialUnit.getValue(), currentPath);
 		DFS(initialUnit.getX(), initialUnit.getY(), initialUnit.getValue());
 		return isSolvable;
 	}
@@ -107,39 +127,49 @@ public class Solver {
 	 */
 	private void DFS(int x, int y, int val){
 		if (stop) return;
-
 		checkedCells[x][y] = val;
-		ArrayList<Unit> neighbours = getNeighbors(x,y);
+		Unit[] neighbours = getNeighbors(x,y);
+
 		for (Unit currentNeighbour: neighbours) {
-			int nextX = currentNeighbour.getX();
-			int nextY = currentNeighbour.getY();
-			int nextVal = currentNeighbour.getValue();
-			if (checkedCells[nextX][nextY] == 0) {
-				if (nextVal == val) {
-					currentPairIndex++;
-					checkedCells[nextX][nextY] = val;
-					if (currentPairIndex == pairs.size()) {
-						print();
-						stop = true;
-						isSolvable = true;
-						return;
-					}
-					Unit newFirstUnit = pairs.get(currentPairIndex).getFirst();
-					int newX = newFirstUnit.getX();
-					int newY = newFirstUnit.getY();
-					int newVal = newFirstUnit.getValue();
-					if (checkedCells[newX][newY] == 0) {
+			if(currentNeighbour!=null) {
+
+				int neighbourX = currentNeighbour.getX();
+				int neighbourY = currentNeighbour.getY();
+				int neighbourValue = currentNeighbour.getValue();
+				if (checkedCells[neighbourX][neighbourY] == 0) {
+					if (currentNeighbour.equals(pairs.get(currentPairIndex).getLast())) {
+						currentPairIndex++;
+						checkedCells[neighbourX][neighbourY] = val;
+						if (currentPairIndex == pairs.size()) {
+							print();
+							System.out.println("Time: " + (System.nanoTime() - startTime) / 777600000);
+							stop = true;
+							isSolvable = true;
+							return;
+						}
+						Unit newFirstUnit = pairs.get(currentPairIndex).getFirst();
+						int newX = newFirstUnit.getX();
+						int newY = newFirstUnit.getY();
+						int newVal = newFirstUnit.getValue();
+
+						paths.put(newVal, new Path());
+						paths.get(newVal).addUnit(newFirstUnit);
+
 						checkedCells[newX][newY] = newVal;
 						DFS(newX, newY, newVal);
+						paths.get(newVal).removeLast();
+						currentPairIndex--;
+						checkedCells[neighbourX][neighbourY] = 0;
+
+					} else if (neighbourValue == 0 && !checkForCurves(paths.get(val), currentNeighbour)) {
+						  paths.get(val).addUnit(currentNeighbour);
+						  DFS(neighbourX, neighbourY, val);
+						  paths.get(val).removeLast();
+						}
 					}
-					currentPairIndex--;
-					checkedCells[nextX][nextY] = 0;
-				} else if (nextVal == 0) {
-					DFS(nextX, nextY, val);
 				}
 			}
-		}
-		this.checkedCells[x][y] = 0;
+		checkedCells[x][y] = 0;
 	}
 
 	/**

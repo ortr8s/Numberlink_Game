@@ -26,6 +26,10 @@ public class Unit {
     public boolean isPartOfPath() {
         return isPartOfPath;
     }
+    public int calculateDistanceFromCenter(int size){
+        int center = (size - 1)  / 2;
+        return Math.abs(x - center) + Math.abs(y - center);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -42,7 +42,14 @@ public class Board {
         //sorts Units with numbers other than 0
         Collections.sort(pairs, Comparator.comparingInt(Unit::getValue));
         for (int i = 0; i < pairs.size()-1; i+=2) {
-            finalPairs.add(new Pair(pairs.get(i), pairs.get(i+1)));
+            Unit one = pairs.get(i);
+            Unit two = pairs.get(i+1);
+            if(one.calculateDistanceFromCenter(size) < two.calculateDistanceFromCenter(size)){
+                finalPairs.add(new Pair(one, two));
+            } else {
+                finalPairs.add(new Pair(two, one));
+            }
+            //finalPairs.add(new Pair(one, two));
         }
         return finalPairs;
     }
@@ -62,16 +69,10 @@ public class Board {
     //TODO add uneven numbers exception
     public static void main(String[] args) {
         Generator generator = new Generator();
-        char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(8));
-        int [][] a = convertGeneratedBoard(generatedBoard,8);
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < a.length;j++){
-                System.out.print(a[i][j] + " ");
-            }
-            System.out.println();
-        }
-        Board board1 = new Board(8,a);
-        System.out.println(board1);
+        char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(9));
+        int [][] a = convertGeneratedBoard(generatedBoard,9);
+        System.out.println(Arrays.deepToString(a));
+
 
     }
 }
