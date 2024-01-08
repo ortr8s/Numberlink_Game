@@ -1,10 +1,9 @@
-package tests.main.utils;
+package main.utils;
 
-import main.utils.CSVReader;
-import main.utils.InvalidBoardSizeException;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +13,7 @@ public class CSVReaderTest {
     public void testRead_validBoardSize_returnsArray() {
         // Arrange
         CSVReader csvReader = new CSVReader(",");
-        String originalContent = "5,5,5,5,5\n5,5,5,5,5\n5,5,5,5,5\n5,5,5,5,5\n5,5,5,5,5\n";
+        String originalContent = "1,0,2,0,5\n0,0,3,0,4\n0,0,0,0,0\n0,2,0,5,0\n0,1,3,4,0\n";
         try {
             try (PrintWriter out = new PrintWriter("resources/boards/board_5x5.csv")) {
                 out.println(originalContent);
@@ -23,7 +22,7 @@ public class CSVReaderTest {
             int[][] result = csvReader.read(5);
 
             // Assert
-            int[][] expected = {{5}, {5, 5, 5, 5, 5, 5, 5, 5, 5}, {5, 5, 5, 5, 5}, {5, 5, 5, 5, 5}, {5, 5, 5, 5, 5}};
+            int[][] expected = {{1, 0, 2, 0, 5}, {0, 0, 3, 0, 4}, {0, 0, 0, 0, 0}, {0, 2, 0, 5, 0}, {0, 1, 3, 4, 0}};
             assertArrayEquals(expected, result);
 
         } catch (IOException | InvalidBoardSizeException e) {

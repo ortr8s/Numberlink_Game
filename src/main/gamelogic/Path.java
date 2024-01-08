@@ -4,31 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Path {
+    private int id;
+    private final ArrayList<Unit> units;
+    private Pair startEndPair;
 
-    private final List<Unit> units;
+    public Path(Pair startEndPair) {
+        this.id = startEndPair.getFirst().getValue();
+        this.startEndPair = startEndPair;
+        this.units = new ArrayList<>(); // For auto resize, and O(1) time complexity when accessing the elements
+    }
 
-    private final Label label;
-
-
-    public Path(){
+    public Path() {
         this.units = new ArrayList<>();
-        this.label = null;
     }
 
-    public Label getLabel() {
-        return label;
+    public Pair getStartEndPair() {
+        return startEndPair;
     }
-    public void removeLast(){
-        if (!units.isEmpty()){
+
+    public void removeLast() {
+        if (!units.isEmpty()) {
             units.removeLast();
         }
     }
-    public Unit getThirdLast(){
-        if(units.size() > 2){
-            return units.get(units.size()-3);
+
+    public Unit getThirdLast() {
+        if (units.size() > 2) {
+            return units.get(units.size() - 3);
         }
         return null;
     }
+
     /**
      * Adds a Unit to the Path if it is not already present.
      *
@@ -39,6 +45,7 @@ public class Path {
             units.add(unit);
         }
     }
+
     public Unit getLastAdded() {
         return units.get(units.size() - 1);
     }
