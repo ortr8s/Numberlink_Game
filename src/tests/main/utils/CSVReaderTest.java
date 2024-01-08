@@ -1,4 +1,4 @@
-package main.utils;
+package tests.main.utils;
 
 import main.utils.CSVReader;
 import main.utils.InvalidBoardSizeException;
