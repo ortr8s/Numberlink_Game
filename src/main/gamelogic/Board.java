@@ -62,7 +62,7 @@ public class Board {
     //TODO add uneven numbers exception
     public static void main(String[] args) {
         Generator generator = new Generator();
-        char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(8));
+        char[][] generatedBoard = generator.generate(8);
         int [][] a = convertGeneratedBoard(generatedBoard,8);
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a.length;j++){
