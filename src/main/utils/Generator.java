@@ -4,6 +4,10 @@ import main.gamelogic.Board;
 
 import java.util.Random;
 
+
+/**
+ * Provides pseudo-random Numberlink board generation functionality
+ */
 public class Generator {
 
 	static Random random = new Random();
@@ -205,7 +209,7 @@ public class Generator {
 	
 	// SPRAWDZANIE CO JEST POWYŻEJ
 	
-	// OBOWIĄZKOWE POŁĄCZENIE Z TYM CO POWYŻEJ
+	// obowiązkowe połączenie z tym co powyżej
 	// Co można wstawić na początek wiersza?
 	static final char[] availableCharsConnectingUPStartRow = { '|', '0', 'L' };
 
@@ -268,7 +272,7 @@ public class Generator {
 	static final char[] availableCharsLastConnectingUPEndRowAfterJ = { '0' };
 	
 	
-	// OBOWIĄZKOWE POŁĄCZENIE Z TYM CO POWYŻEJ TYP F
+	// obowiązkowe połączenie z tym co powyżej TYP F
 	// Co można wstawić na początek wiersza?
 	static final char[] availableCharsConnectingUPTypeFStartRow = { '|', '0' };
 
@@ -330,7 +334,7 @@ public class Generator {
 	static final char[] availableCharsLastConnectingUPTypeFEndRowAfterL = { '0' };
 	static final char[] availableCharsLastConnectingUPTypeFEndRowAfterJ = { '0' };
 	
-	// OBOWIĄZKOWE POŁĄCZENIE Z TYM CO POWYŻEJ TYP T
+	// obowiązkowe połączenie z tym co powyżej TYP T
 	// Co można wstawić na początek wiersza?
 	static final char[] availableCharsConnectingUPTypeTStartRow = { '|', '0', 'L' };
 
@@ -393,7 +397,7 @@ public class Generator {
 	static final char[] availableCharsLastConnectingUPTypeTEndRowAfterJ = { '0' };
 	
 
-	// OBOWIĄZKOWY BRAK POŁĄCZENIA Z TYM CO POWYŻEJ
+	// obowiązkowy brak połączenia z tym co powyżej
 	
 	// Co można wstawić na początek wiersza?
 	static final char[] availableCharsNotConnectingUPStartRow = availableChars1stStartRow;
@@ -574,7 +578,7 @@ public class Generator {
 	
 	// SPRAWDZANIE CO JEST POWYŻEJ
 	
-	// OBOWIĄZKOWE POŁĄCZENIE Z TYM CO POWYŻEJ
+	// obowiązkowe połączenie z tym co powyżej
 	// Co można wstawić na początek wiersza?
 	static final char[] adjustedAvailableCharsConnectingUPStartRow = { '|', '|', '0', 'L', 'L' };
 
@@ -636,7 +640,7 @@ public class Generator {
 	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterL = { '0' };
 	static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterJ = { '0' };
 	
-	// OBOWIĄZKOWE POŁĄCZENIE Z TYM CO POWYŻEJ TYP F
+	// obowiązkowe połączenie z tym co powyżej TYP F
 	// Co można wstawić na początek wiersza?
 	static final char[] adjustedAvailableCharsConnectingUPTypeFStartRow = { '|', '|', '0' };
 
@@ -698,7 +702,7 @@ public class Generator {
 	static final char[] adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterL = { '0' };
 	static final char[] adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterJ = { '0' };
 	
-	// OBOWIĄZKOWE POŁĄCZENIE Z TYM CO POWYŻEJ TYP T
+	// obowiązkowe połączenie z tym co powyżej TYP T
 	// Co można wstawić na początek wiersza?
 	static final char[] adjustedAvailableCharsConnectingUPTypeTStartRow = { '|', '|', '0', 'L', 'L' };
 
@@ -760,7 +764,7 @@ public class Generator {
 	static final char[] adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterL = { '0' };
 	static final char[] adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterJ = { '0' };
 
-	// OBOWIĄZKOWY BRAK POŁĄCZENIA Z TYM CO POWYŻEJ
+	// obowiązkowy brak połączenia z tym co powyżej
 	
 	// Co można wstawić na początek wiersza?
 	static final char[] adjustedAvailableCharsNotConnectingUPStartRow = adjustedAvailableChars1stStartRow;
@@ -859,6 +863,10 @@ public class Generator {
 	}
 
 	/**
+	 * Creates a char[][] Numberlink board filled with paths represented by straight lines '-', '|' and curves 'F', 'T', 'L', 'J'
+	 * For now all numbers are represented by zeros
+	 * Paths are pseudo-random, but have to fit each other geometry-wise and don't have patterns forbidden by Numberlink rules
+	 * Method repeats the generation process until the board fully adheres to classic Numberlink rules and has no more numbers than expected for it's size
 	 * @param size for example board with size 5 is 5x5 char[][]
 	 * @return generated board with all numbers being 0
 	 */
@@ -1320,7 +1328,7 @@ public class Generator {
 	}
 	
 	/**
-	 * For internal use only
+	 * For internal use only, counts numbers
 	 * @param tableToCountNumbers
 	 * @return count of numbers in a table
 	 */
@@ -1338,6 +1346,7 @@ public class Generator {
 	}
 	
 	/**
+	 * Determines max number count for boards of a given size
 	 * @param size board size
 	 * @return max number count
 	 */
@@ -1359,7 +1368,7 @@ public class Generator {
 	}
 	
 	/**
-	 * Fix board by adding more numbers
+	 * Fix board by adding more numbers when number's connection count is not 1
 	 * @param tableToFix
 	 */
 	@SuppressWarnings("finally")
