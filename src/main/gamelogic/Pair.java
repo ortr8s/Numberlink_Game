@@ -6,7 +6,7 @@ import java.util.StringJoiner;
  * Represents a pair of numbers to connect in the Numberlink game.
  * A pair consists of two units (first and last) and the distance between them.
  */
-public class Pair{
+public class Pair {
     private final Unit first; // The first unit in the pair
     private final Unit last; // The last unit in the pair
     private final int distance; // The Manhattan distance between the first and last units
@@ -15,13 +15,14 @@ public class Pair{
      * Constructor to create a pair of units.
      *
      * @param begin The first unit of the pair.
-     * @param end The last unit of the pair.
+     * @param end   The last unit of the pair.
      */
-    Pair(Unit begin, Unit end){
+    public Pair(Unit begin, Unit end) {
         this.first = begin;
         this.last = end;
         this.distance = calculateDistance();
     }
+
     /**
      * Gets the first unit in the pair.
      *
@@ -55,7 +56,7 @@ public class Pair{
      *
      * @return The calculated Manhattan distance.
      */
-    public int calculateDistance(){
+    public int calculateDistance() {
         return Math.abs(first.getX() - last.getX()) + Math.abs(first.getY() - last.getY());
     }
 
