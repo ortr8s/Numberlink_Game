@@ -1706,17 +1706,10 @@ public class Generator {
     @SuppressWarnings("finally")
     boolean isClassic(char[][] tableToTest) {
         // Jeśli plansza nie ma pażystej liczby cyfr to nie jest klasyczna
-        int numbercounter = 0;
-        for (char[] row : tableToTest) {
-            for (char a : row) {
-                if (a == 'O') {
-                    numbercounter++;
-                }
-            }
-        }
-        if (numbercounter % 2 != 0) {
+        if (countNumbers(tableToTest) % 2 != 0) {
             return false;
         }
+        
         boolean isnotWrong = true;
         int countingTillTheEnd = 0;
         for (char[] row : tableToTest) {
