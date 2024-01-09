@@ -44,12 +44,12 @@ public class Board {
         for (int i = 0; i < pairs.size()-1; i+=2) {
             Unit one = pairs.get(i);
             Unit two = pairs.get(i+1);
-            if(one.calculateDistanceFromCenter(size) < two.calculateDistanceFromCenter(size)){
-                finalPairs.add(new Pair(one, two));
-            } else {
-                finalPairs.add(new Pair(two, one));
-            }
-            //finalPairs.add(new Pair(one, two));
+//            if(one.calculateDistanceFromCenter(size) < two.calculateDistanceFromCenter(size)){
+//                finalPairs.add(new Pair(two, one));
+//            } else {
+//                finalPairs.add(new Pair(one, two));
+//            }
+            finalPairs.add(new Pair(one, two));
         }
         return finalPairs;
     }
@@ -69,9 +69,9 @@ public class Board {
     //TODO add uneven numbers exception
     public static void main(String[] args) {
         Generator generator = new Generator();
-        char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(9));
-        int [][] a = convertGeneratedBoard(generatedBoard,9);
-        System.out.println(Arrays.deepToString(a));
+        //char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(9));
+        //int [][] a = convertGeneratedBoard(generatedBoard,9);
+        //System.out.println(Arrays.deepToString(a));
 
 
     }

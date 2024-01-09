@@ -16,23 +16,22 @@ public class Solver {
 	private static final int[][] MOVE_DIRECTIONS =
 			{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // Movement directions: up, down, right, left
 	private final Unit[][] board; // Grid representing the board
-	private final List<Pair> pairs; // List of pairs (numbered cells) to be connected
+	private final ArrayList < Pair > pairs; // List of pairs (numbered cells) to be connected
 	private final int[][] checkedCells; // Grid to keep track of cells already visited in the current path
-	private int[][] solution;
+	private int[][] solution; //Array used to store solved game
 	private int currentPairIndex; // Index for the current pair being processed
 	private final int size; // Dimension of the board (assumed square)
 	private boolean isSolvable; // Flag indicating whether the puzzle has been solved
 	private boolean stop; // Flag to terminate the search prematurely
-	private double startTime;
-	private Path currentPath;
-	private final HashMap<Integer,Path> paths;
+	private double startTime; //Determines the time when solver was started
+	private final HashMap <Integer, Path> paths; //Stores paths and maps them to their value
 
 	/**
 	 * Constructor to initialize the Solver with a specific board.
 	 *
 	 * @param board The Board object representing the Numberlink puzzle.
 	 */
-	public Solver(Board board){
+	public Solver(Board board) {
 		this.board = board.getBoard();
 		this.size = board.getSize();
 		this.pairs = board.extractPairs();
@@ -41,7 +40,7 @@ public class Solver {
 		this.stop = false;
 		this.isSolvable = false;
 		this.currentPairIndex = 0;
-		this.paths = new HashMap<>(20);
+		this.paths = new HashMap <> (20);
 	}
 
 	/**
@@ -68,10 +67,10 @@ public class Solver {
 	 * @param y Y-coordinate on the board.
 	 * @return List of neighboring units.
 	 */
-	private Unit[] getNeighbors(int x, int y){
+	private Unit[] getNeighbors(int x, int y) {
 		Unit[] neighbours = new Unit[4];
 		int i = 0;
-		for (int[] dir : MOVE_DIRECTIONS) {
+		for (int[] dir: MOVE_DIRECTIONS) {
 			int newX = x + dir[0];
 			int newY = y + dir[1];
 			if (isValidMove(newX, newY)) {
@@ -89,16 +88,24 @@ public class Solver {
 	 * @param y Y-coordinate of the move.
 	 * @return True if the move is valid, false otherwise.
 	 */
-	private boolean isValidMove(int x, int y){
+	private boolean isValidMove(int x, int y) {
 		return x >= 0 && y >= 0 && x < size && y < size;
 	}
 
-	private boolean checkForCurves(Path path, Unit neighbour) {
+	/**
+	 * Determines if a move results in a curve in the path.
+	 * A move is considered 'curved' if the new unit's position forms a complete 2x2 grid with only one number.
+	 *
+	 * @param path The current path being traced.
+	 * @param neighbour The neighbouring unit to be considered for the next move.
+	 * @return True if the move creates a curve in the path, false otherwise. False also when the size of path is less than 3.
+	 */
+	private boolean isMoveCurved(Path path, Unit neighbour) {
 		Unit thirdLastUnit = path.getThirdLast();
-		if (thirdLastUnit == null){
+		if (thirdLastUnit == null) {
 			return false;
 		}
-		return new Pair(path.getThirdLast(),neighbour).calculateDistance() == 1;
+		return new Pair(path.getThirdLast(), neighbour).calculateDistance() == 1;
 	}
 
 	/**
@@ -106,12 +113,12 @@ public class Solver {
 	 *
 	 * @return True if the puzzle is solvable, false otherwise.
 	 */
-	public boolean solve(){
+	public boolean solve() {
 		this.startTime = System.nanoTime();
 		System.out.println("Solving!");
-		sortPairsByDistance();	//distance heuristic which can not always give the best result
+		sortPairsByDistance(); //distance heuristic which can not always give the best result
 		Unit initialUnit = pairs.get(currentPairIndex).getFirst();
-		currentPath = new Path();
+		Path currentPath = new Path();
 		currentPath.addUnit(initialUnit);
 		paths.put(initialUnit.getValue(), currentPath);
 		DFS(initialUnit.getX(), initialUnit.getY(), initialUnit.getValue());
@@ -119,75 +126,78 @@ public class Solver {
 	}
 
 	/**
-	 * Performs a depth-first search (DFS) to find a solution.
+	 * Depth-first search algorithm to explore possible paths for connecting pairs.
+	 * It recursively explores neighboring cells with a few constraints, backtracking when a dead end is reached.
+	 * The method updates the state of the search, including the checkedCells grid and paths map.
 	 *
 	 * @param x   X-coordinate to start the search from.
 	 * @param y   Y-coordinate to start the search from.
-	 * @param val Value of a current Unit.
+	 * @param val Value of the current Unit, representing a number on the board.
 	 */
-	private void DFS(int x, int y, int val){
-		if (stop) return;
+	private void DFS(int x, int y, int val) {
+		if (stop) return; //if the solution was already found don't recurse further
+
 		checkedCells[x][y] = val;
-		Unit[] neighbours = getNeighbors(x,y);
+		Unit[] neighbours = getNeighbors(x, y); //store neighbouring units
 
 		for (Unit currentNeighbour: neighbours) {
-			if(currentNeighbour!=null) {
+			if (currentNeighbour != null) {
 
 				int neighbourX = currentNeighbour.getX();
 				int neighbourY = currentNeighbour.getY();
 				int neighbourValue = currentNeighbour.getValue();
-				if (checkedCells[neighbourX][neighbourY] == 0) {
+				if (checkedCells[neighbourX][neighbourY] == 0
+						&& !isMoveCurved(paths.get(val), currentNeighbour)) {
+					//check to make sure if paths don't overlap and there are no curves
+
 					if (currentNeighbour.equals(pairs.get(currentPairIndex).getLast())) {
-						currentPairIndex++;
+						currentPairIndex++; //increment to extract the next pair
 						checkedCells[neighbourX][neighbourY] = val;
-						if (currentPairIndex == pairs.size()) {
+						if (currentPairIndex == pairs.size()) { //if all numbers were checked print out the solution
 							print();
 							System.out.println("Time: " + (System.nanoTime() - startTime) / 777600000);
 							stop = true;
 							isSolvable = true;
 							return;
 						}
-						Unit newFirstUnit = pairs.get(currentPairIndex).getFirst();
+						Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
 						int newX = newFirstUnit.getX();
 						int newY = newFirstUnit.getY();
 						int newVal = newFirstUnit.getValue();
 
-						paths.put(newVal, new Path());
-						paths.get(newVal).addUnit(newFirstUnit);
+						paths.put(newVal, new Path()); //place new path in the hashmap
+						paths.get(newVal).addUnit(newFirstUnit); //add first unit to the path
 
 						checkedCells[newX][newY] = newVal;
 						DFS(newX, newY, newVal);
-						paths.get(newVal).removeLast();
-						currentPairIndex--;
+
+						currentPairIndex--; //backtrack and go back to the recent pair
 						checkedCells[neighbourX][neighbourY] = 0;
 
-					} else if (neighbourValue == 0 && !checkForCurves(paths.get(val), currentNeighbour)) {
-						  paths.get(val).addUnit(currentNeighbour);
-						  DFS(neighbourX, neighbourY, val);
-						  paths.get(val).removeLast();
-						}
+					} else if (neighbourValue == 0) { //recurse if the neighbouring unit is 0
+						paths.get(val).addUnit(currentNeighbour); //add unit to the path
+						DFS(neighbourX, neighbourY, val);
+						paths.get(val).removeLast(); //when backtracking remove the recently added units from the current path
 					}
 				}
 			}
+		}
 		checkedCells[x][y] = 0;
 	}
 
 	/**
-	 * Prints the solved board.
+	 * Prints the solved board to the standard output.
+	 * Each cell of the board is printed with its value, representing the path of the solution.
+	 * This method is typically called after the puzzle is successfully solved.
+	 * Saves the answer to solution array
 	 */
-	private void print(){
-		copyToSolution();
+	private void print() {
 		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++){
+			System.arraycopy(checkedCells[i], 0, this.solution[i], 0, size);
+			for (int j = 0; j < size; j++) {
 				System.out.print(checkedCells[i][j] + " ");
 			}
 			System.out.println();
 		}
 	}
-	private void copyToSolution() {
-		for (int i = 0; i < size; i++) {
-			System.arraycopy(checkedCells[i], 0, this.solution[i], 0, size);
-		}
-	}
-
 }

@@ -4,42 +4,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Path {
+    private int id;
+    private Pair startEndPair;
 
-    private final List<Unit> units;
+    private Unit[] units;
+    private int size;
 
-    private final Label label;
-
-
-    public Path(){
-        this.units = new ArrayList<>();
-        this.label = null;
+    public Path(Pair startEndPair) {
+        this.id = startEndPair.getFirst().getValue();
+        this.startEndPair = startEndPair;
+        this.units = new Unit[100];
     }
 
-    public Label getLabel() {
-        return label;
+    public Path() {
+        this.units = new Unit[100];
     }
-    public void removeLast(){
-        if (!units.isEmpty()){
-            units.removeLast();
+
+    public Pair getStartEndPair() {
+        return startEndPair;
+    }
+
+    public void removeLast() {
+        if (size > 0) {
+            units[size] = null;
+            size--;
         }
     }
-    public Unit getThirdLast(){
-        if(units.size() > 2){
-            return units.get(units.size()-3);
+
+    public Unit getThirdLast() {
+        if (size > 2) {
+            return units[size-3];
         }
         return null;
     }
+
     /**
      * Adds a Unit to the Path if it is not already present.
      *
      * @param unit the Unit to be added
      */
     public void addUnit(Unit unit) {
-        if (!units.contains(unit)) {
-            units.add(unit);
-        }
+        units[size] = unit;
+        size++;
     }
+
     public Unit getLastAdded() {
-        return units.get(units.size() - 1);
+        return units[size-1];
     }
 }
