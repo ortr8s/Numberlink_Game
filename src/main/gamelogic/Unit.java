@@ -6,13 +6,12 @@ import java.util.StringJoiner;
 public class Unit {
     private final int x, y;
     private int value;
-    private boolean isPartOfPath;
-
-    public Unit(int x, int y, int value) {
+    private final Board board;
+    public Unit(int x, int y, int value, Board board) {
         this.x = x;
         this.y = y;
-        this.isPartOfPath = false;
         this.value = value;
+        this.board = board;
     }
 
     public int getValue() {
@@ -27,25 +26,9 @@ public class Unit {
         return y;
     }
 
-    public boolean isPartOfPath() {
-        return isPartOfPath;
-    }
-
     public int calculateDistanceFromCenter(int size) {
         int center = (size - 1) / 2;
         return Math.abs(x - center) + Math.abs(y - center);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Unit unit)) return false;
-        return x == unit.x && y == unit.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
     }
 
     @Override
@@ -56,4 +39,25 @@ public class Unit {
                 .add("val=" + value)
                 .toString();
     }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+    public Unit getNeighbour(Moves move) {
+        return board.getNeighbor(this, move);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Unit unit = (Unit) o;
+        return x == unit.x && y == unit.y && value == unit.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, value);
+    }
+
 }

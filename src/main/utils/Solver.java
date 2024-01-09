@@ -100,7 +100,7 @@ public class Solver {
 	 * @param neighbour The neighbouring unit to be considered for the next move.
 	 * @return True if the move creates a curve in the path, false otherwise. False also when the size of path is less than 3.
 	 */
-	private boolean isMoveCurved(Path path, Unit neighbour) {
+	public static boolean isMoveCurved(Path path, Unit neighbour) {
 		Unit thirdLastUnit = path.getThirdLast();
 		if (thirdLastUnit == null) {
 			return false;
