@@ -47,7 +47,7 @@ public class Controller {
 
         if (!isSelectedUnitValid(initialUnit)) return false;
 
-        if (!currentPath.equals(paths.get(unitValue))) {
+        if (!paths.get(unitValue).equals(currentPath)) {
             // mustn't replace a path in HashMap if currentPath is null
             if (currentPath != null) {
                 paths.replace(unitValue, currentPath);
