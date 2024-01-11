@@ -810,9 +810,9 @@ public class Generator {
             case 6:
                 return 14;
             case 7:
-                return 18;
+                return 16;
             case 8:
-                return 24;
+                return 18;
             case 9:
                 return 26;
             default:
@@ -966,6 +966,49 @@ public class Generator {
                                         }
                                     }
                                 } finally {
+                                    continue;
+                                }
+                            case 6:
+                                try {
+                                    if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1]) && Generator.hasMandatoryConnectionUP(tableToFix[countingTillTheEnd + 1][i]) && tableToFix[countingTillTheEnd + 1][i] != 'T') {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'F';
+                                        }
+                                    }
+                                } finally {
+                                    continue;
+                                }
+                            case 7:
+                                try {
+                                    if (Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1]) && Generator.hasMandatoryConnectionUP(tableToFix[countingTillTheEnd + 1][i]) && tableToFix[countingTillTheEnd + 1][i] != 'F') {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'T';
+                                        }
+                                    }
+                                }
+                                finally {
+                                    continue;
+                                }
+                            case 8:
+                                try {
+                                    if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1]) && Generator.hasMandatoryBottomConnectionTypeT(tableToFix[countingTillTheEnd - 1][i])) {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'L';
+                                        }
+                                    }
+                                }
+                                finally {
+                                    continue;
+                                }
+                            case 9:
+                                try {
+                                    if (Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1]) && Generator.hasMandatoryBottomConnectionTypeF(tableToFix[countingTillTheEnd - 1][i])) {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'J';
+                                        }
+                                    }
+                                }
+                                finally {
                                     continue;
                                 }
                         }
