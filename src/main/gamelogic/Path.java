@@ -2,6 +2,7 @@ package main.gamelogic;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class Path {
     /**
@@ -33,6 +34,12 @@ public class Path {
 
     public Path() {
         this.units = new Unit[100];
+    }
+    public Unit getUnit(int n){
+        if(n < size){
+            return units[n];
+        }
+        return null;
     }
 
     /**
@@ -124,5 +131,14 @@ public class Path {
         int result = Objects.hash(startEndPair, size);
         result = 31 * result + Arrays.hashCode(units);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Path.class.getSimpleName() + "[", "]")
+                .add("startEndPair=" + startEndPair)
+                .add("units=" + Arrays.toString(units))
+                .add("size=" + size)
+                .toString();
     }
 }

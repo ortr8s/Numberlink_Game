@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.gamelogic.*;
+import main.utils.Solver;
 
 import java.util.HashMap;
 
@@ -52,8 +53,8 @@ public class Controller {
             if (currentPath != null) {
                 paths.replace(unitValue, currentPath);
             }
-            currentPath = paths.get(unitValue);
         }
+        currentPath = paths.get(unitValue);
         currentPath.addUnit(initialUnit);
         return true;
     }
@@ -70,9 +71,15 @@ public class Controller {
         boolean isEnd = selectedUnit.equals(ends.getFirst())
                 || selectedUnit.equals(ends.getLast());
         // unit has to be initially non 0
-        boolean hasValue = (selectedUnit.getValue() != 0);
 
-        return isEnd && hasValue;
+
+        return isEnd;
+    }
+
+    public HashMap<Integer, Path> extractPaths(){
+        Solver solver = new Solver(board);
+        solver.solve();
+        return solver.getPaths();
     }
 
     /**

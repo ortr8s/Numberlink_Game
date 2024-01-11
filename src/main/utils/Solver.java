@@ -5,7 +5,6 @@ import main.gamelogic.Pair;
 import main.gamelogic.Path;
 import main.gamelogic.Unit;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -18,7 +17,6 @@ public class Solver {
 	private final Unit[][] board; // Grid representing the board
 	private final ArrayList < Pair > pairs; // List of pairs (numbered cells) to be connected
 	private final int[][] checkedCells; // Grid to keep track of cells already visited in the current path
-	private int[][] solution; //Array used to store solved game
 	private int currentPairIndex; // Index for the current pair being processed
 	private final int size; // Dimension of the board (assumed square)
 	private boolean isSolvable; // Flag indicating whether the puzzle has been solved
@@ -36,7 +34,6 @@ public class Solver {
 		this.size = board.getSize();
 		this.pairs = board.extractPairs();
 		this.checkedCells = new int[size][size];
-		this.solution = new int[size][size];
 		this.stop = false;
 		this.isSolvable = false;
 		this.currentPairIndex = 0;
@@ -49,7 +46,7 @@ public class Solver {
 	 * @return 2D array of solved board.
 	 */
 	public int[][] getSolution() {
-		return solution;
+		return checkedCells;
 	}
 
 	/**
@@ -154,22 +151,26 @@ public class Solver {
 						currentPairIndex++; //increment to extract the next pair
 						checkedCells[neighbourX][neighbourY] = val;
 						if (currentPairIndex == pairs.size()) { //if all numbers were checked print out the solution
-							print();
-							System.out.println("Time: " + (System.nanoTime() - startTime) / 777600000);
-							stop = true;
-							isSolvable = true;
-							return;
+							if (validateSolution()){
+								print();
+								System.out.println("Time: " + (System.nanoTime() - startTime) / 777600000);
+								stop = true;
+								isSolvable = true;
+								return;
+							}
 						}
+
 						Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
 						int newX = newFirstUnit.getX();
 						int newY = newFirstUnit.getY();
 						int newVal = newFirstUnit.getValue();
 
-						paths.put(newVal, new Path()); //place new path in the hashmap
+						paths.put(newVal, new Path(pairs.get(currentPairIndex))); //place new path in the hashmap
 						paths.get(newVal).addUnit(newFirstUnit); //add first unit to the path
 
 						checkedCells[newX][newY] = newVal;
 						DFS(newX, newY, newVal);
+						if (stop) return;
 
 						currentPairIndex--; //backtrack and go back to the recent pair
 						checkedCells[neighbourX][neighbourY] = 0;
@@ -177,12 +178,22 @@ public class Solver {
 					} else if (neighbourValue == 0) { //recurse if the neighbouring unit is 0
 						paths.get(val).addUnit(currentNeighbour); //add unit to the path
 						DFS(neighbourX, neighbourY, val);
+						if (stop) return;
 						paths.get(val).removeLast(); //when backtracking remove the recently added units from the current path
 					}
 				}
 			}
 		}
 		checkedCells[x][y] = 0;
+	}
+
+	private boolean validateSolution(){
+		int counter = 0;
+		for (Map.Entry<Integer, Path> entry : paths.entrySet()){
+			counter++;
+			counter += entry.getValue().getSize();
+		}
+		return counter == size*size;
 	}
 
 	/**
@@ -193,11 +204,14 @@ public class Solver {
 	 */
 	private void print() {
 		for (int i = 0; i < size; i++) {
-			System.arraycopy(checkedCells[i], 0, this.solution[i], 0, size);
 			for (int j = 0; j < size; j++) {
 				System.out.print(checkedCells[i][j] + " ");
 			}
 			System.out.println();
 		}
+	}
+
+	public HashMap<Integer, Path> getPaths() {
+		return paths;
 	}
 }
