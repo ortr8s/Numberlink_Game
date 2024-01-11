@@ -83,6 +83,22 @@ public class Generator {
             return false;
         }
     }
+    
+    private static boolean hasMandatoryConnectionUPTypeL(char a) {
+        if ((a == '|') || (a == 'L')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private static boolean hasMandatoryConnectionUPTypeJ(char a) {
+        if ((a == '|') || (a == 'J')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private static boolean hasMandatoryConnectionRight(char a) {
         if ((a == '-') || (a == 'F') || (a == 'L')) {
@@ -109,7 +125,7 @@ public class Generator {
     public static void main(String[] args) {
         Generator generator = new Generator();
 
-        char[][] generatedBoard = generator.generate(7);
+        char[][] generatedBoard = generator.generate(9);
 
         for (int j = 0; j < generatedBoard.length; j++) {
             for (int i = 0; i < generatedBoard.length; i++) {
@@ -814,7 +830,7 @@ public class Generator {
             case 8:
                 return 18;
             case 9:
-                return 26;
+                return 24;
             default:
                 return Integer.MAX_VALUE;
         }
@@ -895,7 +911,7 @@ public class Generator {
     }
 
     /**
-     * Fix boards containing numbers which have 2 connections by replacing numbers with straight lines
+     * Fix boards containing numbers which have 2 connections by replacing numbers with paths
      *
      * @param tableToFix
      */
@@ -909,7 +925,7 @@ public class Generator {
                     // Konstrukcja z for, switch i try - finally continue pozwala uniknąć błędów czytania poza tablicą (fajne obejście)
                     // Pętla wykonuje się 4 razy szukając połączenia do cyfry z każdej strony
                     // Jeśli je znajdzie to znak posiadający to połączenie zostaje zastąpiony przez cyfrę
-                    for (int condition = 0; condition < 6; condition++) {
+                    for (int condition = 0; condition < 10; condition++) {
 //						System.out.println("Fixing...");
                         switch (condition) {
                             case 0:
@@ -968,6 +984,50 @@ public class Generator {
                                 } finally {
                                     continue;
                                 }
+                            case 6:
+                                try {
+                                    if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1]) && Generator.hasMandatoryConnectionUPTypeJ(tableToFix[countingTillTheEnd + 1][i]) && tableToFix[countingTillTheEnd][i + 1] != 'T') {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'F';
+                                        }
+                                    }
+                                } finally {
+                                    continue;
+                                }
+                            case 7:
+                                try {
+                                    if (Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1]) && Generator.hasMandatoryConnectionUPTypeL(tableToFix[countingTillTheEnd + 1][i]) && tableToFix[countingTillTheEnd][i - 1] != 'F') {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'T';
+                                        }
+                                    }
+                                }
+                                finally {
+                                    continue;
+                                }
+                            case 8:
+                                try {
+                                    if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1]) && Generator.hasMandatoryBottomConnectionTypeT(tableToFix[countingTillTheEnd - 1][i]) && tableToFix[countingTillTheEnd][i + 1] != 'J') {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'L';
+                                        }
+                                    }
+                                }
+                                finally {
+                                    continue;
+                                }
+                            case 9:
+                                try {
+                                    if (Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1]) && Generator.hasMandatoryBottomConnectionTypeF(tableToFix[countingTillTheEnd - 1][i]) && tableToFix[countingTillTheEnd][i - 1] != 'L') {
+                                        if (connectionCounter == 2) {
+                                            tableToFix[countingTillTheEnd][i] = 'J';
+                                        }
+                                    }
+                                }
+                                finally {
+                                    continue;
+                                }
+                                //TODO fix
                         }
                     }
                 }
