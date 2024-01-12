@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.gamelogic.*;
+import main.utils.Generator;
 import main.utils.Solver;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ public class Controller {
      * Represents a game board consisting of Unit objects.
      * A Unit represents a cell in the board.
      */
-    public final Board board;
+    public Board board;
     /**
      * Stores paths in a game board.
      */
@@ -76,12 +77,25 @@ public class Controller {
         return isEnd;
     }
 
-    public HashMap<Integer, Path> extractPaths(){
+    public HashMap<Integer, Path> solveAndExtractPaths(){
         Solver solver = new Solver(board);
         solver.solve();
         return solver.getPaths();
     }
 
+    //TODO find a better suitable place for this method
+    public void generateBoard(int size){
+        Generator generator = new Generator();
+        char[][] generated = generator.generate(size);
+        int[][] converted = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int c = generated[i][j] - 48;
+                converted[i][j] = (c < 0 || c > 21) ? 0 : c;
+            }
+        }
+        this.board = new Board(size, converted);
+    }
     /**
      * Determines if a given move is valid.
      *

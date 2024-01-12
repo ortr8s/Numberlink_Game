@@ -32,7 +32,7 @@ public class NumberlinkGUI implements Runnable {
         frame = new JFrame("Numberlink Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
-        addSolveButton();
+        addControlButtons();
         boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(controller.getBoardSize(), controller.getBoardSize()));
         boardPanel.setDoubleBuffered(true);
@@ -43,11 +43,15 @@ public class NumberlinkGUI implements Runnable {
     }
 
     private void initializeBoard() {
+        boardPanel.removeAll();
+        boardPanel.revalidate();
+        boardPanel.repaint();
+        boardPanel.setLayout(new GridLayout(controller.getBoardSize(), controller.getBoardSize()));
         buttons = new JButton[controller.getBoardSize()][controller.getBoardSize()];
         for (int i = 0; i < controller.getBoardSize(); i++) {
             for (int j = 0; j < controller.getBoardSize(); j++) {
                 JButton button = new JButton();
-                Unit unit = controller.board.getUnitPosition(i, j); // Assuming such a method exists
+                Unit unit = controller.board.getUnitPosition(i, j);
                 customizeButton(button, unit, i, j);
                 buttons[i][j] = button;
                 boardPanel.add(button);
@@ -88,7 +92,7 @@ public class NumberlinkGUI implements Runnable {
         }
     }
     private void customizeButton(JButton button, Unit unit, int x, int y) {
-        if (unit.getValue() > 0) {
+        if (unit.getValue() > 0 && unit != null) {
             button.setText(String.valueOf(unit.getValue()));
             button.setBackground(getBackgroundColor(unit.getValue())); // Set background color
             button.setForeground(Color.BLACK); // Set text color
@@ -109,17 +113,40 @@ public class NumberlinkGUI implements Runnable {
         // Set common styles for all buttons
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
     }
-    private void addSolveButton() {
+    private void addControlButtons() {
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        // Solve button
         JButton solveButton = new JButton("Solve Board");
         solveButton.addActionListener(e -> showSolution());
-
-        // You can create a top panel to add the solve button
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         topPanel.add(solveButton);
+
+        // Generate button
+        JButton generateButton = new JButton("Generate Board");
+        generateButton.addActionListener(e -> showDifficultySelection());
+        topPanel.add(generateButton);
 
         // Add the top panel to the frame
         frame.add(topPanel, BorderLayout.NORTH);
     }
+
+    private void showDifficultySelection() {
+        String[] difficulties = {"5", "7", "9"};
+        String selectedDifficulty = (String) JOptionPane.showInputDialog(
+                frame,
+                "Select Difficulty",
+                "Difficulty Selection",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                difficulties,
+                difficulties[0]);
+
+        if (selectedDifficulty != null && selectedDifficulty.length() > 0) {
+            controller.generateBoard(Integer.parseInt(selectedDifficulty));
+            initializeBoard();
+        }
+    }
+
     private void handleCellClick(int x, int y) {
         if (controller.selectUnit(x, y)) {
             // Update the GUI based on the new game state
@@ -128,7 +155,7 @@ public class NumberlinkGUI implements Runnable {
     }
 
     private void showSolution(){
-        HashMap<Integer, Path > paths = controller.extractPaths();
+        HashMap<Integer, Path > paths = controller.solveAndExtractPaths();
         for (Map.Entry<Integer, Path> entry : paths.entrySet()) {
             int key = entry.getKey();
             Path value = entry.getValue();
@@ -141,10 +168,8 @@ public class NumberlinkGUI implements Runnable {
     }
     public static void main(String[] args) throws IOException, InvalidBoardSizeException {
         //CSVReader reader = new CSVReader(",");
-        //Board board = new Board(5, reader.read(5)); // Create a board
-        Generator generator = new Generator();
-        Board newBoard = new Board(9,Board.convertGeneratedBoard(generator.generate(9),9));
-        Controller controller = new Controller(newBoard); // Create a controller
+        Board board = new Board(5, new int[][]{{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}}); //default board
+        Controller controller = new Controller(board); // create a controller
         SwingUtilities.invokeLater(new NumberlinkGUI(controller));
     }
 
