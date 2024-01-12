@@ -94,13 +94,13 @@ public class Path {
      * @return {@code true} if the path is completed, {@code false} otherwise.
      */
     public boolean isCompleted() {
-        boolean isCompleted = false;
+        if (units[0] == null) return false;
         if (units[0].equals(startEndPair.getLast()) || units[0].equals(startEndPair.getFirst())) {
             if (getLastAdded().equals(startEndPair.getLast()) || getLastAdded().equals(startEndPair.getFirst())) {
-                isCompleted = true;
+                return true;
             }
         }
-        return isCompleted;
+        return false;
     }
     /**
      * Retrieves the value of the Units this Path consists of.
@@ -116,8 +116,8 @@ public class Path {
      * @param move The move to be made.
      * @return The neighbouring unit based on the given move.
      */
-    public Unit advance(Moves move) {
-        return getLastAdded().getNeighbour(move);
+    public void advance(Moves move) {
+        addUnit(getLastAdded().getNeighbour(move));
     }
     @Override
     public boolean equals(Object o) {

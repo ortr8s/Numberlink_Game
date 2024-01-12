@@ -47,75 +47,39 @@ public class Generator {
 
 
     private static boolean hasMandatoryBottomConnectionTypeF(char a) {
-        if ((a == '|') || (a == 'F')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '|') || (a == 'F');
     }
 
     private static boolean hasMandatoryBottomConnectionTypeT(char a) {
-        if ((a == '|') || (a == 'T')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '|') || (a == 'T');
     }
 
     private static boolean hasMandatoryBottomConnection(char a) {
-        if ((a == '|') || (a == 'F') || (a == 'T')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '|') || (a == 'F') || (a == 'T');
     }
 
     private static boolean hasNoBottomConnection(char a) {
-        if ((a == '-') || (a == 'L') || (a == 'J')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '-') || (a == 'L') || (a == 'J');
     }
 
     private static boolean hasMandatoryConnectionUP(char a) {
-        if ((a == '|') || (a == 'L') || (a == 'J')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '|') || (a == 'L') || (a == 'J');
     }
     
     private static boolean hasMandatoryConnectionUPTypeL(char a) {
-        if ((a == '|') || (a == 'L')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '|') || (a == 'L');
     }
     
     private static boolean hasMandatoryConnectionUPTypeJ(char a) {
-        if ((a == '|') || (a == 'J')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '|') || (a == 'J');
     }
 
     private static boolean hasMandatoryConnectionRight(char a) {
-        if ((a == '-') || (a == 'F') || (a == 'L')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '-') || (a == 'F') || (a == 'L');
     }
 
     private static boolean hasMandatoryConnectionLeft(char a) {
-        if ((a == '-') || (a == 'T') || (a == 'J')) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a == '-') || (a == 'T') || (a == 'J');
     }
 
     public Generator() {
@@ -249,15 +213,12 @@ public class Generator {
                     if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][0])) {
                         row[0] = tableHub.adjustedAvailableCharsConnectingUPTypeFStartRow[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFStartRow.length)];
                     }
-                    ;
                     if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][0])) {
                         row[0] = tableHub.adjustedAvailableCharsConnectingUPTypeTStartRow[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTStartRow.length)];
                     }
-                    ;
                     if (hasNoBottomConnection(board[countingTillTheEnd - 1][0])) {
                         row[0] = tableHub.adjustedAvailableCharsNotConnectingUPStartRow[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPStartRow.length)];
                     }
-                    ;
                     if (board[countingTillTheEnd - 1][0] == '0') {
                         row[0] = row[0] = tableHub.adjustedAvailableCharsStartRow[random.nextInt(tableHub.adjustedAvailableCharsStartRow.length)];
                     }
@@ -275,17 +236,14 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeFAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFAfterMinus.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeTAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTAfterMinus.length)];
                                     // Jeśli sąsiad z góry nie może się łączyś z tym co na dole to wstawiamy odpowiedni znak
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsNotConnectingUPAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPAfterMinus.length)];
                                     // Cyfra może się łączyć w dół ale nie musi, obojętnie
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsAfterMinus.length)];
                                 }
@@ -295,15 +253,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeFAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFAfterPipe.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeTAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTAfterPipe.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsNotConnectingUPAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPAfterPipe.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsAfterPipe.length)];
                                 }
@@ -312,15 +267,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeFAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFAfterNumber.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeTAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTAfterNumber.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsNotConnectingUPAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPAfterNumber.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsAfterNumber.length)];
                                 }
@@ -329,15 +281,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeFAfterF[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFAfterF.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeTAfterF[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTAfterF.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsNotConnectingUPAfterF[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPAfterF.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsAfterF[random.nextInt(tableHub.adjustedAvailableCharsAfterF.length)];
                                 }
@@ -346,15 +295,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeFAfterT[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFAfterT.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeTAfterT[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTAfterT.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsNotConnectingUPAfterT[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPAfterT.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsAfterT[random.nextInt(tableHub.adjustedAvailableCharsAfterT.length)];
                                 }
@@ -363,15 +309,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeFAfterL[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFAfterL.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeTAfterL[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTAfterL.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsNotConnectingUPAfterL[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPAfterL.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsAfterL[random.nextInt(tableHub.adjustedAvailableCharsAfterL.length)];
                                 }
@@ -380,15 +323,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeFAfterJ[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFAfterJ.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsConnectingUPTypeTAfterJ[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTAfterJ.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsNotConnectingUPAfterJ[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPAfterJ.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsAfterJ[random.nextInt(tableHub.adjustedAvailableCharsAfterJ.length)];
                                 }
@@ -402,15 +342,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterMinus.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterMinus.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterMinus.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsEndRowAfterMinus.length)];
                                 }
@@ -419,15 +356,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterPipe.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterPipe.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterPipe.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsEndRowAfterPipe.length)];
                                 }
@@ -436,15 +370,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterNumber.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterNumber.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterNumber.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsEndRowAfterNumber.length)];
                                 }
@@ -453,15 +384,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterF.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterF.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterF.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsEndRowAfterF.length)];
                                 }
@@ -470,15 +398,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterT.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterT.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterT.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsEndRowAfterT.length)];
                                 }
@@ -487,15 +412,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterL.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterL.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterL.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsEndRowAfterL.length)];
                                 }
@@ -504,15 +426,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeFEndRowAfterJ.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsConnectingUPTypeTEndRowAfterJ.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsNotConnectingUPEndRowAfterJ.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsEndRowAfterJ.length)];
                                 }
@@ -528,15 +447,12 @@ public class Generator {
                     if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][0])) {
                         row[0] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFStartRow[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFStartRow.length)];
                     }
-                    ;
                     if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][0])) {
                         row[0] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTStartRow[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTStartRow.length)];
                     }
-                    ;
                     if (hasNoBottomConnection(board[countingTillTheEnd - 1][0])) {
                         row[0] = tableHub.adjustedAvailableCharsLastNotConnectingUPStartRow[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPStartRow.length)];
                     }
-                    ;
                     if (board[countingTillTheEnd - 1][0] == '0') {
                         row[0] = tableHub.adjustedAvailableCharsLastStartRow[random.nextInt(tableHub.adjustedAvailableCharsLastStartRow.length)];
                     }
@@ -548,15 +464,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterMinus.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterMinus.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastNotConnectingUPAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPAfterMinus.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsLastAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastAfterMinus.length)];
                                 }
@@ -565,15 +478,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterPipe.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterPipe.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastNotConnectingUPAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPAfterPipe.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsLastAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastAfterPipe.length)];
                                 }
@@ -582,15 +492,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterNumber.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterNumber.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastNotConnectingUPAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPAfterNumber.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsLastAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastAfterNumber.length)];
                                 }
@@ -599,15 +506,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterF.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterF.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastNotConnectingUPAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPAfterF.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsLastAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastAfterF.length)];
                                 }
@@ -616,15 +520,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterT.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterT.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastNotConnectingUPAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPAfterT.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsLastAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastAfterT.length)];
                                 }
@@ -633,15 +534,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterL.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterL.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastNotConnectingUPAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPAfterL.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsLastAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastAfterL.length)];
                                 }
@@ -650,15 +548,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFAfterJ.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTAfterJ.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][i])) {
                                     row[i] = tableHub.adjustedAvailableCharsLastNotConnectingUPAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPAfterJ.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][i] == '0') {
                                     row[i] = tableHub.adjustedAvailableCharsLastAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastAfterJ.length)];
                                 }
@@ -671,15 +566,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterMinus.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterMinus.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterMinus.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastEndRowAfterMinus[random.nextInt(tableHub.adjustedAvailableCharsLastEndRowAfterMinus.length)];
                                 }
@@ -688,15 +580,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterPipe.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterPipe.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterPipe.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastEndRowAfterPipe[random.nextInt(tableHub.adjustedAvailableCharsLastEndRowAfterPipe.length)];
                                 }
@@ -705,15 +594,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterNumber.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterNumber.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterNumber.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastEndRowAfterNumber[random.nextInt(tableHub.adjustedAvailableCharsLastEndRowAfterNumber.length)];
                                 }
@@ -722,15 +608,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterF.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterF.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterF.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastEndRowAfterF[random.nextInt(tableHub.adjustedAvailableCharsLastEndRowAfterF.length)];
                                 }
@@ -739,15 +622,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterT.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterT.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterT.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastEndRowAfterT[random.nextInt(tableHub.adjustedAvailableCharsLastEndRowAfterT.length)];
                                 }
@@ -756,15 +636,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterL.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterL.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterL.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastEndRowAfterL[random.nextInt(tableHub.adjustedAvailableCharsLastEndRowAfterL.length)];
                                 }
@@ -773,15 +650,12 @@ public class Generator {
                                 if (hasMandatoryBottomConnectionTypeF(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeFEndRowAfterJ.length)];
                                 }
-                                ;
                                 if (hasMandatoryBottomConnectionTypeT(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastConnectingUPTypeTEndRowAfterJ.length)];
                                 }
-                                ;
                                 if (hasNoBottomConnection(board[countingTillTheEnd - 1][row.length - 1])) {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastNotConnectingUPEndRowAfterJ.length)];
                                 }
-                                ;
                                 if (board[countingTillTheEnd - 1][row.length - 1] == '0') {
                                     row[row.length - 1] = tableHub.adjustedAvailableCharsLastEndRowAfterJ[random.nextInt(tableHub.adjustedAvailableCharsLastEndRowAfterJ.length)];
                                 }
@@ -866,7 +740,7 @@ public class Generator {
 //							System.out.println("Robi sie 0");
                                 try {
                                     if (Generator.hasMandatoryBottomConnection(tableToFix[countingTillTheEnd - 1][i])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             tableToFix[countingTillTheEnd - 1][i] = '0';
                                         }
                                         occupied = true;
@@ -878,7 +752,7 @@ public class Generator {
 //							System.out.println("Robi sie 1");
                                 try {
                                     if (Generator.hasMandatoryConnectionUP(tableToFix[countingTillTheEnd + 1][i])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             tableToFix[countingTillTheEnd + 1][i] = '0';
                                         }
                                         occupied = true;
@@ -890,7 +764,7 @@ public class Generator {
 //							System.out.println("Robi sie 2");
                                 try {
                                     if (Generator.hasMandatoryConnectionLeft(tableToFix[countingTillTheEnd][i + 1])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             tableToFix[countingTillTheEnd][i + 1] = '0';
                                         }
                                         occupied = true;
@@ -902,7 +776,7 @@ public class Generator {
 //							System.out.println("Robi sie 3");
                                 try {
                                     if (Generator.hasMandatoryConnectionRight(tableToFix[countingTillTheEnd][i - 1])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             tableToFix[countingTillTheEnd][i - 1] = '0';
                                         }
                                         occupied = true;
@@ -1076,7 +950,7 @@ public class Generator {
 //							System.out.println("Robi sie 0");
                                 try {
                                     if (Generator.hasMandatoryBottomConnection(tableToTest[countingTillTheEnd - 1][i])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             isnotWrong = false;
                                         }
                                         occupied = true;
@@ -1088,7 +962,7 @@ public class Generator {
 //							System.out.println("Robi sie 1");
                                 try {
                                     if (Generator.hasMandatoryConnectionUP(tableToTest[countingTillTheEnd + 1][i])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             isnotWrong = false;
                                         }
                                         occupied = true;
@@ -1100,7 +974,7 @@ public class Generator {
 //							System.out.println("Robi sie 2");
                                 try {
                                     if (Generator.hasMandatoryConnectionLeft(tableToTest[countingTillTheEnd][i + 1])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             isnotWrong = false;
                                         }
                                         occupied = true;
@@ -1112,7 +986,7 @@ public class Generator {
 //							System.out.println("Robi sie 3");
                                 try {
                                     if (Generator.hasMandatoryConnectionRight(tableToTest[countingTillTheEnd][i - 1])) {
-                                        if (occupied == true) {
+                                        if (occupied) {
                                             isnotWrong = false;
                                         }
                                         occupied = true;
@@ -1122,7 +996,7 @@ public class Generator {
                                 }
                             case 4:
 //							System.out.println("Robi sie 4");
-                                if (occupied == false) {
+                                if (!occupied) {
                                     isnotWrong = false;
                                 }
                         }
@@ -1131,11 +1005,7 @@ public class Generator {
             }
             countingTillTheEnd++;
         }
-        if (!isnotWrong) {
-            return false;
-        } else {
-            return true;
-        }
+        return isnotWrong;
     }
 
     /**

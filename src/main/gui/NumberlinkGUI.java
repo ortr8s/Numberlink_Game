@@ -20,6 +20,11 @@ public class NumberlinkGUI implements Runnable {
     private final Controller controller;
     private JButton[][] buttons;
     private final MainGUI mainGui;
+
+    public MainGUI getMainGui() {
+        return mainGui;
+    }
+
     private static final int TRANSPARENT = 0;
 
     public NumberlinkGUI(MainGUI mainGUI, Controller controller) {
@@ -32,11 +37,18 @@ public class NumberlinkGUI implements Runnable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
         addControlButtons();
+        new KeyBoardManager(controller,this,frame);
         boardPanel = new JPanel();
         boardPanel.setDoubleBuffered(true);
         initializeBoard();
         frame.add(boardPanel);
+        frame.setFocusable(true);
         frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setLocation(new Point(
+                mainGui.getFrame().getX()-50,
+                mainGui.getFrame().getY()-50)
+        );
     }
     private void initializeBoard() {
         prepareBoardPanel();
@@ -116,11 +128,16 @@ public class NumberlinkGUI implements Runnable {
         mainGui.showFrame(true);
         frame.dispose();
     }
+    public void repaintButton(Unit unit) {
+        Color color = getBackgroundColor(controller.currentPath.getID());
+        buttons[unit.getX()][unit.getY()].setBackground(color);
+        frame.repaint();
+    }
     public static void main(String[] args) throws IOException, InvalidBoardSizeException {
         Board board = new Board(5, new int[][]{{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}});
         Controller controller = new Controller(board);
     }
-    private Color getBackgroundColor(int number) {
+     static Color getBackgroundColor(int number) {
         int alpha = 200;
         switch (number) {
             case 1:
@@ -152,5 +169,11 @@ public class NumberlinkGUI implements Runnable {
             default:
                 return new Color(0, 0, 0, 0);
         }
+    }
+    /**
+     * Used by the Keylistener to repaint after an action
+     */
+    public void repaint(){
+        frame.repaint();
     }
 }

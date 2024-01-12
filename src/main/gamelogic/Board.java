@@ -190,7 +190,7 @@ public class Board {
      * @return {@code true} if the path has curves, {@code false} otherwise.
      */
     public boolean hasCurves(Path path, Unit neighbour) {
-        return Solver.isMoveCurved(path, neighbour);
+        return !Solver.isMoveCurved(path, neighbour);
     }
 
     //TODO add uneven numbers exception
