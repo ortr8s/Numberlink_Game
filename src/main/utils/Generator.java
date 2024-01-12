@@ -1,5 +1,7 @@
 package main.utils;
 
+import main.gamelogic.Board;
+
 import java.util.Random;
 
 
@@ -118,10 +120,6 @@ public class Generator {
 
     public Generator() {
     }
-
-    public Generator(int size) {
-    }
-
     public static void main(String[] args) {
         Generator generator = new Generator();
 
@@ -147,7 +145,17 @@ public class Generator {
     public char[][] generate(int size) {
         return fillWithNumbers(generatePaths(size));
     }
-
+    public int[][] generateBoard(int size){
+        char[][] generated = generate(size);
+        int[][] converted = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int c = generated[i][j] - 48;
+                converted[i][j] = (c < 0 || c > 21) ? 0 : c;
+            }
+        }
+        return converted;
+    }
     /**
      * Creates a char[][] Numberlink board filled with paths represented by straight lines '-', '|' and curves 'F', 'T', 'L', 'J'
      * For now all numbers are represented by zeros

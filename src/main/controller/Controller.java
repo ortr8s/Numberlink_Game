@@ -49,14 +49,15 @@ public class Controller {
 
         if (!isSelectedUnitValid(initialUnit)) return false;
 
-        if (!paths.get(unitValue).equals(currentPath)) {
-            // mustn't replace a path in HashMap if currentPath is null
-            if (currentPath != null) {
-                paths.replace(unitValue, currentPath);
-            }
+        // If currentPath is not null (implies we've finished working with this path), put it back into the paths HashMap
+        if (currentPath != null && currentPath != paths.get(unitValue)) {
+            paths.replace(currentPath.getID(), currentPath);
         }
+
+        // Get the current path from the HashMap
         currentPath = paths.get(unitValue);
         currentPath.addUnit(initialUnit);
+        System.out.println(paths.keySet());
         return true;
     }
 
@@ -72,9 +73,9 @@ public class Controller {
         boolean isEnd = selectedUnit.equals(ends.getFirst())
                 || selectedUnit.equals(ends.getLast());
         // unit has to be initially non 0
+        boolean hasValue = (selectedUnit.getValue()!=0);
 
-
-        return isEnd;
+        return isEnd && hasValue;
     }
 
     public HashMap<Integer, Path> solveAndExtractPaths(){
@@ -84,18 +85,7 @@ public class Controller {
     }
 
     //TODO find a better suitable place for this method
-    public void generateBoard(int size){
-        Generator generator = new Generator();
-        char[][] generated = generator.generate(size);
-        int[][] converted = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                int c = generated[i][j] - 48;
-                converted[i][j] = (c < 0 || c > 21) ? 0 : c;
-            }
-        }
-        this.board = new Board(size, converted);
-    }
+
     /**
      * Determines if a given move is valid.
      *
