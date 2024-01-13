@@ -32,7 +32,9 @@ public class KeyBoardManager {
                 System.out.println("UP");
                 System.out.println(controller.currentPath);
                 GUI.repaintButton(controller.currentPath.getLastAdded());
-
+                if (controller.currentPath.getCompleted()){
+                    GUI.darkenPath(controller.currentPath);
+                }
                 if (win) {
                     JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -49,7 +51,9 @@ public class KeyBoardManager {
                 System.out.println("Down");
                 System.out.println(controller.currentPath);
                 GUI.repaintButton(controller.currentPath.getLastAdded());
-
+                if (controller.currentPath.getCompleted()){
+                    GUI.darkenPath(controller.currentPath);
+                }
                 if (win) {
                     JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                     GUI.getMainGui().showFrame(true);
@@ -70,7 +74,9 @@ public class KeyBoardManager {
                 System.out.println("Left");
                 System.out.println(controller.currentPath);
                 GUI.repaintButton(controller.currentPath.getLastAdded());
-
+                if (controller.currentPath.getCompleted()){
+                    GUI.darkenPath(controller.currentPath);
+                }
                 if (win) {
                     JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                     GUI.getMainGui().showFrame(true);
@@ -90,7 +96,9 @@ public class KeyBoardManager {
                 System.out.println("Right");
                 System.out.println(controller.currentPath);
                 GUI.repaintButton(controller.currentPath.getLastAdded());
-
+                if (controller.currentPath.getCompleted()){
+                    GUI.darkenPath(controller.currentPath);
+                }
                 if (win) {
                     JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                     GUI.getMainGui().showFrame(true);

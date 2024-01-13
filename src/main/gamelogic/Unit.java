@@ -6,18 +6,25 @@ import java.util.StringJoiner;
 public class Unit {
     private final int x, y;
     private int value;
+    private boolean isPartOfPath;
     private final Board board;
     public Unit(int x, int y, int value, Board board) {
         this.x = x;
         this.y = y;
         this.value = value;
         this.board = board;
+        this.isPartOfPath = false;
     }
 
     public int getValue() {
         return value;
     }
-
+    public void setPartOfPath(boolean partOfPath){
+        this.isPartOfPath = partOfPath;
+    }
+    public boolean isPartOfPath(){
+        return isPartOfPath;
+    }
     public int getX() {
         return x;
     }
@@ -26,10 +33,6 @@ public class Unit {
         return y;
     }
 
-    public int calculateDistanceFromCenter(int size) {
-        int center = (size - 1) / 2;
-        return Math.abs(x - center) + Math.abs(y - center);
-    }
 
     @Override
     public String toString() {

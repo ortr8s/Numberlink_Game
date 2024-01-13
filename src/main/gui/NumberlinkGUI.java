@@ -124,6 +124,15 @@ public class NumberlinkGUI implements Runnable {
         }
         boardPanel.repaint();
     }
+    public void darkenPath(Path path){
+        Color currentColor = getBackgroundColor(path.getUnit(0).getValue());
+        for (int i = 0; i < path.getSize(); i++) {
+            Unit unit = path.getUnit(i);
+            buttons[unit.getX()][unit.getY()].setBackground(currentColor.darker());
+        }
+        boardPanel.repaint();
+
+    }
     private void goBack() {
         mainGui.showFrame(true);
         frame.dispose();

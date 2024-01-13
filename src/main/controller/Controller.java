@@ -94,16 +94,17 @@ public class Controller {
      * @return {@code true} if the move is valid, {@code false} otherwise.
      */
     private boolean isMoveValid(Moves move) {
-        if (currentPath == null) return false;
+        if (currentPath == null || currentPath.getCompleted()) return false;
         Unit neighbour = currentPath.getLastAdded().getNeighbour(move);
         if(!currentPath.getUnit(0).equals(neighbour)) {
             if (getFirst().equals(neighbour) || getLast().equals(neighbour) ) {
+                currentPath.setCompleted(true);
                 return true;
             }
         }
         boolean hasCurves = board.hasCurves(currentPath, neighbour);
         boolean hasValue = (neighbour.getValue() == 0);
-        return hasCurves || hasValue;
+        return hasCurves && hasValue && !neighbour.isPartOfPath();
     }
 
     /**
@@ -113,15 +114,9 @@ public class Controller {
      * @return {@code true} if the move was last in the Game to be finished, {@code false} otherwise.
      */
     public boolean makeMove(Moves move) {
-        System.out.println(isMoveValid(move));
         if (isMoveValid(move)) {
             currentPath.advance(move);
-            for (int i = 0; i < board.getBoard().length; ++i) {
-                for(int j = 0; j < board.getBoard().length; ++j) {
-                    System.out.print(board.getBoard()[i][j].getValue() + " ");
-                }
-                System.out.println();
-            }
+            currentPath.getLastAdded().setPartOfPath(true);
         }
         if (isGameFinished()) {
             System.out.println("COMPLETED");
@@ -151,7 +146,9 @@ public class Controller {
     public int getBoardSize(){
         return board.getSize();
     }
-
+    public Path getCurrentPath(){
+        return currentPath;
+    }
     private Unit getFirst() {
         return currentPath.getStartEndPair().getFirst();
     }

@@ -11,7 +11,7 @@ public class MainGUI {
     private static final Font SIZE_LABEL_FONT = new Font("Arial", Font.BOLD, 70);
     private static final Font BUTTON_FONT = new Font("Arial", Font.BOLD, 20);
 
-    private static final int[] MAP_SIZES = {5, 7, 9};
+    private static final int[] MAP_SIZES = {5,6, 7,8, 9};
     private static int currentIndex = 0;
     private final Generator generator;
     private JFrame frame;

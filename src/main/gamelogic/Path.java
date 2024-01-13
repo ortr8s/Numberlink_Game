@@ -17,10 +17,12 @@ public class Path {
     private final Unit[] units;
 
     private int size;
+    private boolean isCompleted;
 
     public int getSize() {
         return size;
     }
+
 
     /**
      * Represents a path in the Numberlink game that connects a pair of units.
@@ -30,6 +32,14 @@ public class Path {
     public Path(Pair startEndPair) {
         this.startEndPair = startEndPair;
         this.units = new Unit[100];
+        this.isCompleted = false;
+    }
+
+    public boolean getCompleted(){
+        return isCompleted;
+    }
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     public Path() {
