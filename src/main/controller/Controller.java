@@ -58,6 +58,8 @@ public class Controller {
         // Get the current path from the HashMap
         currentPath = paths.get(unitValue);
         currentPath.addUnit(initialUnit);
+
+        System.out.println("IsPart: "+currentPath.getUnits()[0].isPartOfPath());
         System.out.println(paths.keySet());
         return true;
     }
@@ -149,10 +151,19 @@ public class Controller {
     public Path getCurrentPath(){
         return currentPath;
     }
-    private Unit getFirst() {
+    public Unit getFirst() {
         return currentPath.getStartEndPair().getFirst();
     }
-    private Unit getLast() {
+    public Unit getLast() {
         return currentPath.getStartEndPair().getLast();
+    }
+    public void clearPath() {
+        currentPath.clearPath();
+    }
+    public Unit[] getPathContents() {
+        return currentPath.getUnits();
+    }
+    public int currentPathSize() {
+        return currentPath.getSize();
     }
 }

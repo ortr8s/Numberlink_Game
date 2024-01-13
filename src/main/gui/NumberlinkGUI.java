@@ -1,16 +1,13 @@
 package main.gui;
 
 import main.controller.Controller;
-import main.gamelogic.Board;
 import main.gamelogic.Path;
 import main.gamelogic.Unit;
-import main.utils.InvalidBoardSizeException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,16 +70,18 @@ public class NumberlinkGUI implements Runnable {
         }
     }
     private JButton createButtonWithProperties(int i, int j, Unit unit) {
-        JButton button = new JButton();
+        JButton button;
         if (unit.getValue() > TRANSPARENT) {
-            button = customizeButton(button, unit, i, j);
+            StartPathButton startPathButton = new StartPathButton();
+            return customizeButton(startPathButton, unit, i, j);
         } else {
+            button = new JButton();
             button.setEnabled(false);
         }
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         return button;
     }
-    private JButton customizeButton(JButton button, Unit unit, int x, int y) {
+    private StartPathButton customizeButton(StartPathButton button, Unit unit, int x, int y) {
         button.setText(String.valueOf(unit.getValue()));
         button.setBackground(getBackgroundColor(unit.getValue())); // Set background color
         button.setForeground(Color.BLACK); // Set text color
@@ -108,9 +107,25 @@ public class NumberlinkGUI implements Runnable {
         frame.add(topPanel, BorderLayout.NORTH);
     }
     private void handleCellClick(int x, int y) {
-        if (controller.selectUnit(x, y)) {
-            System.out.println(controller.currentPath);
-        }
+                if (buttons[x][y] instanceof StartPathButton){
+                    System.out.println("PRAWDA");
+                }
+            StartPathButton button = (StartPathButton) buttons[x][y];
+            if (button.wasClicked() && controller.currentPath != null) {
+                button.reset();
+                System.out.println(button.wasClicked());
+
+                clearButtons(controller.currentPath);
+                controller.clearPath();
+
+                controller.selectUnit(x, y);
+                System.out.println(controller.currentPath);
+                System.out.println("x: " + x + "\ny: " + y);
+            } else {
+                System.out.println("WasClicked:3" +button.wasClicked());
+                controller.selectUnit(x, y);
+                System.out.println(controller.currentPath);
+            }
     }
     private void showSolution(){
         HashMap<Integer, Path > paths = controller.solveAndExtractPaths();
@@ -142,9 +157,19 @@ public class NumberlinkGUI implements Runnable {
         buttons[unit.getX()][unit.getY()].setBackground(color);
         frame.repaint();
     }
-    public static void main(String[] args) throws IOException, InvalidBoardSizeException {
-        Board board = new Board(5, new int[][]{{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}});
-        Controller controller = new Controller(board);
+    public void clearButtons(Path path) {
+        Color clear = getBackgroundColor(14);
+        Color bright = getBackgroundColor(path.getID());
+        Unit[] contents = path.getUnits();
+        for (int i = 0; i < path.getSize(); i++) {
+            if (contents[i].equals(controller.getFirst())
+                    || contents[i].equals(controller.getLast())) {
+                buttons[contents[i].getX()][contents[i].getY()].setBackground(bright.brighter());
+            } else {
+                buttons[contents[i].getX()][contents[i].getY()].setBackground(clear);
+            }
+        }
+        frame.repaint();
     }
      static Color getBackgroundColor(int number) {
         int alpha = 200;
@@ -178,11 +203,5 @@ public class NumberlinkGUI implements Runnable {
             default:
                 return new Color(0, 0, 0, 0);
         }
-    }
-    /**
-     * Used by the Keylistener to repaint after an action
-     */
-    public void repaint(){
-        frame.repaint();
     }
 }

@@ -14,14 +14,10 @@ public class Path {
      * Represents an array of Unit objects.
      * Provides methods for retrieving and manipulating the units.
      */
-    private final Unit[] units;
+    private Unit[] units;
 
     private int size;
     private boolean isCompleted;
-
-    public int getSize() {
-        return size;
-    }
 
 
     /**
@@ -35,15 +31,19 @@ public class Path {
         this.isCompleted = false;
     }
 
+    public Path() {
+        this.units = new Unit[100];
+    }
+
+    public int getSize() {
+        return size;
+    }
     public boolean getCompleted(){
         return isCompleted;
     }
+
     public void setCompleted(boolean completed) {
         isCompleted = completed;
-    }
-
-    public Path() {
-        this.units = new Unit[100];
     }
     public Unit getUnit(int n){
         if(n < size){
@@ -59,6 +59,19 @@ public class Path {
      */
     public Pair getStartEndPair() {
         return startEndPair;
+    }
+
+    /**
+     * Retrieves the value of the Units this Path consists of.
+     *
+     * @return The ID of the Path - value of the Units.
+     */
+    public int getID() {
+        return startEndPair.getFirst().getValue();
+    }
+
+    public Unit[] getUnits() {
+        return units;
     }
 
     /**
@@ -97,29 +110,6 @@ public class Path {
     public Unit getLastAdded() {
         return units[size - 1];
     }
-
-    /**
-     * Determines if the path is completed.
-     *
-     * @return {@code true} if the path is completed, {@code false} otherwise.
-     */
-    public boolean isCompleted() {
-        if (units[0] == null) return false;
-        if (units[0].equals(startEndPair.getLast()) || units[0].equals(startEndPair.getFirst())) {
-            if (getLastAdded().equals(startEndPair.getLast()) || getLastAdded().equals(startEndPair.getFirst())) {
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
-     * Retrieves the value of the Units this Path consists of.
-     *
-     * @return The ID of the Path - value of the Units.
-     */
-    public int getID() {
-        return startEndPair.getFirst().getValue();
-    }
     /**
      * Advances the path to the neighbouring unit based on the given move.
      *
@@ -128,6 +118,14 @@ public class Path {
      */
     public void advance(Moves move) {
         addUnit(getLastAdded().getNeighbour(move));
+    }
+    public void clearPath() {
+        for (int i = 0; i < size; i++) {
+            units[i].setPartOfPath(false);
+            units[i]=null;
+            isCompleted = false;
+        }
+        size = 0;
     }
     @Override
     public boolean equals(Object o) {
