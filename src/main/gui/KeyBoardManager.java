@@ -37,6 +37,8 @@ public class KeyBoardManager {
                 }
                 if (win) {
                     JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                    GUI.getMainGui().showFrame(true);
+                    frame.dispose();
                 }
             }
         });
