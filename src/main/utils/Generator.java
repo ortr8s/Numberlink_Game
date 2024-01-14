@@ -1285,6 +1285,8 @@ public class Generator {
     }
     
     class tableHub {
+    	/*
+    	 * Non-adjusted tables are template-only
     	 // Co można wstawić na początek wiersza?
         static final char[] availableCharsStartRow = {'|', '|', '0', 'F', 'L'};
 
@@ -1643,7 +1645,7 @@ public class Generator {
         static final char[] availableCharsLastNotConnectingUPEndRowAfterT = {'0'};
         static final char[] availableCharsLastNotConnectingUPEndRowAfterL = {'0'};
         static final char[] availableCharsLastNotConnectingUPEndRowAfterJ = {'0'};
-
+*/
 
         // Dostosowanie częstości występowania
 
