@@ -14,7 +14,7 @@ public class Path {
      * Represents an array of Unit objects.
      * Provides methods for retrieving and manipulating the units.
      */
-    private Unit[] units;
+    private final Unit[] units;
 
     private int size;
     private boolean isCompleted;
@@ -115,7 +115,6 @@ public class Path {
      * Advances the path to the neighbouring unit based on the given move.
      *
      * @param move The move to be made.
-     * @return The neighbouring unit based on the given move.
      */
     public void advance(Moves move) {
         addUnit(getLastAdded().getNeighbour(move));
@@ -123,7 +122,7 @@ public class Path {
     public void clearPath() {
         for (int i = 0; i < size; i++) {
             units[i].setPartOfPath(false);
-            units[i]=null;
+            units[i] = null;
             isCompleted = false;
         }
         size = 0;

@@ -1,6 +1,5 @@
 package main.gamelogic;
 
-import main.utils.Generator;
 import main.utils.Solver;
 
 import java.util.*;
@@ -112,27 +111,6 @@ public class Board {
 
         return board[neighborRow][neighborCol];
     }
-
-
-    /**
-     * Converts a 2D array of characters representing numbers to a 2D array of integers.
-     * Primarily used to convert a map created by Generator.
-     *
-     * @param a    the 2D array of characters to be converted
-     * @param size the size of the array
-     * @return a 2D array of integers converted from the input array
-     */
-    public static int[][] convertGeneratedBoard(char[][] a, int size) {
-        int[][] numbers = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                int c = a[i][j] - 48;
-                numbers[i][j] = (c < 0 || c > 21) ? 0 : c;
-            }
-        }
-        return numbers;
-    }
-
     /**
      * Extracts pairs of Units from the Board.
      * Each pair contains the beginning and the end of the path.
@@ -146,11 +124,6 @@ public class Board {
         for (int i = 0; i < pairs.size() - 1; i += 2) {
             Unit one = pairs.get(i);
             Unit two = pairs.get(i + 1);
-//            if(one.calculateDistanceFromCenter(size) < two.calculateDistanceFromCenter(size)){
-//                finalPairs.add(new Pair(two, one));
-//            } else {
-//                finalPairs.add(new Pair(one, two));
-//            }
             finalPairs.add(new Pair(one, two));
         }
         return finalPairs;
@@ -192,15 +165,6 @@ public class Board {
     public boolean hasCurves(Path path, Unit neighbour) {
         return !Solver.isMoveCurved(path, neighbour);
     }
-
-    //TODO add uneven numbers exception
-    public static void main(String[] args) {
-        Generator generator = new Generator();
-        //char[][] generatedBoard = Generator.fillWithNumbers(generator.generate(9));
-        //int [][] a = convertGeneratedBoard(generatedBoard,9);
-        //System.out.println(Arrays.deepToString(a));
-    }
-
     public Unit getUnitPosition(int x, int y) {
         return board[x][y];
     }

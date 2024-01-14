@@ -175,35 +175,21 @@ public class NumberlinkGUI implements Runnable {
     }
      static Color getBackgroundColor(int number) {
         int alpha = 200;
-        switch (number) {
-            case 1:
-                return new Color(255, 255, 0, alpha);
-            case 2:
-                return new Color(0, 128, 0, alpha);
-            case 3:
-                return new Color(255, 0, 0, alpha);
-            case 4:
-                return new Color(0, 0, 255, alpha);
-            case 5:
-                return new Color(255, 165, 0, alpha);
-            case 6:
-                return new Color(128, 0, 128, alpha);
-            case 7:
-                return new Color(255, 192, 203, alpha);
-            case 8:
-                return new Color(64, 224, 208, alpha);
-            case 9:
-                return new Color(128, 128, 0, alpha);
-            case 10:
-                return new Color(255, 69, 0, alpha);
-            case 11:
-                return new Color(173, 216, 230, alpha);
-            case 12:
-                return new Color(82, 43, 28, alpha);
-            case 13:
-                return new Color(139, 69, 19, alpha);
-            default:
-                return new Color(0, 0, 0, 0);
-        }
+         return switch (number) {
+             case 1 -> new Color(255, 255, 0, alpha);
+             case 2 -> new Color(0, 128, 0, alpha);
+             case 3 -> new Color(255, 0, 0, alpha);
+             case 4 -> new Color(0, 0, 255, alpha);
+             case 5 -> new Color(255, 165, 0, alpha);
+             case 6 -> new Color(128, 0, 128, alpha);
+             case 7 -> new Color(255, 192, 203, alpha);
+             case 8 -> new Color(64, 224, 208, alpha);
+             case 9 -> new Color(128, 128, 0, alpha);
+             case 10 -> new Color(255, 69, 0, alpha);
+             case 11 -> new Color(173, 216, 230, alpha);
+             case 12 -> new Color(82, 43, 28, alpha);
+             case 13 -> new Color(139, 69, 19, alpha);
+             default -> new Color(0, 0, 0, 0);
+         };
     }
 }

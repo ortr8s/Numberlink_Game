@@ -8,8 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 public class KeyBoardManager {
-    private Controller controller;
-    private NumberlinkGUI GUI;
+    private final Controller controller;
+    private final NumberlinkGUI GUI;
 
     public KeyBoardManager(Controller controller, NumberlinkGUI GUI, JFrame frame) {
         this.controller = controller;

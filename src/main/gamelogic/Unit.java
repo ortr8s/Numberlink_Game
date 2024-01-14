@@ -5,7 +5,7 @@ import java.util.StringJoiner;
 
 public class Unit {
     private final int x, y;
-    private int value;
+    private final int value;
     private boolean isPartOfPath;
     private final Board board;
     public Unit(int x, int y, int value, Board board) {
@@ -43,9 +43,6 @@ public class Unit {
                 .toString();
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
     public Unit getNeighbour(Moves move) {
         return board.getNeighbor(this, move);
     }

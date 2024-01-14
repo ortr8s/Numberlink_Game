@@ -1,11 +1,9 @@
 package main.controller;
 
 import main.gamelogic.*;
-import main.utils.Generator;
 import main.utils.Solver;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class Controller {
 
@@ -42,13 +40,12 @@ public class Controller {
      *
      * @param x The x-coordinate of the unit on the board.
      * @param y The y-coordinate of the unit on the board.
-     * @return true if the unit was successfully selected, false otherwise.
      */
-    public boolean selectUnit(int x, int y) {
+    public void selectUnit(int x, int y) {
         Unit initialUnit = board.getUnitPosition(x, y);
         int unitValue = initialUnit.getValue();
 
-        if (!isSelectedUnitValid(initialUnit)) return false;
+        if (!isSelectedUnitValid(initialUnit)) return;
 
         // If currentPath is not null (implies we've finished working with this path), put it back into the paths HashMap
         if (currentPath != null && currentPath != paths.get(unitValue)) {
@@ -61,7 +58,6 @@ public class Controller {
 
         System.out.println("IsPart: "+currentPath.getUnits()[0].isPartOfPath());
         System.out.println(paths.keySet());
-        return true;
     }
 
     /**
@@ -148,9 +144,6 @@ public class Controller {
     public int getBoardSize(){
         return board.getSize();
     }
-    public Path getCurrentPath(){
-        return currentPath;
-    }
     public Unit getFirst() {
         return currentPath.getStartEndPair().getFirst();
     }
@@ -159,11 +152,5 @@ public class Controller {
     }
     public void clearPath() {
         currentPath.clearPath();
-    }
-    public Unit[] getPathContents() {
-        return currentPath.getUnits();
-    }
-    public int currentPathSize() {
-        return currentPath.getSize();
     }
 }

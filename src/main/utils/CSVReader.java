@@ -84,23 +84,6 @@ public class CSVReader {
         }
         return data;
     }
-
-    /**
-     * Returns the maximum label value present in the given board.
-     *
-     * @param board the 2-dimensional integer array representing the board
-     * @return the maximum label value found in the board
-     */
-    public static int getLabelCount(int[][] board) {
-        int currMax = 0;
-        for (int[] row : board) {
-            for (int val : row) {
-                currMax = Math.max(currMax, val);
-            }
-        }
-        return currMax;
-    }
-
     @Override
     public String toString() {
         return new StringJoiner(", ", CSVReader.class.getSimpleName() + "[", "]")
