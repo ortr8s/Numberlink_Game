@@ -132,8 +132,4 @@ public class MainGUI {
         frame.setVisible(isVisible);
     }
 
-    public static void main(String[] args) {
-        MainGUI mainGUI = new MainGUI();
-        mainGUI.initGUI();
-    }
 }
