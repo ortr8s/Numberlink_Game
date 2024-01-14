@@ -1,10 +1,10 @@
 package main.gameinit;
-
-import main.gamelogic.Board;
-import main.gamelogic.Path;
+import main.gui.MainGUI;
 
 public class Game {
-    Board board;
-    Path currPath;
+    public static void main(String[] args) {
+        MainGUI mainGUI = new MainGUI();
+        mainGUI.initGUI();
+    }
 
 }

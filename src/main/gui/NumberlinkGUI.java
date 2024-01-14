@@ -73,7 +73,7 @@ public class NumberlinkGUI implements Runnable {
         JButton button;
         if (unit.getValue() > TRANSPARENT) {
             StartPathButton startPathButton = new StartPathButton();
-            return customizeButton(startPathButton, unit, i, j);
+            button = customizeButton(startPathButton, unit, i, j);
         } else {
             button = new JButton();
             button.setEnabled(false);
@@ -86,8 +86,9 @@ public class NumberlinkGUI implements Runnable {
         button.setBackground(getBackgroundColor(unit.getValue())); // Set background color
         button.setForeground(Color.BLACK); // Set text color
         button.setFont(new Font(button.getFont().getName(), Font.BOLD, 18)); // Set font
-        button.setBorderPainted(true);
         button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -174,21 +175,20 @@ public class NumberlinkGUI implements Runnable {
         frame.repaint();
     }
      static Color getBackgroundColor(int number) {
-        int alpha = 200;
          return switch (number) {
-             case 1 -> new Color(255, 255, 0, alpha);
-             case 2 -> new Color(0, 128, 0, alpha);
-             case 3 -> new Color(255, 0, 0, alpha);
-             case 4 -> new Color(0, 0, 255, alpha);
-             case 5 -> new Color(255, 165, 0, alpha);
-             case 6 -> new Color(128, 0, 128, alpha);
-             case 7 -> new Color(255, 192, 203, alpha);
-             case 8 -> new Color(64, 224, 208, alpha);
-             case 9 -> new Color(128, 128, 0, alpha);
-             case 10 -> new Color(255, 69, 0, alpha);
-             case 11 -> new Color(173, 216, 230, alpha);
-             case 12 -> new Color(82, 43, 28, alpha);
-             case 13 -> new Color(139, 69, 19, alpha);
+             case 1 -> new Color(255, 255, 0);
+             case 2 -> new Color(0, 128, 0);
+             case 3 -> new Color(255, 0, 0);
+             case 4 -> new Color(0, 0, 255);
+             case 5 -> new Color(255, 165, 0);
+             case 6 -> new Color(128, 0, 128);
+             case 7 -> new Color(255, 192, 203);
+             case 8 -> new Color(64, 224, 208);
+             case 9 -> new Color(128, 128, 0);
+             case 10 -> new Color(255, 69, 0);
+             case 11 -> new Color(173, 216, 230);
+             case 12 -> new Color(82, 43, 28);
+             case 13 -> new Color(139, 69, 19);
              default -> new Color(0, 0, 0, 0);
          };
     }
