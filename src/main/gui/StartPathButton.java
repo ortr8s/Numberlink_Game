@@ -1,26 +1,20 @@
 package main.gui;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class StartPathButton extends JButton {
-    private boolean wasClicked = false;
+    private boolean isClicked;
 
     public StartPathButton() {
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                wasClicked = true;
-            }
-        });
+        isClicked = false;
     }
 
-    public boolean wasClicked() {
-        return wasClicked;
+    public boolean isClicked() {
+        return isClicked;
     }
 
     public void reset() {
-        wasClicked = false;
+        isClicked = false;
     }
+    public void setClicked() { isClicked = true; }
 }

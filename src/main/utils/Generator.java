@@ -84,22 +84,22 @@ public class Generator {
 
     public Generator() {
     }
-    public static void main(String[] args) {
-        Generator generator = new Generator();
-
-        char[][] generatedBoard = generator.generate(9);
-
-        for (int j = 0; j < generatedBoard.length; j++) {
-            for (int i = 0; i < generatedBoard.length; i++) {
-                System.out.print(generatedBoard[j][i]);
-                System.out.print("  ");
-            }
-            System.out.println(" ");
-            // TODO Test
-        }
-    }
-
-
+//    public static void main(String[] args) {
+//        Generator generator = new Generator();
+//
+//        char[][] generatedBoard = generator.generate(9);
+//
+//        for (int j = 0; j < generatedBoard.length; j++) {
+//            for (int i = 0; i < generatedBoard.length; i++) {
+//                System.out.print(generatedBoard[j][i]);
+//                System.out.print("  ");
+//            }
+//            System.out.println(" ");
+//            // TODO Test
+//        }
+//    }
+//
+//
     /**
      * An all-in-one generate method
      *

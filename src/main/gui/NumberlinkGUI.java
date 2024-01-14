@@ -91,7 +91,7 @@ public class NumberlinkGUI implements Runnable {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                handleCellClick(x, y);
+                handleCellClick(button, x, y);
             }
         });
         return button;
@@ -106,26 +106,28 @@ public class NumberlinkGUI implements Runnable {
         topPanel.add(backButton);
         frame.add(topPanel, BorderLayout.NORTH);
     }
-    private void handleCellClick(int x, int y) {
-                if (buttons[x][y] instanceof StartPathButton){
-                    System.out.println("PRAWDA");
-                }
-            StartPathButton button = (StartPathButton) buttons[x][y];
-            if (button.wasClicked() && controller.currentPath != null) {
-                button.reset();
-                System.out.println(button.wasClicked());
-
+    private void handleCellClick(StartPathButton button, int x, int y) {
+            if (button.isClicked() && controller.currentPath != null) {
+                controller.selectUnit(x, y);
                 clearButtons(controller.currentPath);
                 controller.clearPath();
-
-                controller.selectUnit(x, y);
+                button.reset();
+                getOppositeButton(x,y).reset();
                 System.out.println(controller.currentPath);
-                System.out.println("x: " + x + "\ny: " + y);
+                button.setBackground(button.getBackground());
+                frame.repaint();
             } else {
-                System.out.println("WasClicked:3" +button.wasClicked());
                 controller.selectUnit(x, y);
+                button.setClicked();
+                getOppositeButton(x,y).setClicked();
+                button.setBackground(button.getBackground().darker());
+                frame.repaint();
                 System.out.println(controller.currentPath);
             }
+    }
+    private StartPathButton getOppositeButton(int x, int y) {
+        int[] oppositeCoords = controller.currentPath.getStartEndPair().getOpposite(x,y);
+        return (StartPathButton) buttons[oppositeCoords[0]][oppositeCoords[1]];
     }
     private void showSolution(){
         HashMap<Integer, Path > paths = controller.solveAndExtractPaths();
@@ -159,12 +161,12 @@ public class NumberlinkGUI implements Runnable {
     }
     public void clearButtons(Path path) {
         Color clear = getBackgroundColor(14);
-        Color bright = getBackgroundColor(path.getID());
+        Color regular = getBackgroundColor(path.getID());
         Unit[] contents = path.getUnits();
         for (int i = 0; i < path.getSize(); i++) {
             if (contents[i].equals(controller.getFirst())
                     || contents[i].equals(controller.getLast())) {
-                buttons[contents[i].getX()][contents[i].getY()].setBackground(bright.brighter());
+                buttons[contents[i].getX()][contents[i].getY()].setBackground(regular);
             } else {
                 buttons[contents[i].getX()][contents[i].getY()].setBackground(clear);
             }
@@ -197,7 +199,7 @@ public class NumberlinkGUI implements Runnable {
             case 11:
                 return new Color(173, 216, 230, alpha);
             case 12:
-                return new Color(0, 100, 0, alpha);
+                return new Color(82, 43, 28, alpha);
             case 13:
                 return new Color(139, 69, 19, alpha);
             default:

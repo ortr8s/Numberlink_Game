@@ -105,6 +105,7 @@ public class Path {
     public void addUnit(Unit unit) {
         units[size] = unit;
         size++;
+        unit.setPartOfPath(true);
     }
 
     public Unit getLastAdded() {

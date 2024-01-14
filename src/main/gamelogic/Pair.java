@@ -60,6 +60,15 @@ public class Pair {
         return Math.abs(first.getX() - last.getX()) + Math.abs(first.getY() - last.getY());
     }
 
+    public int[] getOpposite(int x, int y) {
+         if (first.getX() == x && first.getY() == y) {
+            return new int[]{last.getX(),last.getY()};
+        } else if (last.getX() == x && last.getY() == y) {
+            return new int[]{first.getX(),first.getY()};
+        }
+        return new int[]{x,y};
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", Pair.class.getSimpleName() + "[", "]")

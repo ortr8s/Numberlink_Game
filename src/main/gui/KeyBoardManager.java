@@ -27,7 +27,7 @@ public class KeyBoardManager {
         actionMap.put("UP_KEY", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (controller.currentPath == null) return;
+                if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.UP);
                 System.out.println("UP");
                 System.out.println(controller.currentPath);
@@ -48,7 +48,7 @@ public class KeyBoardManager {
         actionMap.put("DOWN_KEY", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (controller.currentPath == null) return;
+                if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.DOWN);
                 System.out.println("Down");
                 System.out.println(controller.currentPath);
@@ -71,7 +71,7 @@ public class KeyBoardManager {
         actionMap.put("LEFT_KEY", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (controller.currentPath == null) return;
+                if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.LEFT);
                 System.out.println("Left");
                 System.out.println(controller.currentPath);
@@ -93,7 +93,7 @@ public class KeyBoardManager {
         actionMap.put("RIGHT_KEY", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (controller.currentPath == null) return;
+                if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.RIGHT);
                 System.out.println("Right");
                 System.out.println(controller.currentPath);
