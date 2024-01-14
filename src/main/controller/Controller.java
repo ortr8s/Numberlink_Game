@@ -94,13 +94,13 @@ public class Controller {
     private boolean isMoveValid(Moves move) {
         if (currentPath == null || currentPath.getCompleted()) return false;
         Unit neighbour = currentPath.getLastAdded().getNeighbour(move);
-        if(!currentPath.getUnit(0).equals(neighbour)) {
+        boolean hasCurves = board.hasCurves(currentPath, neighbour);
+        if(!currentPath.getUnit(0).equals(neighbour) && hasCurves) {
             if (getFirst().equals(neighbour) || getLast().equals(neighbour) ) {
                 currentPath.setCompleted(true);
                 return true;
             }
         }
-        boolean hasCurves = board.hasCurves(currentPath, neighbour);
         boolean hasValue = (neighbour.getValue() == 0);
         return hasCurves && hasValue && !neighbour.isPartOfPath();
     }

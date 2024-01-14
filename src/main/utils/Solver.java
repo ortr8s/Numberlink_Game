@@ -152,7 +152,7 @@ public class Solver {
 						checkedCells[neighbourX][neighbourY] = val;
 						if (currentPairIndex == pairs.size()) { //if all numbers were checked print out the solution
 							if (validateSolution()){
-								print();
+								//print();
 								System.out.println("Time: " + (System.nanoTime() - startTime) / 777600000);
 								stop = true;
 								isSolvable = true;
