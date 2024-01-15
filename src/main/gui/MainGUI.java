@@ -2,9 +2,13 @@ package main.gui;
 
 import main.controller.Controller;
 import main.gamelogic.Board;
+import main.utils.CSVReader;
 import main.utils.Generator;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FilenameFilter;
 
 public class MainGUI {
     private static final Font TITLE_LABEL_FONT = new Font("Arial", Font.BOLD, 38);
@@ -15,6 +19,7 @@ public class MainGUI {
     private static int currentIndex = 0;
     private final Generator generator;
     private JFrame frame;
+    private JComboBox<String> mapSelectionDropdown;
 
     public MainGUI() {
         generator = new Generator();
@@ -72,6 +77,11 @@ public class MainGUI {
         gbc.gridy = 2;
         panel.add(createConfirmButton(), gbc);
 
+        setUpMapSelectionDropdown();
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        panel.add(mapSelectionDropdown, gbc);
+
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -112,6 +122,24 @@ public class MainGUI {
 
         return chooseButton;
     }
+    private void setUpMapSelectionDropdown() {
+        String[] mapFiles = listMapFiles();
+        mapSelectionDropdown = new JComboBox<>(mapFiles);
+        mapSelectionDropdown.setFont(BUTTON_FONT);
+        mapSelectionDropdown.addActionListener(e -> {
+            String selectedMap = (String) mapSelectionDropdown.getSelectedItem();
+            if (selectedMap != null && !selectedMap.isEmpty()) {
+                loadGameBoardFromFile(selectedMap);
+            }
+        });
+    }
+    private String[] listMapFiles() {
+        File folder = new File("resources/boards"); // Adjust the path to your resources folder
+        FilenameFilter filter = (dir, name) -> name.endsWith(".csv");
+        String[] files = folder.list(filter);
+
+        return files != null ? files : new String[0];
+    }
 
     private void createGameBoard() {
         if (MAP_SIZES[currentIndex] != -1) {
@@ -122,6 +150,20 @@ public class MainGUI {
             JOptionPane.showMessageDialog(frame, "ERROR");
         }
         frame.dispose();
+    }
+    private void loadGameBoardFromFile(String selectedMap) {
+        CSVReader reader = new CSVReader(",");
+        try {
+            //TODO change the method of extracting the number from file
+            int[][] loadedBoard = reader.read(Character.getNumericValue(selectedMap.charAt(6)));
+            Board board = new Board(loadedBoard.length, loadedBoard);
+            NumberlinkGUI gui = new NumberlinkGUI(MainGUI.this, new Controller(board));
+            SwingUtilities.invokeLater(gui);
+
+            frame.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, "Error loading map: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public JFrame getFrame() {

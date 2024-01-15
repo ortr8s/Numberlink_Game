@@ -185,7 +185,7 @@ public class NumberlinkGUI implements Runnable {
              case 7 -> new Color(255, 192, 203);
              case 8 -> new Color(64, 224, 208);
              case 9 -> new Color(128, 128, 0);
-             case 10 -> new Color(255, 69, 0);
+             case 10 -> new Color(255, 90, 40);
              case 11 -> new Color(173, 216, 230);
              case 12 -> new Color(82, 43, 28);
              case 13 -> new Color(139, 69, 19);
