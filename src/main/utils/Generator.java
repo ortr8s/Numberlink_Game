@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * Provides pseudo-random Numberlink board generation functionality
  */
-public class Generator {
+public class Generator extends ConnectionTypes {
 
     static Random random = new Random();
 
@@ -46,44 +46,7 @@ public class Generator {
     // AfterX - po znaku x który jest sąsiadem z lewej strony
 
 
-    private static boolean hasMandatoryBottomConnectionTypeF(char a) {
-        return (a == '|') || (a == 'F');
-    }
 
-    private static boolean hasMandatoryBottomConnectionTypeT(char a) {
-        return (a == '|') || (a == 'T');
-    }
-
-    private static boolean hasMandatoryBottomConnection(char a) {
-        return (a == '|') || (a == 'F') || (a == 'T');
-    }
-
-    private static boolean hasNoBottomConnection(char a) {
-        return (a == '-') || (a == 'L') || (a == 'J');
-    }
-
-    private static boolean hasMandatoryConnectionUP(char a) {
-        return (a == '|') || (a == 'L') || (a == 'J');
-    }
-    
-    private static boolean hasMandatoryConnectionUPTypeL(char a) {
-        return (a == '|') || (a == 'L');
-    }
-    
-    private static boolean hasMandatoryConnectionUPTypeJ(char a) {
-        return (a == '|') || (a == 'J');
-    }
-
-    private static boolean hasMandatoryConnectionRight(char a) {
-        return (a == '-') || (a == 'F') || (a == 'L');
-    }
-
-    private static boolean hasMandatoryConnectionLeft(char a) {
-        return (a == '-') || (a == 'T') || (a == 'J');
-    }
-
-    public Generator() {
-    }
 //    public static void main(String[] args) {
 //        Generator generator = new Generator();
 //
@@ -915,7 +878,6 @@ public class Generator {
                                 finally {
                                     continue;
                                 }
-                                //TODO fix
                         }
                     }
                 }
@@ -1029,7 +991,7 @@ public class Generator {
         for (char[] row : tableToFill) {
 
             // Kiedy wstawimy nową cyfrę to continue tej pętli
-            gotoHere:
+            processRow:
             for (int i = 0; i < row.length; i++) {
 
                 if (row[i] == '0') {
@@ -1274,7 +1236,7 @@ public class Generator {
 //									System.out.println("Zapisano" + numberCounter);
                                             // zwiększmy licznik cyfr o 1
                                             numberCounter++;
-                                            continue gotoHere;
+                                            continue processRow;
                                         }
                                     } finally {
                                         // jak trzeba zrobić więcej ruchów to wracamy do pętli more
