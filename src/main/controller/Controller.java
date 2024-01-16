@@ -86,23 +86,37 @@ public class Controller {
     //TODO find a better suitable place for this method
 
     /**
-     * Determines if a given move is valid.
+     * Checks if a given move is valid.
      *
      * @param move The move to be checked.
      * @return {@code true} if the move is valid, {@code false} otherwise.
      */
     private boolean isMoveValid(Moves move) {
         if (currentPath == null || currentPath.getCompleted()) return false;
+
         Unit neighbour = currentPath.getLastAdded().getNeighbour(move);
         boolean hasCurves = board.hasCurves(currentPath, neighbour);
-        if(!currentPath.getUnit(0).equals(neighbour) && hasCurves) {
-            if (getFirst().equals(neighbour) || getLast().equals(neighbour) ) {
-                currentPath.setCompleted(true);
-                return true;
-            }
+        boolean isNeighbourInPathEdge = isNeighbourInPathEdge(neighbour);
+
+        if(!currentPath.getUnit(0).equals(neighbour) && hasCurves && isNeighbourInPathEdge) {
+            currentPath.setCompleted(true);
+            return true;
         }
-        boolean hasValue = (neighbour.getValue() == 0);
-        return hasCurves && hasValue && !neighbour.isPartOfPath();
+
+        boolean isNeighbourValueZero = (neighbour.getValue() == 0);
+        boolean isNeighbourNotInPath = !neighbour.isPartOfPath();
+
+        return hasCurves && isNeighbourValueZero && isNeighbourNotInPath;
+    }
+
+    /**
+     * Checks if the given unit is a neighbor of the first or last unit in the current path.
+     *
+     * @param neighbour The unit to check.
+     * @return {@code true} if the unit is a neighbor of the first or last unit in the path, {@code false} otherwise.
+     */
+    private boolean isNeighbourInPathEdge(Unit neighbour) {
+        return getFirst().equals(neighbour) || getLast().equals(neighbour);
     }
 
     /**
@@ -144,12 +158,26 @@ public class Controller {
     public int getBoardSize(){
         return board.getSize();
     }
+    /**
+     * Retrieves the first unit in the current path's start-end pair.
+     *
+     * @return The first unit in the current path.
+     */
     public Unit getFirst() {
         return currentPath.getStartEndPair().getFirst();
     }
+    /**
+     * Retrieves the last unit in the current path.
+     *
+     * @return The last unit.
+     */
     public Unit getLast() {
         return currentPath.getStartEndPair().getLast();
     }
+    /**
+     * Clears the current path by setting all units in the path to not be part of the path,
+     * deleting the units from memory and resetting the completion status of the path.
+     */
     public void clearPath() {
         currentPath.clearPath();
     }
