@@ -155,7 +155,7 @@ public class NumberlinkGUI implements Runnable {
                 Unit unit = controller.board.getUnitPosition(i,j);
                 if(unit.getValue() == 0){
                     controller.board.getUnitPosition(i,j).setPartOfPath(false);
-                    buttons[i][j].setBackground(Color.WHITE);
+                    buttons[i][j].setBackground(new Color(238,238,238));
                 }
             }
         }

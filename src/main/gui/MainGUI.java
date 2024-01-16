@@ -3,6 +3,7 @@ package main.gui;
 import main.controller.Controller;
 import main.gamelogic.Board;
 import main.utils.CSVReader;
+import main.utils.CSVSaver;
 import main.utils.Generator;
 
 import javax.swing.*;
@@ -144,8 +145,10 @@ public class MainGUI {
     private void createGameBoard() {
         if (MAP_SIZES[currentIndex] != -1) {
             try{
+                int[][] generatedBoard = generator.generateBoard(MAP_SIZES[currentIndex]);
             NumberlinkGUI gui = new NumberlinkGUI(MainGUI.this,
-                    new Controller(new Board(MAP_SIZES[currentIndex], generator.generateBoard(MAP_SIZES[currentIndex]))));
+                    new Controller(new Board(MAP_SIZES[currentIndex], generatedBoard)));
+            CSVSaver.save(generatedBoard);
             SwingUtilities.invokeLater(gui);
             } catch (Exception e){
                 System.out.println(e.getMessage());
@@ -159,7 +162,7 @@ public class MainGUI {
         CSVReader reader = new CSVReader(",");
         try {
             //TODO change the method of extracting the number from file
-            int[][] loadedBoard = reader.read(Character.getNumericValue(selectedMap.charAt(6)));
+            int[][] loadedBoard = reader.read(selectedMap);
             Board board = new Board(loadedBoard.length, loadedBoard);
             NumberlinkGUI gui = new NumberlinkGUI(MainGUI.this, new Controller(board));
 
