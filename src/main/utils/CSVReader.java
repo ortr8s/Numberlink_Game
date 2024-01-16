@@ -91,19 +91,4 @@ public class CSVReader {
                 .toString();
     }
 
-    public static void main(String[] args) {
-        try {
-            CSVReader test = new CSVReader(",");
-            test.read(5);
-            System.out.println(test);
-
-        } catch (IOException e) {
-            System.out.println("Nie odnaleziono pliku");
-            e.printStackTrace();
-        } catch (InvalidBoardSizeException e) {
-            System.out.println("Wprowadzono niepoprawny rozmiar mapy");
-            e.printStackTrace();
-        }
-    }
-
 }

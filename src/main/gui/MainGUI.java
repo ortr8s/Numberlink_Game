@@ -33,7 +33,7 @@ public class MainGUI {
         frame.setLocation(new java.awt.Point(400, 100));
         JPanel panel = new JPanel(new GridBagLayout());
 
-        JLabel titleLabel = new JLabel("Choose map size".toUpperCase());
+        JLabel titleLabel = new JLabel("Choose map size");
         titleLabel.setFont(TITLE_LABEL_FONT);
         GridBagConstraints gbc = createGridBagConstraints();
 
@@ -143,9 +143,13 @@ public class MainGUI {
 
     private void createGameBoard() {
         if (MAP_SIZES[currentIndex] != -1) {
+            try{
             NumberlinkGUI gui = new NumberlinkGUI(MainGUI.this,
                     new Controller(new Board(MAP_SIZES[currentIndex], generator.generateBoard(MAP_SIZES[currentIndex]))));
             SwingUtilities.invokeLater(gui);
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         } else {
             JOptionPane.showMessageDialog(frame, "ERROR");
         }
@@ -158,8 +162,8 @@ public class MainGUI {
             int[][] loadedBoard = reader.read(Character.getNumericValue(selectedMap.charAt(6)));
             Board board = new Board(loadedBoard.length, loadedBoard);
             NumberlinkGUI gui = new NumberlinkGUI(MainGUI.this, new Controller(board));
-            SwingUtilities.invokeLater(gui);
 
+            SwingUtilities.invokeLater(gui);
             frame.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(frame, "Error loading map: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

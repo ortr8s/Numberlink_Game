@@ -101,9 +101,13 @@ public class NumberlinkGUI implements Runnable {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton solveButton = new JButton("Solve Board");
         JButton backButton = new JButton("Go Back");
+        JButton clearButton = new JButton("Clear");
         solveButton.addActionListener(e -> showSolution());
         backButton.addActionListener(e -> goBack());
+        clearButton.addActionListener(e -> clearBoard());
+
         topPanel.add(solveButton);
+        topPanel.add(clearButton);
         topPanel.add(backButton);
         frame.add(topPanel, BorderLayout.NORTH);
     }
@@ -140,7 +144,21 @@ public class NumberlinkGUI implements Runnable {
                 buttons[value.getUnit(i).getX()][value.getUnit(i).getY()].setBackground(color);
             }
         }
+        //clearBoard();
         boardPanel.repaint();
+        //JOptionPane.showMessageDialog(frame, "Solver solved the board!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+    }
+    public void clearBoard(){
+        for (int i = 0; i < buttons.length; i++) {
+            for (int j = 0; j < buttons.length; j++){
+                Unit unit = controller.board.getUnitPosition(i,j);
+                if(unit.getValue() == 0){
+                    controller.board.getUnitPosition(i,j).setPartOfPath(false);
+                    buttons[i][j].setBackground(Color.WHITE);
+                }
+            }
+        }
     }
     public void darkenPath(Path path){
         Color currentColor = getBackgroundColor(path.getUnit(0).getValue());

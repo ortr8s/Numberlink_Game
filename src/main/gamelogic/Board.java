@@ -1,5 +1,6 @@
 package main.gamelogic;
 
+import main.utils.OddNumberOfNumbersException;
 import main.utils.Solver;
 
 import java.util.*;
@@ -23,16 +24,16 @@ public class Board {
      * The pairs are stored in an ArrayList, which allows for easy access and manipulation.
      */
     ArrayList<Unit> pairs;
-    /**
-     *
-     */
     private HashMap<Integer, Path> paths;
 
-    public Board(int size, int[][] numbers) {
+    public Board(int size, int[][] numbers) throws OddNumberOfNumbersException{
         this.size = size;
         this.board = new Unit[size][size];
         pairs = new ArrayList<>();
         convertToUnitBoard(numbers);
+        if(pairs.size() % 2 == 1 || pairs.size() == 0){
+            throw new OddNumberOfNumbersException("Odd number of numbers");
+        }
         initializePaths();
     }
 
@@ -50,7 +51,7 @@ public class Board {
      *
      * @param numbers the 2D array of numbers to be converted
      */
-    private void convertToUnitBoard(int[][] numbers) {
+    private void convertToUnitBoard(int[][] numbers){
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 Unit current = new Unit(i, j, numbers[i][j], this);
@@ -60,7 +61,9 @@ public class Board {
                 }
             }
         }
-
+//        if (pairs.size() % 2 != 0){
+//            throw new OddNumberOfNumbersException("Uneven number of numbers");
+//        }
     }
 
     /**

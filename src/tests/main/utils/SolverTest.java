@@ -39,12 +39,17 @@ public class SolverTest {
     @Test
     void solve() {
         CSVReader reader = new CSVReader(",");
+        try{
         Board board1 = new Board(5, readTestBoard(0, 5));
-        Solver solver = new Solver(board1);
-        int[][] expected = new int[][]{{1, 2, 2, 5, 5}, {1, 2, 3, 5, 4}, {1, 2, 3, 5, 4}, {1, 2, 3, 5, 4}, {1, 1, 3, 4, 4}};
-        solver.solve();
-        System.out.println(Arrays.deepToString(solver.getSolution()));
-        assertArrayEquals(expected, solver.getSolution());
+            Solver solver = new Solver(board1);
+            int[][] expected = new int[][]{{1, 2, 2, 5, 5}, {1, 2, 3, 5, 4}, {1, 2, 3, 5, 4}, {1, 2, 3, 5, 4}, {1, 1, 3, 4, 4}};
+            solver.solve();
+            System.out.println(Arrays.deepToString(solver.getSolution()));
+            assertArrayEquals(expected, solver.getSolution());
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
 
     }
