@@ -63,7 +63,7 @@ public class NumberlinkGUI implements Runnable {
         buttons = new JButton[controller.getBoardSize()][controller.getBoardSize()];
         for (int i = 0; i < controller.getBoardSize(); i++) {
             for (int j = 0; j < controller.getBoardSize(); j++) {
-                Unit unit = controller.board.getUnitPosition(i, j);
+                Unit unit = controller.board.getUnitByPosition(i, j);
                 buttons[i][j] = createButtonWithProperties(i, j, unit);
                 boardPanel.add(buttons[i][j]);
             }
@@ -135,16 +135,19 @@ public class NumberlinkGUI implements Runnable {
         return (StartPathButton) buttons[oppositeCoords[0]][oppositeCoords[1]];
     }
     private void showSolution(){
-        HashMap<Integer, Path > paths = controller.solveAndExtractPaths();
-        for (Map.Entry<Integer, Path> entry : paths.entrySet()) {
-            int key = entry.getKey();
-            Path value = entry.getValue();
-            Color color = getBackgroundColor(key);
-            for (int i = 1; i < value.getSize(); i++) {
-                buttons[value.getUnit(i).getX()][value.getUnit(i).getY()].setBackground(color);
+        try {
+            HashMap<Integer, Path> paths = controller.solveAndExtractPaths();
+            for (Map.Entry<Integer, Path> entry : paths.entrySet()) {
+                int key = entry.getKey();
+                Path value = entry.getValue();
+                Color color = getBackgroundColor(key);
+                for (int i = 1; i < value.getSize(); i++) {
+                    buttons[value.getUnit(i).getX()][value.getUnit(i).getY()].setBackground(color);
+                }
             }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(frame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //clearBoard();
         boardPanel.repaint();
         //JOptionPane.showMessageDialog(frame, "Solver solved the board!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 
@@ -152,13 +155,18 @@ public class NumberlinkGUI implements Runnable {
     public void clearBoard(){
         for (int i = 0; i < buttons.length; i++) {
             for (int j = 0; j < buttons.length; j++){
-                Unit unit = controller.board.getUnitPosition(i,j);
+                Unit unit = controller.board.getUnitByPosition(i,j);
                 if(unit.getValue() == 0){
-                    controller.board.getUnitPosition(i,j).setPartOfPath(false);
+                    controller.board.getUnitByPosition(i,j).setPartOfPath(false);
                     buttons[i][j].setBackground(new Color(238,238,238));
+                } else {
+                    //((StartPathButton) buttons[i][j]).reset();
+                    //Color color = getBackgroundColor(controller.board.getUnitByPosition(i,j).getValue());
+                    //buttons[i][j].setBackground(color);
                 }
             }
         }
+        boardPanel.repaint();
     }
     public void darkenPath(Path path){
         Color currentColor = getBackgroundColor(path.getUnit(0).getValue());

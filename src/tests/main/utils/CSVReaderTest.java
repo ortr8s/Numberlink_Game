@@ -1,7 +1,7 @@
 package tests.main.utils;
 
 import main.utils.CSVReader;
-import main.utils.InvalidBoardSizeException;
+import main.utils.exceptions.InvalidBoardSizeException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

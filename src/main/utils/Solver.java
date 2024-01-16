@@ -62,7 +62,7 @@ public class Solver {
 	 *
 	 * @param x X-coordinate on the board.
 	 * @param y Y-coordinate on the board.
-	 * @return List of neighboring units.
+	 * @return Array of neighboring units.
 	 */
 	private Unit[] getNeighbors(int x, int y) {
 		Unit[] neighbours = new Unit[4];
@@ -159,8 +159,8 @@ public class Solver {
 								return;
 							}
 						}
-
 						Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
+
 						int newX = newFirstUnit.getX();
 						int newY = newFirstUnit.getY();
 						int newVal = newFirstUnit.getValue();

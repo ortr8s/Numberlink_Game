@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.gamelogic.*;
+import main.utils.exceptions.PuzzleNotSolvableException;
 import main.utils.Solver;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class Controller {
      * @param y The y-coordinate of the unit on the board.
      */
     public void selectUnit(int x, int y) {
-        Unit initialUnit = board.getUnitPosition(x, y);
+        Unit initialUnit = board.getUnitByPosition(x, y);
         int unitValue = initialUnit.getValue();
 
         if (!isSelectedUnitValid(initialUnit)) return;
@@ -77,9 +78,9 @@ public class Controller {
         return isEnd && hasValue;
     }
 
-    public HashMap<Integer, Path> solveAndExtractPaths(){
+    public HashMap<Integer, Path> solveAndExtractPaths() throws PuzzleNotSolvableException {
         Solver solver = new Solver(board);
-        solver.solve();
+        if (!solver.solve()) throw new PuzzleNotSolvableException("Puzzle isn't solvable");
         return solver.getPaths();
     }
 

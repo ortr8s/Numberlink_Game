@@ -1,6 +1,6 @@
 package main.gamelogic;
 
-import main.utils.OddNumberOfNumbersException;
+import main.utils.exceptions.InconsitentNumberOfNumbersException;
 import main.utils.Solver;
 
 import java.util.*;
@@ -26,13 +26,13 @@ public class Board {
     ArrayList<Unit> pairs;
     private HashMap<Integer, Path> paths;
 
-    public Board(int size, int[][] numbers) throws OddNumberOfNumbersException{
+    public Board(int size, int[][] numbers) throws InconsitentNumberOfNumbersException {
         this.size = size;
         this.board = new Unit[size][size];
         pairs = new ArrayList<>();
         convertToUnitBoard(numbers);
-        if(pairs.size() % 2 == 1 || pairs.size() == 0){
-            throw new OddNumberOfNumbersException("Odd number of numbers");
+        if(pairs.size() % 2 == 1 || pairs.isEmpty()){
+            throw new InconsitentNumberOfNumbersException("Inconsistent number of numbers");
         }
         initializePaths();
     }
@@ -61,9 +61,6 @@ public class Board {
                 }
             }
         }
-//        if (pairs.size() % 2 != 0){
-//            throw new OddNumberOfNumbersException("Uneven number of numbers");
-//        }
     }
 
     /**
@@ -168,7 +165,7 @@ public class Board {
     public boolean hasCurves(Path path, Unit neighbour) {
         return !Solver.isMoveCurved(path, neighbour);
     }
-    public Unit getUnitPosition(int x, int y) {
+    public Unit getUnitByPosition(int x, int y) {
         return board[x][y];
     }
 }

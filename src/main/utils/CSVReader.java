@@ -1,5 +1,7 @@
 package main.utils;
 
+import main.utils.exceptions.InvalidBoardSizeException;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.StringJoiner;
