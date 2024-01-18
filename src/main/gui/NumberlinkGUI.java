@@ -17,16 +17,19 @@ public class NumberlinkGUI implements Runnable {
     private final Controller controller;
     private JButton[][] buttons;
     private final MainGUI mainGui;
-
+    private long startTime;
+    private static final int TRANSPARENT = 0;
     public MainGUI getMainGui() {
         return mainGui;
     }
-
-    private static final int TRANSPARENT = 0;
+    public long getStartTime() {
+        return startTime;
+    }
 
     public NumberlinkGUI(MainGUI mainGUI, Controller controller) {
         this.controller = controller;
         this.mainGui = mainGUI;
+        startTime = System.currentTimeMillis();
     }
     @Override
     public void run() {

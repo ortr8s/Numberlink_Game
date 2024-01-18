@@ -30,16 +30,7 @@ public class KeyBoardManager {
                 if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.UP);
                 System.out.println("UP");
-                System.out.println(controller.currentPath);
-                GUI.repaintButton(controller.currentPath.getLastAdded());
-                if (controller.currentPath.getCompleted()){
-                    GUI.darkenPath(controller.currentPath);
-                }
-                if (win) {
-                    JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                    GUI.getMainGui().showFrame(true);
-                    frame.dispose();
-                }
+                executePlayerMoveAndCheckWin(win, frame);
             }
         });
 
@@ -51,16 +42,7 @@ public class KeyBoardManager {
                 if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.DOWN);
                 System.out.println("Down");
-                System.out.println(controller.currentPath);
-                GUI.repaintButton(controller.currentPath.getLastAdded());
-                if (controller.currentPath.getCompleted()){
-                    GUI.darkenPath(controller.currentPath);
-                }
-                if (win) {
-                    JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                    GUI.getMainGui().showFrame(true);
-                    frame.dispose();
-                }
+                executePlayerMoveAndCheckWin(win, frame);
 
 
             }
@@ -74,16 +56,7 @@ public class KeyBoardManager {
                 if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.LEFT);
                 System.out.println("Left");
-                System.out.println(controller.currentPath);
-                GUI.repaintButton(controller.currentPath.getLastAdded());
-                if (controller.currentPath.getCompleted()){
-                    GUI.darkenPath(controller.currentPath);
-                }
-                if (win) {
-                    JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                    GUI.getMainGui().showFrame(true);
-                    frame.dispose();
-                }
+                executePlayerMoveAndCheckWin(win, frame);
 
             }
         });
@@ -96,17 +69,24 @@ public class KeyBoardManager {
                 if (controller.currentPath == null || controller.currentPath.getUnits()[0] == null) return;
                 boolean win = controller.makeMove(Moves.RIGHT);
                 System.out.println("Right");
-                System.out.println(controller.currentPath);
-                GUI.repaintButton(controller.currentPath.getLastAdded());
-                if (controller.currentPath.getCompleted()){
-                    GUI.darkenPath(controller.currentPath);
-                }
-                if (win) {
-                    JOptionPane.showMessageDialog(frame, "You Won!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                    GUI.getMainGui().showFrame(true);
-                    frame.dispose();
-                }
+                executePlayerMoveAndCheckWin(win, frame);
             }
         });
+    }
+
+    private void executePlayerMoveAndCheckWin(boolean win, JFrame frame) {
+        System.out.println(controller.currentPath);
+        GUI.repaintButton(controller.currentPath.getLastAdded());
+        if (controller.currentPath.getCompleted()){
+            GUI.darkenPath(controller.currentPath);
+        }
+        if (win) {
+            float elapsedTime = (System.currentTimeMillis() - GUI.getStartTime()) / 1000.0f;
+            String elapsedTimeStr = String.format("%.2f", elapsedTime);
+            JOptionPane.showMessageDialog(frame, "You Won!\nElapsed time: " + elapsedTimeStr + " s",
+                    "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            GUI.getMainGui().showFrame(true);
+            frame.dispose();
+        }
     }
 }
