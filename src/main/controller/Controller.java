@@ -93,7 +93,7 @@ public class Controller {
      * @return {@code true} if the move is valid, {@code false} otherwise.
      */
     private boolean isMoveValid(Moves move) {
-        if (currentPath == null || currentPath.getCompleted()) return false;
+        if (currentPath == null || currentPath.isCompleted()) return false;
 
         Unit neighbour = currentPath.getLastAdded().getNeighbour(move);
         boolean hasCurves = board.hasCurves(currentPath, neighbour);
@@ -121,10 +121,10 @@ public class Controller {
     }
 
     /**
-     * Makes a move for the game.
+     * Makes a move on the game board.
      *
      * @param move The move to be made.
-     * @return {@code true} if the move was last in the Game to be finished, {@code false} otherwise.
+     * @return {@code true} if the game is finished after making the move, {@code false} otherwise.
      */
     public boolean makeMove(Moves move) {
         if (isMoveValid(move)) {

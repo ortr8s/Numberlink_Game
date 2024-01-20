@@ -10,15 +10,24 @@ public class Path {
      * A start-end pair consists of two units - the start unit and the end unit.
      */
     private Pair startEndPair;
+
     /**
      * Represents an array of Unit objects.
      * Provides methods for retrieving and manipulating the units.
      */
     private final Unit[] units;
 
+    /**
+     * Represents the size variable.
+     * The size variable is used to keep track of the number of Units in the Path.
+     */
     private int size;
-    private boolean isCompleted;
 
+    /**
+     * Represents the completion status of a Path in the Numberlink game.
+     * A Path is considered completed if all its units are part of a connected path.
+     */
+    private boolean isCompleted;
 
     /**
      * Represents a path in the Numberlink game that connects a pair of units.
@@ -31,20 +40,47 @@ public class Path {
         this.isCompleted = false;
     }
 
+    /**
+     * Represents a path in the Numberlink game that connects a pair of units.
+     * A path consists of units in a specific order, starting from the start unit and ending with the end unit.
+     */
     public Path() {
         this.units = new Unit[100];
     }
 
+    /**
+     * Retrieves the size of the object.
+     *
+     * @return The size of the object.
+     */
     public int getSize() {
         return size;
     }
-    public boolean getCompleted(){
+
+    /**
+     * Retrieves the completion status of the Path.
+     *
+     * @return {@code true} if the Path is completed, {@code false} otherwise.
+     */
+    public boolean isCompleted(){
         return isCompleted;
     }
 
+    /**
+     * Sets the completion status of the Path.
+     *
+     * @param completed {@code true} if the Path is completed, {@code false} otherwise.
+     */
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
+
+    /**
+     * Retrieves the unit at the specified index from the array of units.
+     *
+     * @param n The index of the unit to retrieve.
+     * @return The unit at the specified index, or null if the index is out of bounds.
+     */
     public Unit getUnit(int n){
         if(n < size){
             return units[n];

@@ -12,25 +12,111 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NumberlinkGUI implements Runnable {
+    /**
+     * Represents a graphical frame used in the NumberlinkGUI class.
+     * It is used to display the game board and control buttons.
+     */
     private JFrame frame;
+    /**
+     * Represents a JPanel that serves as the game board.
+     * This panel contains various game elements such as buttons and paths.
+     * The board panel is used by the NumberlinkGUI class to display the game board.
+     */
     private JPanel boardPanel;
+    /**
+     * Represents a controller for a Numberlink game.
+     * <p>
+     * The Controller class is responsible for managing the game board,
+     * paths on the board, and handling user interactions with the board.
+     * It provides methods for selecting units on the board, making moves,
+     * and checking the completion status of the game.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Controller controller = new Controller(board);
+     * controller.selectUnit(3, 4);
+     * controller.makeMove(Moves.UP);
+     * boolean isFinished = controller.isGameFinished();
+     * }</pre>
+     */
     private final Controller controller;
+    /**
+     * Represents a 2D array of JButton objects.
+     * <p>
+     * This variable stores a grid of JButton objects, which can be used to display and interact with a graphical user interface.
+     * Each element in the array represents a button in the grid.
+     * <p>
+     * Example usage:
+     * JButton button = buttons[row][column];
+     * button.addActionListener(actionListener);
+     * <p>
+     * Note: The JButton class must be imported to use this variable.
+     */
     private JButton[][] buttons;
+    /**
+     * Represents the main GUI component of the Numberlink application.
+     */
     private final MainGUI mainGui;
-    private long startTime;
+    /**
+     * Represents the start time of a task or event.
+     * <p>
+     * The startTime variable stores the starting time of a task or event as a long value.
+     * It is typically used to measure the duration of the task or event by calculating the difference
+     * between the start time and the current time.
+     * <p>
+     * Example usage:
+     * long startTime = System.currentTimeMillis();
+     * <p>
+     * Note: The System.currentTimeMillis() method returns the current time in milliseconds.
+     */
+    private final long startTime;
+    /**
+     * Represents a transparent value.
+     * <p>
+     * This constant is used to represent a transparent value. It is often used in graphics programming to indicate that
+     * a specific pixel or element should be transparent and not visible.
+     * <p>
+     * Example usage:
+     * <pre>
+     *     int color = TRANSPARENT;
+     *     // Set the color to transparent
+     * </pre>
+     *
+     * @see NumberlinkGUI
+     * @see Controller
+     */
     private static final int TRANSPARENT = 0;
+    /**
+     * Returns the main GUI instance.
+     *
+     * @return The main GUI instance.
+     */
     public MainGUI getMainGui() {
         return mainGui;
     }
+    /**
+     * Returns the start time of the game.
+     *
+     * @return the start time in milliseconds
+     */
     public long getStartTime() {
         return startTime;
     }
 
+    /**
+     * Represents the graphical user interface for the Numberlink game.
+     *
+     * @param mainGUI     The main GUI object associated with the game.
+     * @param controller  The controller object responsible for handling game logic.
+     */
     public NumberlinkGUI(MainGUI mainGUI, Controller controller) {
         this.controller = controller;
         this.mainGui = mainGUI;
         startTime = System.currentTimeMillis();
     }
+    /**
+     * Creates a new JFrame for the Numberlink game, initializes the game board, and sets up the necessary components.
+     */
     @Override
     public void run() {
         frame = new JFrame("Numberlink Game");
@@ -50,11 +136,19 @@ public class NumberlinkGUI implements Runnable {
                 mainGui.getFrame().getY()-50)
         );
     }
+    /**
+     * Initializes the board by preparing the board panel and generating the board buttons.
+     * This method is private and does not return any value.
+     */
     private void initializeBoard() {
         prepareBoardPanel();
         generateBoardButtons();
     }
 
+    /**
+     * Removes all components from the boardPanel, refreshes the view, and sets the layout for the boardPanel.
+     * The boardPanel is the panel that displays the game board.
+     */
     private void prepareBoardPanel() {
         boardPanel.removeAll();
         boardPanel.revalidate();
@@ -62,6 +156,13 @@ public class NumberlinkGUI implements Runnable {
         boardPanel.setLayout(new GridLayout(controller.getBoardSize(), controller.getBoardSize()));
     }
 
+    /**
+     * Generates the buttons for the game board.
+     * Creates a JButton array with the size of the board. Each element in the array represents a cell on the board.
+     * The buttons are customized based on the unit (cell) properties.
+     * The buttons are then added to the board panel.
+     * This method is called during the initialization of the board.
+     */
     private void generateBoardButtons() {
         buttons = new JButton[controller.getBoardSize()][controller.getBoardSize()];
         for (int i = 0; i < controller.getBoardSize(); i++) {
@@ -72,6 +173,14 @@ public class NumberlinkGUI implements Runnable {
             }
         }
     }
+    /**
+     * Creates a JButton with customized properties based on the given parameters.
+     *
+     * @param i The x-coordinate of the button.
+     * @param j The y-coordinate of the button.
+     * @param unit The Unit object associated with the button.
+     * @return The JButton with the customized properties.
+     */
     private JButton createButtonWithProperties(int i, int j, Unit unit) {
         JButton button;
         if (unit.getValue() > TRANSPARENT) {
@@ -84,6 +193,15 @@ public class NumberlinkGUI implements Runnable {
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         return button;
     }
+    /**
+     * Customizes a StartPathButton with properties based on the provided Unit and coordinates.
+     *
+     * @param button The StartPathButton to customize.
+     * @param unit The Unit associated with the button.
+     * @param x The x-coordinate on the game board.
+     * @param y The y-coordinate on the game board.
+     * @return The customized StartPathButton.
+     */
     private StartPathButton customizeButton(StartPathButton button, Unit unit, int x, int y) {
         button.setText(String.valueOf(unit.getValue()));
         button.setBackground(getBackgroundColor(unit.getValue())); // Set background color
@@ -100,6 +218,9 @@ public class NumberlinkGUI implements Runnable {
         });
         return button;
     }
+    /**
+     * Adds control buttons to the top panel of the frame.
+     */
     private void addControlButtons() {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton solveButton = new JButton("Solve Board");
@@ -114,6 +235,27 @@ public class NumberlinkGUI implements Runnable {
         topPanel.add(backButton);
         frame.add(topPanel, BorderLayout.NORTH);
     }
+    /**
+     * Handles the click event on a cell button.
+     * If the button is already clicked and there is a current path selected, it performs the following actions:
+     * - Selects the unit at the given position
+     * - Clears the buttons in the current path
+     * - Clears the current path
+     * - Resets the button's clicked state
+     * - Resets the opposite button's clicked state
+     * - Sets the button's background to its original background color
+     * - Repaints the frame
+     * If the button is not clicked, it performs the following actions:
+     * - Selects the unit at the given position
+     * - Sets the button's clicked state
+     * - Sets the opposite button's clicked state
+     * - Darkens the button's background color
+     * - Repaints the frame
+     *
+     * @param button The StartPathButton that was clicked
+     * @param x      The x-coordinate of the cell button
+     * @param y      The y-coordinate of the cell button
+     */
     private void handleCellClick(StartPathButton button, int x, int y) {
             if (button.isClicked() && controller.currentPath != null) {
                 controller.selectUnit(x, y);
@@ -133,10 +275,20 @@ public class NumberlinkGUI implements Runnable {
                 System.out.println(controller.currentPath);
             }
     }
+    /**
+     * Returns the opposite StartPathButton for the given coordinates (x, y).
+     *
+     * @param x The x-coordinate of the button.
+     * @param y The y-coordinate of the button.
+     * @return The opposite StartPathButton.
+     */
     private StartPathButton getOppositeButton(int x, int y) {
         int[] oppositeCoords = controller.currentPath.getStartEndPair().getOpposite(x,y);
         return (StartPathButton) buttons[oppositeCoords[0]][oppositeCoords[1]];
     }
+    /**
+     * Displays the solution on the game board by changing the background color of the corresponding buttons.
+     */
     private void showSolution(){
         try {
             HashMap<Integer, Path> paths = controller.solveAndExtractPaths();
@@ -155,22 +307,58 @@ public class NumberlinkGUI implements Runnable {
         //JOptionPane.showMessageDialog(frame, "Solver solved the board!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 
     }
+
+    /**
+     * Clears the game board by removing all buttons and units, clearing all paths,
+     * and repainting the board panel.
+     */
     public void clearBoard(){
-        for (int i = 0; i < buttons.length; i++) {
-            for (int j = 0; j < buttons.length; j++){
-                Unit unit = controller.board.getUnitByPosition(i,j);
-                if(unit.getValue() == 0){
-                    controller.board.getUnitByPosition(i,j).setPartOfPath(false);
-                    buttons[i][j].setBackground(new Color(238,238,238));
-                } else {
-                    //((StartPathButton) buttons[i][j]).reset();
-                    //Color color = getBackgroundColor(controller.board.getUnitByPosition(i,j).getValue());
-                    //buttons[i][j].setBackground(color);
-                }
-            }
-        }
+        clearButtonsAndUnits();
+        clearPaths();
         boardPanel.repaint();
     }
+
+    /**
+     * Clears all buttons and units on the game board.
+     * This method iterates over all buttons on the board and calls the {@link #clearButtonAndUnit(int, int)} method
+     * to clear the button and unit at each position.
+     */
+    private void clearButtonsAndUnits() {
+        for (int i = 0; i < buttons.length; i++) {
+            for (int j = 0; j < buttons.length; j++){
+                clearButtonAndUnit(i, j);
+            }
+        }
+    }
+
+    /**
+     * Clears the button and unit at the specified position on the game board.
+     *
+     * @param i The x-coordinate of the position.
+     * @param j The y-coordinate of the position.
+     */
+    private void clearButtonAndUnit(int i, int j) {
+        Unit unit = controller.board.getUnitByPosition(i, j);
+        if(unit.getValue() == 0){
+            buttons[i][j].setBackground(new Color(238,238,238));
+        } else {
+            ((StartPathButton) buttons[i][j]).reset();
+            Color color = getBackgroundColor(unit.getValue());
+            buttons[i][j].setBackground(color);
+        }
+    }
+
+    /**
+     * Clears all paths in the controller.
+     */
+    private void clearPaths() {
+        for(Path path : controller.paths.values()) path.clearPath();
+    }
+    /**
+     * Darkens the background color of the path units by one shade and repaints the board panel.
+     *
+     * @param path The path whose units' background color will be darkened.
+     */
     public void darkenPath(Path path){
         Color currentColor = getBackgroundColor(path.getUnit(0).getValue());
         for (int i = 0; i < path.getSize(); i++) {
@@ -180,15 +368,28 @@ public class NumberlinkGUI implements Runnable {
         boardPanel.repaint();
 
     }
+    /**
+     * Navigates back to the main GUI frame and disposes the current frame.
+     */
     private void goBack() {
         mainGui.showFrame(true);
         frame.dispose();
     }
+    /**
+     * Repaints the button associated with the given unit by changing its background color.
+     *
+     * @param unit The unit whose button needs to be repainted.
+     */
     public void repaintButton(Unit unit) {
         Color color = getBackgroundColor(controller.currentPath.getID());
         buttons[unit.getX()][unit.getY()].setBackground(color);
         frame.repaint();
     }
+    /**
+     * Clears the background color of the buttons in the given path according to certain conditions.
+     *
+     * @param path The path containing the buttons to be cleared.
+     */
     public void clearButtons(Path path) {
         Color clear = getBackgroundColor(14);
         Color regular = getBackgroundColor(path.getID());
@@ -203,6 +404,12 @@ public class NumberlinkGUI implements Runnable {
         }
         frame.repaint();
     }
+     /**
+      * Retrieves the background color based on the given number.
+      *
+      * @param number the number used to determine the background color
+      * @return the background color corresponding to the given number
+      */
      static Color getBackgroundColor(int number) {
          return switch (number) {
              case 1 -> new Color(255, 255, 0);

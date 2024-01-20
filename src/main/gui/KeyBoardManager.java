@@ -18,6 +18,11 @@ public class KeyBoardManager {
         addKeyBindings(frame);
     }
 
+    /**
+     * Adds key bindings for arrow keys to perform specific actions in the game.
+     *
+     * @param frame the JFrame object representing the game frame
+     */
     private void addKeyBindings(JFrame frame) {
         InputMap inputMap = frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = frame.getRootPane().getActionMap();
@@ -74,10 +79,16 @@ public class KeyBoardManager {
         });
     }
 
+    /**
+     * Executes the player's move and checks for a win condition.
+     *
+     * @param win   a boolean indicating whether the player has won or not
+     * @param frame the JFrame object representing the game frame
+     */
     private void executePlayerMoveAndCheckWin(boolean win, JFrame frame) {
         System.out.println(controller.currentPath);
         GUI.repaintButton(controller.currentPath.getLastAdded());
-        if (controller.currentPath.getCompleted()){
+        if (controller.currentPath.isCompleted()){
             GUI.darkenPath(controller.currentPath);
         }
         if (win) {
