@@ -171,25 +171,26 @@ public class Solver {
 					return;
 				}
 
-				if (currentPairIndex + 1 < pairs.size()) currentPairIndex++; //increment to extract the next pair
+				if (currentPairIndex + 1 < pairs.size()) {
+					currentPairIndex++; //increment to extract the next pair
 
-				Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
+					Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
 
-				int newX = newFirstUnit.getX();
-				int newY = newFirstUnit.getY();
-				int newVal = newFirstUnit.getValue();
+					int newX = newFirstUnit.getX();
+					int newY = newFirstUnit.getY();
+					int newVal = newFirstUnit.getValue();
 
-				paths.put(newVal, new Path()); //place new path in the hashmap
-				paths.get(newVal).addUnit(newFirstUnit); //add first unit to the path
+					paths.put(newVal, new Path()); //place new path in the hashmap
+					paths.get(newVal).addUnit(newFirstUnit); //add first unit to the path
 
-				checkedCells[newX][newY] = newVal;
-				DFS(newX, newY, newVal);
+					checkedCells[newX][newY] = newVal;
+					DFS(newX, newY, newVal);
 
-				if (stop) return;
+					if (stop) return;
 
-				if (currentPairIndex > 0) currentPairIndex--; //backtrack and go back to the recent pair
+					currentPairIndex--; //backtrack and go back to the recent pair
+				}
 				checkedCells[neighbourX][neighbourY] = 0;
-
 			} else if (neighbourValue == 0) { //recurse if the neighbouring unit is 0
 				paths.get(val).addUnit(currentNeighbour); //add unit to the path
 				DFS(neighbourX, neighbourY, val);
