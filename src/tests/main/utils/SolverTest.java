@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SolverTest {
 
     private static final String TEST_FOLDER_PATH = "src/tests/test_boards";
+    private static final Generator generator = new Generator();
     private static Stream<Arguments> boardProvider() {
         return Stream.of(
                 Arguments.of(0, 5, new int[][]{
@@ -93,6 +94,20 @@ public class SolverTest {
         return data;
     }
 
+    private static Stream<Arguments> generatedBoardProvider() {
+        return Stream.of(
+                Arguments.of(5, generator.generateBoard(5)),
+                Arguments.of(5, generator.generateBoard(5)),
+                Arguments.of(6, generator.generateBoard(6)),
+                Arguments.of(6, generator.generateBoard(6)),
+                Arguments.of(7, generator.generateBoard(7)),
+                Arguments.of(7, generator.generateBoard(7)),
+                Arguments.of(8, generator.generateBoard(8)),
+                Arguments.of(8, generator.generateBoard(8)),
+                Arguments.of(9, generator.generateBoard(9)),
+                Arguments.of(9, generator.generateBoard(9))
+        );
+    }
     /**
      * Testing the solve() method of the Solver class
      * The method is responsible for finding a solution to the game
@@ -116,5 +131,17 @@ public class SolverTest {
             inone.printStackTrace();
         }
 
+    }
+    @ParameterizedTest
+    @MethodSource("generatedBoardProvider")
+    void solveGenerated(int boardSize, int[][] board){
+        try {
+            Board boardObj = new Board(boardSize, board);
+            Solver solver = new Solver(boardObj);
+            boolean solvable = solver.solve();
+            assertTrue(solvable, "Solver should have found a solution for board " + boardSize);
+        } catch (InconsitentNumberOfNumbersException inone){
+            inone.printStackTrace();
+        }
     }
 }
