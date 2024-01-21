@@ -5,131 +5,225 @@ import main.gamelogic.Pair;
 import main.gamelogic.Path;
 import main.gamelogic.Unit;
 
-import java.io.IOException;
 import java.util.*;
 
+/**
+ * Solver class to solve a Numberlink puzzle with a given board.
+ * This class utilizes depth-first search (DFS) algorithm with backtracking to find solutions.
+ */
 public class Solver {
-	final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // up, down, right, left
-	private Unit[][] board;
-	private Path path;
-	private ArrayList<Pair> pairs;
-	private int size;
-	private int[][] checked;
-	int pairIndex;
-	long startTime;
-	private boolean stop;
-	public Solver(Board board){
+	private static final int[][] MOVE_DIRECTIONS =
+			{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // Movement directions: up, down, right, left
+	private final Unit[][] board; // Grid representing the board
+	private final ArrayList < Pair > pairs; // List of pairs (numbered cells) to be connected
+	private final int[][] checkedCells; // Grid to keep track of cells already visited in the current path
+	private int currentPairIndex; // Index for the current pair being processed
+	private final int size; // Dimension of the board (assumed square)
+	private boolean isSolvable; // Flag indicating whether the puzzle has been solved
+	private boolean stop; // Flag to terminate the search prematurely
+	private double startTime; //Determines the time when solver was started
+	private final HashMap <Integer, Path> paths; //Stores paths and maps them to their value
+
+	/**
+	 * Constructor to initialize the Solver with a specific board.
+	 *
+	 * @param board The Board object representing the Numberlink puzzle.
+	 */
+	public Solver(Board board) {
 		this.board = board.getBoard();
 		this.size = board.getSize();
 		this.pairs = board.extractPairs();
-		this.checked = new int[size][size];
+		this.checkedCells = new int[size][size];
 		this.stop = false;
-		this.pairIndex = 0;
+		this.isSolvable = false;
+		this.currentPairIndex = 0;
+		this.paths = new HashMap <> (20);
 	}
 
-	private void sortPairsByDistance() {
-		Collections.sort(pairs, Comparator.comparingInt(Pair::getDistance));
+	/**
+	 * Gets the array representing solved board.
+	 *
+	 * @return 2D array of solved board.
+	 */
+	public int[][] getSolution() {
+		return checkedCells;
 	}
-	private List<Unit> getNeighbors(int x, int y, ArrayList neighbours){
-		neighbours.clear();
-		for (int[] dir : directions) {
+
+	/**
+	 * Gets the HashMap with filled paths.
+	 *
+	 * @return HashMap with filled paths.
+	 */
+	public HashMap<Integer, Path> getPaths() {
+		return paths;
+	}
+
+	/**
+	 * Sorts pairs ascending by their manhattan distance.
+	 * Heuristic used to start connecting pairs that are closet to each other.
+	 */
+	private void sortPairsByDistance() {
+		pairs.sort(Comparator.comparingInt(Pair::getDistance));
+	}
+
+	/**
+	 * Retrieves neighboring units for the given coordinates.
+	 *
+	 * @param x X-coordinate on the board.
+	 * @param y Y-coordinate on the board.
+	 * @return Array of neighboring units.
+	 */
+	private Unit[] getNeighbors(int x, int y) {
+		Unit[] neighbours = new Unit[4];
+		int i = 0;
+		for (int[] dir: MOVE_DIRECTIONS) {
 			int newX = x + dir[0];
 			int newY = y + dir[1];
 			if (isValidMove(newX, newY)) {
-				neighbours.add(board[newX][newY]);
+				neighbours[i] = (board[newX][newY]);
 			}
+			i++;
 		}
-
 		return neighbours;
-
 	}
 
-	private boolean isValidMove(int x, int y){
-		return x >= 0 && y >= 0 && x < size && y < size ;
-
+	/**
+	 * Checks if the given move is valid within the board.
+	 *
+	 * @param x X-coordinate of the move.
+	 * @param y Y-coordinate of the move.
+	 * @return True if the move is valid, false otherwise.
+	 */
+	private boolean isValidMove(int x, int y) {
+		return x >= 0 && y >= 0 && x < size && y < size;
 	}
 
-	public boolean solve(){
-		this.startTime = System.nanoTime();
+	/**
+	 * Determines if a move results in a curve in the path.
+	 * A move is considered 'curved' if the new unit's position forms a complete 2x2 grid with only one number.
+	 *
+	 * @param path The current path being traced.
+	 * @param neighbour The neighbouring unit to be considered for the next move.
+	 * @return True if the move creates a curve in the path, false otherwise. False also when the size of path is less than 3.
+	 */
+	public static boolean isMoveCurved(Path path, Unit neighbour) {
+		Unit thirdLastUnit = path.getThirdLast();
+		if (thirdLastUnit == null) {
+			return false;
+		}
+		return new Pair(path.getThirdLast(), neighbour).calculateDistance() == 1;
+	}
+
+	/**
+	 * Initializes the solving algorithm.
+	 *
+	 * @return True if the puzzle is solvable, false otherwise.
+	 */
+	public boolean solve() {
+		this.startTime = System.currentTimeMillis();
 		System.out.println("Solving!");
-		sortPairsByDistance();
-		System.out.println(pairs);
-		Unit first = pairs.get(pairIndex).getFirst();
-		int x = first.getX();
-		int y = first.getY();
-		int val = first.getValue();
-		DFS(x,y,val);
-		return true;
+		sortPairsByDistance(); //distance heuristic which can not always give the best result
+		Unit initialUnit = pairs.get(currentPairIndex).getFirst();
+		Path currentPath = new Path();
+		currentPath.addUnit(initialUnit);
+		paths.put(initialUnit.getValue(), currentPath);
+
+		DFS(initialUnit.getX(), initialUnit.getY(), initialUnit.getValue());
+		return isSolvable;
 	}
 
-	private void DFS(int x, int y, int val){
-		if (stop) return;
+	/**
+	 * Depth-first search algorithm to explore possible paths for connecting pairs.
+	 * It recursively explores neighboring cells with a few constraints, backtracking when a dead end is reached.
+	 * The method updates the state of the search, including the checkedCells grid and paths map.
+	 *
+	 * @param x   X-coordinate to start the search from.
+	 * @param y   Y-coordinate to start the search from.
+	 * @param val Value of the current Unit, representing a number on the board.
+	 */
+	private void DFS(int x, int y, int val) {
+		if (stop) return; //if the solution was already found don't recurse further
 
-		checked[x][y] = val;
-		ArrayList<Unit> neighbours = new ArrayList<>();
-		getNeighbors(x,y, neighbours);
+		checkedCells[x][y] = val;
+		Unit[] neighbours = getNeighbors(x, y); //store neighbouring units
+
 		for (Unit currentNeighbour: neighbours) {
+			if (currentNeighbour == null) continue;
 
-			int nextX = currentNeighbour.getX();
-			int nextY = currentNeighbour.getY();
-			int nextVal = currentNeighbour.getValue();
-			if (checked[nextX][nextY] == 0) {
-				if (nextVal == val) {
-					pairIndex++;
-					checked[nextX][nextY] = val;
-					if (pairIndex == pairs.size()) {
-						print();
-						System.out.println("Total time = " + (double)(System.nanoTime() - startTime)/777600000);
-						stop = true;
-						return;
-					}
-					Unit currentBegin = pairs.get(pairIndex).getFirst();
-					int curx = currentBegin.getX();
-					int cury = currentBegin.getY();
-					int newval = currentBegin.getValue();
-					if (checked[curx][cury] == 0) {
-						checked[curx][cury] = newval;
-						DFS(curx, cury, newval);
-					}
-					pairIndex--;
-					checked[nextX][nextY] = 0;
+			int neighbourX = currentNeighbour.getX();
+			int neighbourY = currentNeighbour.getY();
+			int neighbourValue = currentNeighbour.getValue();
 
-				} else {
-					if (nextVal == 0) {
-						DFS(nextX, nextY, val);
-					}
+			if (checkedCells[neighbourX][neighbourY] != 0
+					|| isMoveCurved(paths.get(val), currentNeighbour)) {
+				continue; //check to make sure if paths don't overlap and there are no curves
+			}
+
+			if (currentNeighbour.equals(pairs.get(currentPairIndex).getLast())) {
+
+				checkedCells[neighbourX][neighbourY] = val;
+				if (validateSolution()) {
+					//if all numbers were checked print out the solution
+					//print();
+					System.out.println("Time: " + (System.currentTimeMillis() - startTime));
+					stop = true;
+					isSolvable = true;
+					return;
 				}
+
+				if (currentPairIndex + 1 < pairs.size()) currentPairIndex++; //increment to extract the next pair
+
+				Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
+
+				int newX = newFirstUnit.getX();
+				int newY = newFirstUnit.getY();
+				int newVal = newFirstUnit.getValue();
+
+				paths.put(newVal, new Path()); //place new path in the hashmap
+				paths.get(newVal).addUnit(newFirstUnit); //add first unit to the path
+
+				checkedCells[newX][newY] = newVal;
+				DFS(newX, newY, newVal);
+
+				if (stop) return;
+
+				if (currentPairIndex > 0) currentPairIndex--; //backtrack and go back to the recent pair
+				checkedCells[neighbourX][neighbourY] = 0;
+
+			} else if (neighbourValue == 0) { //recurse if the neighbouring unit is 0
+				paths.get(val).addUnit(currentNeighbour); //add unit to the path
+				DFS(neighbourX, neighbourY, val);
+				if (stop) return;
+				paths.get(val).removeLast(); //when backtracking remove the recently added units from the current path
 			}
 		}
-		checked[x][y] = 0;
+		checkedCells[x][y] = 0;
 	}
-	static int[][] convertGeneratedBoard(char[][] a, int size){
-		int[][] numbers= new int[size][size];
-		for (int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++){
-				int c = a[i][j] - 48;
-				numbers[i][j] = (c<0 || c > 21) ? 0: c;
-			}
+
+	/**
+	 * Checks if the provided solution is valid.
+	 * This method verifies that the paths cover the entire board and that all pairs are connected.
+	 *
+	 * @return True if the solution covers the entire board and connects all pairs, false otherwise.
+	 */
+	private boolean validateSolution(){
+		int counter = 0;
+		for (Map.Entry<Integer, Path> entry : paths.entrySet()){
+			counter++;
+			counter += entry.getValue().getSize();
 		}
-		return numbers;
+		return counter == size*size;
 	}
-	private void print(){
+
+	/**
+	 * Prints the solved board to the standard output.
+	 */
+	private void print() {
 		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++){
-				System.out.print(checked[i][j] + " ");
+			for (int j = 0; j < size; j++) {
+				System.out.print(checkedCells[i][j] + " ");
 			}
 			System.out.println();
 		}
-	}
-	//TODO delete
-	public Unit[][] getBoard() {
-		return board;
-	}
-	public static void main(String[] args) throws IOException, InvalidBoardSizeException {
-		CSVReader reader = new CSVReader(",");
-		int [][] a = reader.read(8);
-		Board board1 = new Board(8,a);
-		Solver solver = new Solver(board1);
-		solver.solve();
 	}
 }

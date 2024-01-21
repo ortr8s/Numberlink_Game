@@ -1,26 +1,19 @@
 package main.utils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import main.utils.exceptions.InvalidBoardSizeException;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.StringJoiner;
+import java.util.regex.Pattern;
 
 
 /**
- * The CSVReader class is used to read the contents of a CSV file and
- * convert it into a 2-dimensional integer array representing a board.
+ * CSVReader is a class that provides methods for reading CSV files and obtaining a 2-dimensional integer array representation of the data.
  */
 public class CSVReader {
     /**
-     * The minimum size of the board.
-     * The value of this constant is set to 5.
-     * It is used to check if the given board size is valid.
-     * The board size should be greater than or equal to MINIMUM_SIZE and
-     * less than or equal to the maximum board size.
-     *
-     * @see CSVReader#isBoardSizeValid(int)
-     * @see CSVReader#read(int)
+     * Minimum size of the board.
      */
     public static final int MINIMUM_SIZE = 5;
     /**
@@ -58,24 +51,37 @@ public class CSVReader {
     }
 
     /**
-     * Reads the contents of a CSV file and returns a 2-dimensional integer array representing the board.
+     * Reads a CSV file and returns a two-dimensional array of integers representing the data in the file.
      *
-     * @param boardSize the size of the board
-     * @return a 2-dimensional integer array representing the board
-     * @throws IOException if an I/O error occurs
-     * @throws InvalidBoardSizeException if the board size is invalid
+     * @param fileName the name of the CSV file to read
+     * @return a two-dimensional array of integers representing the data in the file
+     * @throws IOException if an I/O error occurs while reading the file
+     * @throws InvalidBoardSizeException if the board size specified in the file name is invalid
+     * @throws FileNotFoundException if no matching file is found for the given file name
      */
-    public int[][] read(int boardSize) throws IOException, InvalidBoardSizeException {
-        if (!isBoardSizeValid(boardSize)) {
-            throw new InvalidBoardSizeException(
-                    String.format("The board size should be between %d and %d", MINIMUM_SIZE, MAXIMUM_SIZE)
-            );
+    public int[][] read(String fileName) throws IOException, InvalidBoardSizeException {
+        // Create filename pattern
+        Pattern pattern = Pattern.compile(".*\\d+.*\\.csv");
+
+        // List files in directory
+        File dir = new File(BOARD_FOLDER_PATH);
+        File[] files = dir.listFiles();
+
+        // Variable to hold the matching file
+        File matchingFile = null;
+
+        assert files != null;
+        for (File file : files) {
+            if (pattern.matcher(file.getName()).matches() && file.getName().equals(fileName)) {
+                matchingFile = file;
+                break;
+            }
         }
 
-        String filePath = String.join("", BOARD_FOLDER_PATH, String.format("/board_%dx%d.csv", boardSize, boardSize));
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        int[][] data = getInts(fileName, matchingFile);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(matchingFile))) {
             String line;
-            data = new int[boardSize][boardSize];
             int i = 0;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
                 data[i] = Arrays.stream(line.split(separator)).mapToInt(Integer::parseInt).toArray();
@@ -86,19 +92,29 @@ public class CSVReader {
     }
 
     /**
-     * Returns the maximum label value present in the given board.
+     * Retrieves the integer board data from a CSV file.
      *
-     * @param board the 2-dimensional integer array representing the board
-     * @return the maximum label value found in the board
+     * @param fileName      the name of the CSV file
+     * @param matchingFile  the matching File object for the given fileName
+     * @return a 2D array of integers representing the board data
+     * @throws FileNotFoundException        if no matching file is found for the given fileName
+     * @throws InvalidBoardSizeException     if the board size is invalid
      */
-    public static int getLabelCount(int[][] board) {
-        int currMax = 0;
-        for (int[] row : board) {
-            for (int val : row) {
-                currMax = Math.max(currMax, val);
-            }
+    private static int[][] getInts(String fileName, File matchingFile) throws FileNotFoundException, InvalidBoardSizeException {
+        if (matchingFile == null)
+            throw new FileNotFoundException(String.format("No matching file found for the name %s.", fileName));
+
+        String[] sizeStr = fileName.replaceAll(".csv","").split("_")[1].split("x");
+        int boardSize = Integer.parseInt(sizeStr[0]); // it's recommended to handle possible NumberFormatException here
+
+        if (!isBoardSizeValid(boardSize)) {
+            throw new InvalidBoardSizeException(
+                    String.format("The board size should be between %d and %d", MINIMUM_SIZE, MAXIMUM_SIZE)
+            );
         }
-        return currMax;
+
+        int[][] data = new int[boardSize][boardSize];
+        return new int[boardSize][boardSize];
     }
 
     @Override
@@ -106,21 +122,6 @@ public class CSVReader {
         return new StringJoiner(", ", CSVReader.class.getSimpleName() + "[", "]")
                 .add("data=" + Arrays.deepToString(data))
                 .toString();
-    }
-
-    public static void main(String[] args) {
-        try {
-            CSVReader test = new CSVReader(",");
-            test.read(5);
-            System.out.println(test);
-
-        } catch (IOException e) {
-            System.out.println("Nie odnaleziono pliku");
-            e.printStackTrace();
-        } catch (InvalidBoardSizeException e) {
-            System.out.println("Wprowadzono niepoprawny rozmiar mapy");
-            e.printStackTrace();
-        }
     }
 
 }

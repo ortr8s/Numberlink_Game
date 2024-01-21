@@ -1,4 +1,4 @@
-package main.utils;
+package main.utils.exceptions;
 
 public class InvalidBoardSizeException extends Exception {
     public InvalidBoardSizeException(String message) {
