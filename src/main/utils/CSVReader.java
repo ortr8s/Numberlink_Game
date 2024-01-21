@@ -70,6 +70,7 @@ public class CSVReader {
         // Variable to hold the matching file
         File matchingFile = null;
 
+        assert files != null;
         for (File file : files) {
             if (pattern.matcher(file.getName()).matches() && file.getName().equals(fileName)) {
                 matchingFile = file;
@@ -113,7 +114,7 @@ public class CSVReader {
         }
 
         int[][] data = new int[boardSize][boardSize];
-        return data;
+        return new int[boardSize][boardSize];
     }
 
     @Override

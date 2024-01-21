@@ -165,6 +165,15 @@ public class Board {
     public boolean hasCurves(Path path, Unit neighbour) {
         return !Solver.isMoveCurved(path, neighbour);
     }
+
+    /**
+     * Determines if a given path has curves.
+     * Checks if there are no 4x4 areas of the Units with the same value.
+     *
+     * @param x X coordinate of Unit.
+     * @param y Y coordinate of Unit.
+     * @return Unit with given coordinates.
+     */
     public Unit getUnitByPosition(int x, int y) {
         return board[x][y];
     }

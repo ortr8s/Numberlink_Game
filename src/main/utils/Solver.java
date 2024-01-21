@@ -50,6 +50,15 @@ public class Solver {
 	}
 
 	/**
+	 * Gets the HashMap with filled paths.
+	 *
+	 * @return HashMap with filled paths.
+	 */
+	public HashMap<Integer, Path> getPaths() {
+		return paths;
+	}
+
+	/**
 	 * Sorts pairs ascending by their manhattan distance.
 	 * Heuristic used to start connecting pairs that are closet to each other.
 	 */
@@ -111,13 +120,14 @@ public class Solver {
 	 * @return True if the puzzle is solvable, false otherwise.
 	 */
 	public boolean solve() {
-		this.startTime = System.nanoTime();
+		this.startTime = System.currentTimeMillis();
 		System.out.println("Solving!");
 		sortPairsByDistance(); //distance heuristic which can not always give the best result
 		Unit initialUnit = pairs.get(currentPairIndex).getFirst();
 		Path currentPath = new Path();
 		currentPath.addUnit(initialUnit);
 		paths.put(initialUnit.getValue(), currentPath);
+
 		DFS(initialUnit.getX(), initialUnit.getY(), initialUnit.getValue());
 		return isSolvable;
 	}
@@ -138,55 +148,64 @@ public class Solver {
 		Unit[] neighbours = getNeighbors(x, y); //store neighbouring units
 
 		for (Unit currentNeighbour: neighbours) {
-			if (currentNeighbour != null) {
+			if (currentNeighbour == null) continue;
 
-				int neighbourX = currentNeighbour.getX();
-				int neighbourY = currentNeighbour.getY();
-				int neighbourValue = currentNeighbour.getValue();
-				if (checkedCells[neighbourX][neighbourY] == 0
-						&& !isMoveCurved(paths.get(val), currentNeighbour)) {
-					//check to make sure if paths don't overlap and there are no curves
+			int neighbourX = currentNeighbour.getX();
+			int neighbourY = currentNeighbour.getY();
+			int neighbourValue = currentNeighbour.getValue();
 
-					if (currentNeighbour.equals(pairs.get(currentPairIndex).getLast())) {
-						currentPairIndex++; //increment to extract the next pair
-						checkedCells[neighbourX][neighbourY] = val;
-						if (currentPairIndex == pairs.size()) { //if all numbers were checked print out the solution
-							if (validateSolution()){
-								//print();
-								System.out.println("Time: " + (System.nanoTime() - startTime) / 777600000);
-								stop = true;
-								isSolvable = true;
-								return;
-							}
-						}
-						Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
+			if (checkedCells[neighbourX][neighbourY] != 0
+					|| isMoveCurved(paths.get(val), currentNeighbour)) {
+				continue; //check to make sure if paths don't overlap and there are no curves
+			}
 
-						int newX = newFirstUnit.getX();
-						int newY = newFirstUnit.getY();
-						int newVal = newFirstUnit.getValue();
+			if (currentNeighbour.equals(pairs.get(currentPairIndex).getLast())) {
 
-						paths.put(newVal, new Path(pairs.get(currentPairIndex))); //place new path in the hashmap
-						paths.get(newVal).addUnit(newFirstUnit); //add first unit to the path
-
-						checkedCells[newX][newY] = newVal;
-						DFS(newX, newY, newVal);
-						if (stop) return;
-
-						currentPairIndex--; //backtrack and go back to the recent pair
-						checkedCells[neighbourX][neighbourY] = 0;
-
-					} else if (neighbourValue == 0) { //recurse if the neighbouring unit is 0
-						paths.get(val).addUnit(currentNeighbour); //add unit to the path
-						DFS(neighbourX, neighbourY, val);
-						if (stop) return;
-						paths.get(val).removeLast(); //when backtracking remove the recently added units from the current path
-					}
+				checkedCells[neighbourX][neighbourY] = val;
+				if (validateSolution()) {
+					//if all numbers were checked print out the solution
+					//print();
+					System.out.println("Time: " + (System.currentTimeMillis() - startTime));
+					stop = true;
+					isSolvable = true;
+					return;
 				}
+
+				if (currentPairIndex + 1 < pairs.size()) currentPairIndex++; //increment to extract the next pair
+
+				Unit newFirstUnit = pairs.get(currentPairIndex).getFirst(); //get the unit from next pair
+
+				int newX = newFirstUnit.getX();
+				int newY = newFirstUnit.getY();
+				int newVal = newFirstUnit.getValue();
+
+				paths.put(newVal, new Path()); //place new path in the hashmap
+				paths.get(newVal).addUnit(newFirstUnit); //add first unit to the path
+
+				checkedCells[newX][newY] = newVal;
+				DFS(newX, newY, newVal);
+
+				if (stop) return;
+
+				if (currentPairIndex > 0) currentPairIndex--; //backtrack and go back to the recent pair
+				checkedCells[neighbourX][neighbourY] = 0;
+
+			} else if (neighbourValue == 0) { //recurse if the neighbouring unit is 0
+				paths.get(val).addUnit(currentNeighbour); //add unit to the path
+				DFS(neighbourX, neighbourY, val);
+				if (stop) return;
+				paths.get(val).removeLast(); //when backtracking remove the recently added units from the current path
 			}
 		}
 		checkedCells[x][y] = 0;
 	}
 
+	/**
+	 * Checks if the provided solution is valid.
+	 * This method verifies that the paths cover the entire board and that all pairs are connected.
+	 *
+	 * @return True if the solution covers the entire board and connects all pairs, false otherwise.
+	 */
 	private boolean validateSolution(){
 		int counter = 0;
 		for (Map.Entry<Integer, Path> entry : paths.entrySet()){
@@ -198,9 +217,6 @@ public class Solver {
 
 	/**
 	 * Prints the solved board to the standard output.
-	 * Each cell of the board is printed with its value, representing the path of the solution.
-	 * This method is typically called after the puzzle is successfully solved.
-	 * Saves the answer to solution array
 	 */
 	private void print() {
 		for (int i = 0; i < size; i++) {
@@ -209,9 +225,5 @@ public class Solver {
 			}
 			System.out.println();
 		}
-	}
-
-	public HashMap<Integer, Path> getPaths() {
-		return paths;
 	}
 }

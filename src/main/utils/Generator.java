@@ -1,7 +1,5 @@
 package main.utils;
 
-import main.gamelogic.Board;
-
 import java.util.Random;
 
 
@@ -20,17 +18,14 @@ public class Generator extends ConnectionTypes {
     // Zestawy możliwych charów w tablicy oraz co może być po czym znajdują się w klasie wewnętrzenej tableHub
 
     // 'O' Reprezentuje dowolną cyfrę, będą one wstawiane pozniej
-    static final char[] availableCharsNumber = {'0'};
 
     // '-' i '|' pojawiają się kiedy ścieżka rozwiązująca przechodzi przez jakieś pole "na wprost"
-    static final char[] availableCharsCommon = {'-', '|'};
 
     // 'F', 'T', 'L', 'J' pojawiają się kiedy ścieżka rozwiązująca przechodząc przez jakieś pole skręca tak jak wygląda litera
     // Dla F ścieżka idzie z południa i skręca na wschód (albo oczywiście ze wschodu na południe)
     // Dla T ścieżka idzie z zachodu na południe (w niektórych czcionkach T nie ma tak wyrrazistego "daszka" w prawo)
     // Dla L ścieżka idzie z północy na wschód
     // Dla J ścieżka idzie z zachodu na północ
-    static final char[] availableCharsCurves = {'F', 'T', 'L', 'J'};
 
     // Słowa kluczowe w nazwach tablic
     // availableChars - bazowe
@@ -73,8 +68,7 @@ public class Generator extends ConnectionTypes {
     }
     /**
      * Generates a board in a gameplay-ready format
-     * 
-     * @param for example board with size 5 is 5x5 char[][]
+     *
      * @return generated board in a gameplay-ready format
      */
     public int[][] generateBoard(int size){
@@ -98,11 +92,7 @@ public class Generator extends ConnectionTypes {
      * @return generated board with all numbers being 0
      */
     public char[][] generatePaths(int size) {
-        char[][] board = null;
-
-        if (board == null) {
-            board = new char[size][size];
-        }
+        char[][] board = new char[size][size];
 
         do {
             // Pierwszy wiersz wymaga osobnego rozpatrywania
@@ -1361,68 +1351,6 @@ public class Generator extends ConnectionTypes {
 
 
         // SPRAWDZANIE CO JEST POWYŻEJ
-
-        // obowiązkowe połączenie z tym co powyżej
-        // Co można wstawić na początek wiersza?
-        static final char[] adjustedAvailableCharsConnectingUPStartRow = {'|', '|', '0', 'L', 'L'};
-
-        // Co może być dalej?
-        // -
-        static final char[] adjustedAvailableCharsConnectingUPAfterMinus = {'0', 'J', 'J'};
-        // |
-        static final char[] adjustedAvailableCharsConnectingUPAfterPipe = {'|', '|', '0', 'L', 'L'};
-        // Number
-        static final char[] adjustedAvailableCharsConnectingUPAfterNumber = {'|', '|', '0', 'L', 'L', 'J', 'J'};
-
-        // F
-        static final char[] adjustedAvailableCharsConnectingUPAfterF = {'0', 'J', 'J'};
-        // T
-        static final char[] adjustedAvailableCharsConnectingUPAfterT = {'|', '|', '0', 'L', 'L'};
-        // L
-        static final char[] adjustedAvailableCharsConnectingUPAfterL = {'0'};
-        // J
-        static final char[] adjustedAvailableCharsConnectingUPAfterJ = {'|', '|', '0'};
-
-        // Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
-        static final char[] adjustedAvailableCharsConnectingUPEndRow = {'|', '|', '0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsConnectingUPEndRowAfterMinus = {'0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsConnectingUPEndRowAfterPipe = {'|', '|', '0'};
-        static final char[] adjustedAvailableCharsConnectingUPEndRowAfterNumber = {'|', '|', '0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsConnectingUPEndRowAfterF = {'0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsConnectingUPEndRowAfterT = {'|', '|', '0'};
-        static final char[] adjustedAvailableCharsConnectingUPEndRowAfterL = {'0'};
-        static final char[] adjustedAvailableCharsConnectingUPEndRowAfterJ = {'|', '|', '0'};
-
-        // OSTATNI WIERSZ
-        // Dla ostatniego wiersza nie może być |, F, T
-        static final char[] adjustedAvailableCharsLastConnectingUPStartRow = {'0', 'L', 'L'};
-
-        // Co może być dalej?
-        // -
-        static final char[] adjustedAvailableCharsLastConnectingUPAfterMinus = {'0', 'J', 'J'};
-        // |
-        static final char[] adjustedAvailableCharsLastConnectingUPAfterPipe = {'0', 'L', 'L'};
-        // Number
-        static final char[] adjustedAvailableCharsLastConnectingUPAfterNumber = {'0', 'L', 'L', 'J', 'J'};
-
-        // F
-        static final char[] adjustedAvailableCharsLastConnectingUPAfterF = {'0', 'J', 'J'};
-        // T
-        static final char[] adjustedAvailableCharsLastConnectingUPAfterT = {'0', 'L', 'L'};
-        // L
-        static final char[] adjustedAvailableCharsLastConnectingUPAfterL = {'0'};
-        // J
-        static final char[] adjustedAvailableCharsLastConnectingUPAfterJ = {'0'};
-
-        // Jak będzie można zakończyć wiersz? Inaczej dla każdego znaku poprzedzającego!
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRow = {'0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterMinus = {'0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterPipe = {'0'};
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterNumber = {'0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterF = {'0', 'J', 'J'};
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterT = {'0'};
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterL = {'0'};
-        static final char[] adjustedAvailableCharsLastConnectingUPEndRowAfterJ = {'0'};
 
         // obowiązkowe połączenie z tym co powyżej TYP F
         // Co można wstawić na początek wiersza?
