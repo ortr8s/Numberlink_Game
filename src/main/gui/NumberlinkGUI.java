@@ -339,13 +339,15 @@ public class NumberlinkGUI implements Runnable {
      */
     private void clearButtonAndUnit(int i, int j) {
         Unit unit = controller.board.getUnitByPosition(i, j);
-        if(unit.getValue() == 0){
+        if(unit.getValue() == 0) {
+            controller.board.getUnitByPosition(i,j).setPartOfPath(false);
             buttons[i][j].setBackground(new Color(238,238,238));
         } else {
             ((StartPathButton) buttons[i][j]).reset();
             Color color = getBackgroundColor(unit.getValue());
             buttons[i][j].setBackground(color);
         }
+
     }
 
     /**
