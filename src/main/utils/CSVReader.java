@@ -4,7 +4,6 @@ import main.utils.exceptions.InvalidBoardSizeException;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
 
@@ -29,8 +28,6 @@ public class CSVReader {
      * The file path to the folder where board files are stored.
      */
     private static final String BOARD_FOLDER_PATH = "resources/boards";
-    private int[][] data;
-
     /**
      * Constructs a new CSVReader with the specified separator.
      *
@@ -56,7 +53,7 @@ public class CSVReader {
      * @param fileName the name of the CSV file to read
      * @return a two-dimensional array of integers representing the data in the file
      * @throws IOException if an I/O error occurs while reading the file
-     * @throws InvalidBoardSizeException if the board size specified in the file name is invalid
+     * @throws InvalidBoardSizeException if the board size specified in the file name is invalid or if a read line's length doesn't match the board size
      * @throws FileNotFoundException if no matching file is found for the given file name
      */
     public int[][] read(String fileName) throws IOException, InvalidBoardSizeException {
@@ -84,7 +81,13 @@ public class CSVReader {
             String line;
             int i = 0;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
-                data[i] = Arrays.stream(line.split(separator)).mapToInt(Integer::parseInt).toArray();
+                int[] row = Arrays.stream(line.split(separator)).mapToInt(Integer::parseInt).toArray();
+                if (row.length != data.length) {
+                    throw new InvalidBoardSizeException(
+                            String.format("The length of line %d does not match the board size.", i + 1)
+                    );
+                }
+                data[i] = row;
                 i++;
             }
         }
@@ -112,16 +115,6 @@ public class CSVReader {
                     String.format("The board size should be between %d and %d", MINIMUM_SIZE, MAXIMUM_SIZE)
             );
         }
-
-        int[][] data = new int[boardSize][boardSize];
         return new int[boardSize][boardSize];
     }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", CSVReader.class.getSimpleName() + "[", "]")
-                .add("data=" + Arrays.deepToString(data))
-                .toString();
-    }
-
 }
