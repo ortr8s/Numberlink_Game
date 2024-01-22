@@ -23,7 +23,7 @@ public class Generator extends ConnectionTypes {
 
     // 'F', 'T', 'L', 'J' pojawiają się kiedy ścieżka rozwiązująca przechodząc przez jakieś pole skręca tak jak wygląda litera
     // Dla F ścieżka idzie z południa i skręca na wschód (albo oczywiście ze wschodu na południe)
-    // Dla T ścieżka idzie z zachodu na południe (w niektórych czcionkach T nie ma tak wyrrazistego "daszka" w prawo)
+    // Dla T ścieżka idzie z zachodu na południe (w niektórych czcionkach T nie ma tak wyrazistego "daszka" w prawo)
     // Dla L ścieżka idzie z północy na wschód
     // Dla J ścieżka idzie z zachodu na północ
 
@@ -880,7 +880,7 @@ public class Generator extends ConnectionTypes {
      * Classic boards adhere to classic Numberlink rules
      *
      * @param tableToTest
-     * @return
+     * @return boolean determining whether the board is classic
      */
     @SuppressWarnings("finally")
     boolean isClassic(char[][] tableToTest) {
@@ -1242,6 +1242,10 @@ public class Generator extends ConnectionTypes {
         return tableToFill;
     }
     
+    
+    /**
+     * Contains char tables determining which chars can be inserted by the Generator in a given situation
+     */
     class tableHub {
     	// Non-adjusted tables moved to resource folder as they are only templates
 
