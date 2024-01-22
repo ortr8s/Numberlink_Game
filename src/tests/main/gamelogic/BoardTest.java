@@ -1,6 +1,6 @@
 package main.gamelogic;
 
-import main.utils.exceptions.InconsitentNumberOfNumbersException;
+import main.utils.exceptions.InconsistentNumberOfNumbersException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test; 
 
@@ -12,7 +12,7 @@ public class BoardTest {
      * be successfully and correctly retrieved in all four cardinal directions.
      */
     @Test
-    public void testGetNeighbor() throws InconsitentNumberOfNumbersException {
+    public void testGetNeighbor() throws InconsistentNumberOfNumbersException {
         // Given
         int[][] numbers = {
                 {0, 0, 0},

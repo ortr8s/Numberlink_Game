@@ -23,6 +23,7 @@ public class Solver {
 	private boolean stop; // Flag to terminate the search prematurely
 	private double startTime; //Determines the time when solver was started
 	private final HashMap <Integer, Path> paths; //Stores paths and maps them to their value
+	private static final int MAX_NUMBER_OF_PATHS = 20; //Should be adjusted according to board sizes
 
 	/**
 	 * Constructor to initialize the Solver with a specific board.
@@ -37,7 +38,7 @@ public class Solver {
 		this.stop = false;
 		this.isSolvable = false;
 		this.currentPairIndex = 0;
-		this.paths = new HashMap <> (20);
+		this.paths = new HashMap <> (MAX_NUMBER_OF_PATHS);
 	}
 
 	/**

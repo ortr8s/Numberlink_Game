@@ -1,7 +1,7 @@
 package main.utils;
 
 import main.gamelogic.Board;
-import main.utils.exceptions.InconsitentNumberOfNumbersException;
+import main.utils.exceptions.InconsistentNumberOfNumbersException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -127,7 +127,7 @@ public class SolverTest {
                 assertTrue(solvable, "Solver should have found a solution for board " + testNumber);
                 assertArrayEquals(expected, solver.getSolution(), "The solution for board " + testNumber + " does not match the expected output.");
             }
-        } catch (InconsitentNumberOfNumbersException inone){
+        } catch (InconsistentNumberOfNumbersException inone){
             inone.printStackTrace();
         }
 
@@ -140,7 +140,7 @@ public class SolverTest {
             Solver solver = new Solver(boardObj);
             boolean solvable = solver.solve();
             assertTrue(solvable, "Solver should have found a solution for board " + boardSize);
-        } catch (InconsitentNumberOfNumbersException inone){
+        } catch (InconsistentNumberOfNumbersException inone){
             inone.printStackTrace();
         }
     }

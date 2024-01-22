@@ -30,13 +30,19 @@ public class Path {
     private boolean isCompleted;
 
     /**
+     * Represents the maximum path size for current configuration.
+     * Should be adjusted to the size of bigger boards.
+     */
+    private static final int MAX_PATH_SIZE = 80;
+
+    /**
      * Represents a path in the Numberlink game that connects a pair of units.
      * A path consists of units in a specific order, starting from the start unit and ending with the end unit.
      *
      */
     public Path(Pair startEndPair) {
         this.startEndPair = startEndPair;
-        this.units = new Unit[100];
+        this.units = new Unit[MAX_PATH_SIZE];
         this.isCompleted = false;
     }
 
@@ -45,7 +51,7 @@ public class Path {
      * A path consists of units in a specific order, starting from the start unit and ending with the end unit.
      */
     public Path() {
-        this.units = new Unit[100];
+        this.units = new Unit[MAX_PATH_SIZE];
     }
 
     /**

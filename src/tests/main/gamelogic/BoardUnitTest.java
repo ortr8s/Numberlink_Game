@@ -1,6 +1,6 @@
 package main.gamelogic;
 
-import main.utils.exceptions.InconsitentNumberOfNumbersException;
+import main.utils.exceptions.InconsistentNumberOfNumbersException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -22,11 +22,11 @@ public class BoardUnitTest {
         int boardSize = 3;
         int[][] numbers = new int[][]{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
-        assertThrows(InconsitentNumberOfNumbersException.class, () -> new Board(boardSize, numbers));
+        assertThrows(InconsistentNumberOfNumbersException.class, () -> new Board(boardSize, numbers));
     }
 
     @Test
-    public void extractPairs_multiplePairs_validPairsReturned() throws InconsitentNumberOfNumbersException {
+    public void extractPairs_multiplePairs_validPairsReturned() throws InconsistentNumberOfNumbersException {
         // Test to verify correct pair extraction where there are multiple distinct pairs
         int boardSize = 4;
         int[][] numbers = new int[][]{{1, 0, 0, 2}, {0, 0, 0, 0}, {0, 0, 0, 0}, {1, 0, 0, 2}};
